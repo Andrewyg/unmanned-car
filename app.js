@@ -4,7 +4,11 @@ var bodyParser = require('body-parser');
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 var db = require('./db');
-var id = "5c1dec835156636974b1b014";
+// var id = "5c1dec835156636974b1b014";
+db.create(function (rbval) {
+    id = rbval._id;
+})
+
 app.get('/id', (req, res) => {
     res.send(id);
 })
@@ -15,6 +19,7 @@ app.post('/add', (req, res) => {
     });
 })
 app.get('/operate', (req, res) => {
+    res.writeHead(200, { 'Content-Type': 'text/html' });
     db.get(id, (cbr) => {
         var ins = cbr;
         var keys = ["bottom", "right", "top", "left"];
@@ -31,97 +36,6 @@ app.get('/operate', (req, res) => {
             }
         }
         var time = 0;
-        var blockZone = [[false, false], [false, false]];
-        function c2bz(x, y) {
-            if (x) { x = 1 } else { x = 0 }
-            if (y) { y = 1 } else { y = 0 }
-            return blockZone[x][y];
-        }
-        function block(x, y) {
-            if (x) { x = 1 } else { x = 0 }
-            if (y) { y = 1 } else { y = 0 }
-            if (blockZone[x][y]) {
-                blockZone[x][y] = false;
-            } else {
-                blockZone[x][y] = true;
-            }
-        }
-        function qblock(posi, dir, j) {
-            var a = true;
-            var b = false;
-            if (posi == 1) {
-                a = !a;
-            }
-            if (posi == 2) {
-                a = !a;
-                b = !b;
-            }
-            if (posi == 3) {
-                b = !b;
-            }
-            if (j == 0 || j == 1) {
-                block(a, !b);
-                if (j == 0) return;
-            }
-            if (dir == 2) {
-                return;
-            } else {
-                if (j == 1 || j == 2) {
-                    la = a;
-                    lb = b;
-                    if (posi == 2) {
-                        la = !la;
-                        lb = !lb;
-                    }
-                    block(la, lb);
-                    if (j == 1) return;
-                }
-                if (dir == 1) {
-                    block(!a, b);
-                }
-            }
-        }
-        function blocked(posi, dir, g) {
-            var a = true;
-            var b = false;
-            if (posi == 1) {
-                a = !a;
-            }
-            if (posi == 2) {
-                a = !a;
-                b = !b;
-            }
-            if (posi == 3) {
-                b = !b;
-            }
-            if (g == 0) {
-                return c2bz(a, !b);
-            }
-            if (dir == 2) {
-                return false;
-            } else {
-                if (g == 1) {
-                    la = a;
-                    lb = b;
-                    if (posi == 2) {
-                        la = !la;
-                        lb = !lb;
-                    }
-                    return c2bz(la, lb);
-                }
-                if (dir == 1) {
-                    return c2bz(!a, b)
-                }
-            }
-            return false;
-        }
-        var blockZoneClear = () => {
-            if (!blockZone[0].includes(true) && !blockZone[1].includes(true)) {
-                return true;
-            } else {
-                return false;
-            }
-        }
         var clearIns = [];
         while (true) { //break when all cars are out
             var lights = [[0, 0, 1], [0, 0, 1], [0, 0, 1], [0, 0, 1]];
@@ -131,7 +45,7 @@ app.get('/operate', (req, res) => {
                 if (arr == pendingLights) {
                     pendingLights = [[0, 0, 1], [0, 0, 1], [0, 0, 1], [0, 0, 1]];
                 }
-                console.log(lights);
+                res.write(lights + "<br /><hr /><br />");
             }
             function changeLights(nums) {
                 pendingLights[nums[0]][nums[1]] = Math.abs(pendingLights[nums[0]][nums[1]] - 1);
@@ -193,40 +107,8 @@ app.get('/operate', (req, res) => {
 
 
             updateLights(); //reset
-            console.log(ins);
-
-            // for (t = 0; t < mostVal; t++) { // clear the intersection base on the focused intersection
-            //     var lla, llb, llan, llbn;
-            //     var n = [0, 0, 0, 0];
-            //     while (true) {
-            //         for (k = 0; k < 4; k++) {
-            //             lla = keys[mostName[0] + k] || keys[mostName[0] + k - 4];
-            //             llb = dirs[mostName[1] + k] || dirs[mostName[1] + k - 3];
-            //             llan = keys.indexOf(lla);
-            //             llbn = dirs.indexOf(llb);
-            //             if (!((n[k] > 3 && llbn == 0) || (n[k] > 2 && llbn == 2) || (n[k] > 4 && llbn == 1)) && !clearIns.includes(([llan, llbn]).toString()) && !localClearIns.includes(([llan, llbn]).toString())) {
-            //                 if (!blocked(llan, llbn, n[k]) || ((n[k] == 2 && llbn == 0) || (n[k] == 1 && llbn == 2) || (n[k] == 3 && llbn == 1))) {
-            //                     console.log(lla + " go " + llb);
-            //                     lf.remove(lla, llb);
-            //                     qblock(llan, llbn, n[k]);
-            //                     console.log("----------------");
-            //                     if (((n[k] == 2 && llbn == 0) || (n[k] == 1 && llbn == 2) || (n[k] == 3 && llbn == 1))) {
-            //                         localClearIns.push(([llan, llbn]).toString());
-            //                     }
-            //                     n[k]++;
-            //                 } else {
-            //                 }
-            //             } else {
-            //             }
-            //             time++;
-            //         }
-            //         if (blockZoneClear()) break; //check if any car is in the intersection
-            //     }
-            //     console.log("========================================================");
-            // }
-            // time++;
         }
-        console.log("end");
+        res.write("end");
         res.end();
     })
 })
