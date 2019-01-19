@@ -18,9 +18,10 @@ app.get('/operate', (req, res) => {
     db.get(id, (cbr) => {
         var ins = cbr;
         var keys = ["bottom", "right", "top", "left"];
-        var dirs = ["straight", "left", "right"];
+        var dirs = ["left", "straight", "right"];
         var mostVal;
-        var mostName = "";
+        var mostName = [];
+        var mostName2 = [];
         var lf = {
             remove: (place, direction) => {
                 if (ins[place][direction].amount > 0) {
@@ -122,11 +123,22 @@ app.get('/operate', (req, res) => {
             }
         }
         var clearIns = [];
-        while (true) {
-            var localClearIns = [];
+        while (true) { //break when all cars are out
+            var lights = [[0, 0, 1], [0, 0, 1], [0, 0, 1], [0, 0, 1]];
+            var pendingLights = [[0, 0, 1], [0, 0, 1], [0, 0, 1], [0, 0, 1]];
+            function updateLights(arr = pendingLights) {
+                lights = arr;
+                if (arr == pendingLights) {
+                    pendingLights = [[0, 0, 1], [0, 0, 1], [0, 0, 1], [0, 0, 1]];
+                }
+                console.log(lights);
+            }
+            function changeLights(nums) {
+                pendingLights[nums[0]][nums[1]] = Math.abs(pendingLights[nums[0]][nums[1]] - 1);
+            }
             mostVal = 0;
-            for (i = 0; i < keys.length; i++) {
-                for (j = 0; j < dirs.length; j++) {
+            for (i = 0; i < keys.length; i++) { //get a focused by the value of each intersection
+                for (j = 0; j < dirs.length - 1; j++) {
                     if (ins[keys[i]][dirs[j]].amount >= mostVal) {
                         mostVal = ins[keys[i]][dirs[j]].amount;
                         mostName = [i, j];
@@ -136,39 +148,83 @@ app.get('/operate', (req, res) => {
                     }
                 }
             }
-            if (mostVal == 0) {
+            if (mostVal == 0) { //check if any car left on intersection
                 break;
             }
-            for (t = 0; t < mostVal; t++) {
-                var lla, llb, llan, llbn;
-                var n = [0, 0, 0, 0];
-                while (true) {
-                    for (k = 0; k < 4; k++) {
-                        lla = keys[mostName[0] + k] || keys[mostName[0] + k - 4];
-                        llb = dirs[mostName[1] + k] || dirs[mostName[1] + k - 3];
-                        llan = keys.indexOf(lla);
-                        llbn = dirs.indexOf(llb);
-                        if (!((n[k] > 3 && llbn == 0) || (n[k] > 2 && llbn == 2) || (n[k] > 4 && llbn == 1)) && !clearIns.includes(([llan, llbn]).toString()) && !localClearIns.includes(([llan, llbn]).toString())) {
-                            if (!blocked(llan, llbn, n[k]) || ((n[k] == 2 && llbn == 0) || (n[k] == 1 && llbn == 2) || (n[k] == 3 && llbn == 1))) {
-                                console.log(lla + " go " + llb);
-                                lf.remove(lla, llb);
-                                qblock(llan, llbn, n[k]);
-                                console.log("----------------");
-                                if (((n[k] == 2 && llbn == 0) || (n[k] == 1 && llbn == 2) || (n[k] == 3 && llbn == 1))) {
-                                    localClearIns.push(([llan, llbn]).toString());
-                                }
-                                n[k]++;
-                            } else {
-                            }
-                        } else {
-                        }
-                        time++;
-                    }
-                    if (blockZoneClear()) break;
-                }
-                console.log("========================================================");
+            changeLights(mostName);
+            var opSide = 0;
+            if ((mostName[0] - 2) < 0) { //get opposite id
+                opSide = mostName[0] + 2;
+            } else {
+                opSide = mostName[0] - 2;
             }
-            time++;
+            if (mostName[1] == 0) {
+                if (ins[keys[opSide]][dirs[0]].amount > ins[keys[mostName[0]]][dirs[1]].amount) {
+                    mostName2 = [opSide, 0];
+                } else {
+                    mostName2 = [mostName[0], 1];
+                }
+            }
+            if (mostName[1] == 1) {
+                if (ins[keys[opSide]][dirs[1]].amount > ins[keys[mostName[0]]][dirs[0]].amount) {
+                    mostName2 = [opSide, 1];
+                } else {
+                    mostName2 = [mostName[0], 0];
+                }
+            }
+            changeLights([mostName2[0], mostName2[1]]);
+            updateLights();
+
+            //consuming
+            ins[keys[0]][dirs[2]].amount -= ins[keys[mostName[0]]][dirs[mostName[1]]].amount;
+            ins[keys[1]][dirs[2]].amount -= ins[keys[mostName[0]]][dirs[mostName[1]]].amount;
+            ins[keys[2]][dirs[2]].amount -= ins[keys[mostName[0]]][dirs[mostName[1]]].amount;
+            ins[keys[3]][dirs[2]].amount -= ins[keys[mostName[0]]][dirs[mostName[1]]].amount;
+            if (ins[keys[0]][dirs[2]].amount < 0) ins[keys[0]][dirs[2]].amount = 0;
+            if (ins[keys[1]][dirs[2]].amount < 0) ins[keys[1]][dirs[2]].amount = 0;
+            if (ins[keys[2]][dirs[2]].amount < 0) ins[keys[2]][dirs[2]].amount = 0;
+            if (ins[keys[3]][dirs[2]].amount < 0) ins[keys[3]][dirs[2]].amount = 0;
+
+
+            ins[keys[mostName[0]]][dirs[mostName[1]]].amount = 0;
+            ins[keys[mostName2[0]]][dirs[mostName2[1]]].amount = 0;
+            time += mostVal + 2;
+
+
+
+            updateLights(); //reset
+            console.log(ins);
+
+            // for (t = 0; t < mostVal; t++) { // clear the intersection base on the focused intersection
+            //     var lla, llb, llan, llbn;
+            //     var n = [0, 0, 0, 0];
+            //     while (true) {
+            //         for (k = 0; k < 4; k++) {
+            //             lla = keys[mostName[0] + k] || keys[mostName[0] + k - 4];
+            //             llb = dirs[mostName[1] + k] || dirs[mostName[1] + k - 3];
+            //             llan = keys.indexOf(lla);
+            //             llbn = dirs.indexOf(llb);
+            //             if (!((n[k] > 3 && llbn == 0) || (n[k] > 2 && llbn == 2) || (n[k] > 4 && llbn == 1)) && !clearIns.includes(([llan, llbn]).toString()) && !localClearIns.includes(([llan, llbn]).toString())) {
+            //                 if (!blocked(llan, llbn, n[k]) || ((n[k] == 2 && llbn == 0) || (n[k] == 1 && llbn == 2) || (n[k] == 3 && llbn == 1))) {
+            //                     console.log(lla + " go " + llb);
+            //                     lf.remove(lla, llb);
+            //                     qblock(llan, llbn, n[k]);
+            //                     console.log("----------------");
+            //                     if (((n[k] == 2 && llbn == 0) || (n[k] == 1 && llbn == 2) || (n[k] == 3 && llbn == 1))) {
+            //                         localClearIns.push(([llan, llbn]).toString());
+            //                     }
+            //                     n[k]++;
+            //                 } else {
+            //                 }
+            //             } else {
+            //             }
+            //             time++;
+            //         }
+            //         if (blockZoneClear()) break; //check if any car is in the intersection
+            //     }
+            //     console.log("========================================================");
+            // }
+            // time++;
         }
         console.log("end");
         res.end();
