@@ -168,40 +168,4 @@
             }, (err, res) => cb(res))
         }
     }
-    // module.exports = {
-    //     update: function(data, callback) {
-    //         post.findOne({slug: data.slug}, (err1, res1) => {
-    //             if(res1) {
-    //                 post.updateOne({slug:data.slug}, data, (err3, res3) => {callback(res3)})
-    //             } else {
-    //                 post.create(data, (err2, res2) => {callback(res2)})
-    //             }
-    //         })
-    //     },
-    //     search: function(ftype, fval, fkey, callback) {
-    //         var query = {};
-    //         if(ftype != "all") {
-    //             query[ftype] = fval;
-    //         }
-    //         post.find(query).sort('date').lean().exec((err, res) => {
-    //             var keys = require('./lib.js').findDataWithKey(res, "slug");
-    //             var index = keys.indexOf(fkey);
-    //             if(index == -1) {
-    //                 callback({failed: "post not found"});
-    //             } else {
-    //                 var rdata = res[index];
-    //                 rdata.index = index;
-    //                 rdata.next = res[index + 1];
-    //                 rdata.prev = res[index - 1];
-    //                 post.countDocuments(query, (err, count) => {
-    //                     rdata.postCounts = count;
-    //                     callback(rdata);
-    //                 })
-    //             }
-    //         })
-    //     },
-    //     delete: function(slug) {
-    //         post.deleteOne({slug: slug}, (err) => {})
-    //     }
-    // }
 }())
