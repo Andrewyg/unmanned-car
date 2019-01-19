@@ -114,3 +114,4 @@ app.get('/operate', (req, res) => {
 })
 app.use(express.static('./public'))
 app.listen(80)
+//auto change pattern when one intersection is zero
