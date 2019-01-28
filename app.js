@@ -19,11 +19,10 @@ app.post('/add', (req, res) => {
     });
 })
 app.get('/operate', (req, res) => {
-    res.writeHead(200, { 'Content-Type': 'text/html' });
     db.get(id, (cbr) => {
         var ins = cbr;
         var keys = ["bottom", "right", "top", "left"];
-        var dirs = ["left", "straight", "right"];
+        var dirs = ["left", "straight"];
         var mostVal;
         var mostName = [];
         var mostName2 = [];
@@ -37,7 +36,21 @@ app.get('/operate', (req, res) => {
         }
         var time = 0;
         var clearIns = [];
-        while (true) { //break when all cars are out
+        var available = ["0,0", "0,1", "1,0", "1,1", "2,0", "2,1", "3,0", "3,1"];
+        var movingIns = [];
+
+        Array.prototype.remove = function () {
+            var what, a = arguments, L = a.length, ax;
+            while (L && this.length) {
+                what = a[--L];
+                while ((ax = this.indexOf(what)) !== -1) {
+                    this.splice(ax, 1);
+                }
+            }
+            return this;
+        };
+        while (available.length > 0) { //break when all cars are out
+            console.log("in");
             var lights = [[0, 0, 1], [0, 0, 1], [0, 0, 1], [0, 0, 1]];
             var pendingLights = [[0, 0, 1], [0, 0, 1], [0, 0, 1], [0, 0, 1]];
             function updateLights(arr = pendingLights) {
@@ -45,15 +58,34 @@ app.get('/operate', (req, res) => {
                 if (arr == pendingLights) {
                     pendingLights = [[0, 0, 1], [0, 0, 1], [0, 0, 1], [0, 0, 1]];
                 }
-                res.write(lights + "<br /><hr /><br />");
+                // res.write(lights + "<br /><hr /><br />");
             }
             function changeLights(nums) {
                 pendingLights[nums[0]][nums[1]] = Math.abs(pendingLights[nums[0]][nums[1]] - 1);
             }
             mostVal = 0;
+
+            function keyLeft(x = mostName[0]) {
+                x = x - 1;
+                if (x < 0) x + 4;
+                return x;
+            }
+            function keyOpp(x = mostName[0]) {
+                x = x - 2;
+                if (x < 0) x + 4;
+                return x;
+            }
+            function keyRight(x = mostName[0]) {
+                x = x + 1;
+                if (x > 3) x - 4;
+                return x;
+            }
+
+            // while () {
+
             for (i = 0; i < keys.length; i++) { //get a focused by the value of each intersection
-                for (j = 0; j < dirs.length - 1; j++) {
-                    if (ins[keys[i]][dirs[j]].amount >= mostVal) {
+                for (j = 0; j < dirs.length; j++) {
+                    if (ins[keys[i]][dirs[j]].amount >= mostVal && available.includes((i + "," + j))) {
                         mostVal = ins[keys[i]][dirs[j]].amount;
                         mostName = [i, j];
                     }
@@ -62,54 +94,44 @@ app.get('/operate', (req, res) => {
                     }
                 }
             }
-            if (mostVal == 0) { //check if any car left on intersection
-                break;
-            }
-            changeLights(mostName);
-            var opSide = 0;
-            if ((mostName[0] - 2) < 0) { //get opposite id
-                opSide = mostName[0] + 2;
-            } else {
-                opSide = mostName[0] - 2;
-            }
+            // if (mostVal == 0) { //check if any car left on intersection
+            //     break;
+            // }
+
+
+            available.remove(mostName.toString());
+            movingIns.push(mostName);
+
+            var against = [];
+
             if (mostName[1] == 0) {
-                if (ins[keys[opSide]][dirs[0]].amount > ins[keys[mostName[0]]][dirs[1]].amount) {
-                    mostName2 = [opSide, 0];
-                } else {
-                    mostName2 = [mostName[0], 1];
-                }
+                against.push([keyLeft(), 0]);
+                against.push([keyLeft(), 1]);
+                against.push([keyRight(), 0]);
+                against.push([keyOpp(), 1]);
             }
+
             if (mostName[1] == 1) {
-                if (ins[keys[opSide]][dirs[1]].amount > ins[keys[mostName[0]]][dirs[0]].amount) {
-                    mostName2 = [opSide, 1];
-                } else {
-                    mostName2 = [mostName[0], 0];
-                }
+                against.push([keyLeft(), 1]);
+                against.push([keyRight(), 1]);
+                against.push([keyRight(), 0]);
+                against.push([keyOpp(), 0]);
             }
-            changeLights([mostName2[0], mostName2[1]]);
-            updateLights();
 
-            //consuming
-            ins[keys[0]][dirs[2]].amount -= ins[keys[mostName[0]]][dirs[mostName[1]]].amount;
-            ins[keys[1]][dirs[2]].amount -= ins[keys[mostName[0]]][dirs[mostName[1]]].amount;
-            ins[keys[2]][dirs[2]].amount -= ins[keys[mostName[0]]][dirs[mostName[1]]].amount;
-            ins[keys[3]][dirs[2]].amount -= ins[keys[mostName[0]]][dirs[mostName[1]]].amount;
-            if (ins[keys[0]][dirs[2]].amount < 0) ins[keys[0]][dirs[2]].amount = 0;
-            if (ins[keys[1]][dirs[2]].amount < 0) ins[keys[1]][dirs[2]].amount = 0;
-            if (ins[keys[2]][dirs[2]].amount < 0) ins[keys[2]][dirs[2]].amount = 0;
-            if (ins[keys[3]][dirs[2]].amount < 0) ins[keys[3]][dirs[2]].amount = 0;
+            for (asd1 = 0; asd1 < 3; asd1++) {
+                available.remove(against[asd1].toString());
+            }
 
-
-            ins[keys[mostName[0]]][dirs[mostName[1]]].amount = 0;
-            ins[keys[mostName2[0]]][dirs[mostName2[1]]].amount = 0;
-            time += mostVal + 2;
+            // }
 
 
 
             updateLights(); //reset
+            console.log(movingIns);
+            console.log(available);
         }
-        res.write("end");
-        res.end();
+        res.json(movingIns);
+        // res.end();
     })
 })
 app.use(express.static('./public'))
