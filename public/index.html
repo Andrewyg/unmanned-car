@@ -2,6 +2,7 @@
 <html>
 
 <head>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <style>
         table {
             margin: auto;
@@ -25,6 +26,13 @@
         .road {
             background-color: rgb(146, 146, 146);
         }
+
+        .left,
+        .straight,
+        .right {
+            color: rgb(146, 146, 146);
+            font-size: 200%;
+        }
     </style>
 </head>
 
@@ -32,7 +40,11 @@
     <table>
         <tr>
             <td class="grass"></td>
-            <td class="road"></td>
+            <td class="road top-ins">
+                <span class="left">&larr;</span>
+                <span class="straight">&uarr;</span>
+                <span class="right">&rarr;</span>
+            </td>
             <td class="road"></td>
             <td class="grass"></td>
         </tr>
@@ -55,6 +67,14 @@
             <td class="grass"></td>
         </tr>
     </table>
+    <script>
+        function go(keys, dir) {
+            $("." + keys + "-ins ." + dir).css("color", "white");
+        }
+        function stop(keys, dir) {
+            $("." + keys + "-ins ." + dir).css("color", "rgb(146,146,146)");
+        }
+    </script>
 </body>
 
 </html>

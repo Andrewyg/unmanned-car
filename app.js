@@ -134,11 +134,7 @@ app.post('/operate', (req, res) => {
             available.remove(against[asd1].toString());
         }
 
-        // }
-
-
-
-        updateLights(); //reset
+        //consume
     }
     for (asd2 = 0; asd2 < movingIns.length; asd2++) {
         movingIns[asd2][0] = keys[movingIns[asd2][0]];

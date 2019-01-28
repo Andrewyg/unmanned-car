@@ -9,6 +9,10 @@ db.create(function (rbval) {
     id = rbval._id;
 })
 
+var keys = ["bottom", "right", "top", "left"];
+var dirs = ["left", "straight"];
+var usedID = [];
+
 app.get('/id', (req, res) => {
     res.send(id);
 })
