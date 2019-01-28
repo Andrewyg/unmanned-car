@@ -7,13 +7,15 @@
         strict: true
     }
     var Schema = mongoose.Schema;
+    var usedID = [];
     var intersectionSchema = new Schema({
         top: {
             straight: {
                 amount: {
                     type: Number,
                     default: 0,
-                    required: true
+                    required: true,
+                    minimum: 0
                 },
                 queue: [String]
             },
@@ -21,7 +23,8 @@
                 amount: {
                     type: Number,
                     default: 0,
-                    required: true
+                    required: true,
+                    minimum: 0
                 },
                 queue: [String]
             },
@@ -29,7 +32,8 @@
                 amount: {
                     type: Number,
                     default: 0,
-                    required: true
+                    required: true,
+                    minimum: 0
                 },
                 queue: [String]
             }
@@ -39,7 +43,8 @@
                 amount: {
                     type: Number,
                     default: 0,
-                    required: true
+                    required: true,
+                    minimum: 0
                 },
                 queue: [String]
             },
@@ -47,7 +52,8 @@
                 amount: {
                     type: Number,
                     default: 0,
-                    required: true
+                    required: true,
+                    minimum: 0
                 },
                 queue: [String]
             },
@@ -55,7 +61,8 @@
                 amount: {
                     type: Number,
                     default: 0,
-                    required: true
+                    required: true,
+                    minimum: 0
                 },
                 queue: [String]
             }
@@ -65,7 +72,8 @@
                 amount: {
                     type: Number,
                     default: 0,
-                    required: true
+                    required: true,
+                    minimum: 0
                 },
                 queue: [String]
             },
@@ -73,7 +81,8 @@
                 amount: {
                     type: Number,
                     default: 0,
-                    required: true
+                    required: true,
+                    minimum: 0
                 },
                 queue: [String]
             },
@@ -81,7 +90,8 @@
                 amount: {
                     type: Number,
                     default: 0,
-                    required: true
+                    required: true,
+                    minimum: 0
                 },
                 queue: [String]
             }
@@ -91,7 +101,8 @@
                 amount: {
                     type: Number,
                     default: 0,
-                    required: true
+                    required: true,
+                    minimum: 0
                 },
                 queue: [String]
             },
@@ -99,7 +110,8 @@
                 amount: {
                     type: Number,
                     default: 0,
-                    required: true
+                    required: true,
+                    minimum: 0
                 },
                 queue: [String]
             },
@@ -107,7 +119,8 @@
                 amount: {
                     type: Number,
                     default: 0,
-                    required: true
+                    required: true,
+                    minimum: 0
                 },
                 queue: [String]
             }
@@ -125,12 +138,15 @@
         add: (id, place, direction, carId, cb) => {
             cb = cb || function (cbr) { console.log(cbr) };
             var data;
-            ins.findOne({ _id: id }).lean().exec((err, res) => {
-                data = res;
-                data[place][direction].amount++;
-                data[place][direction].queue.push(carId)
-                ins.updateOne({ _id: id }, data, (err2, res2) => cb(res2));
-            })
+            if (!usedID.includes(carId)) {
+                usedID.push(carId);
+                ins.findOne({ _id: id }).lean().exec((err, res) => {
+                    data = res;
+                    data[place][direction].amount++;
+                    data[place][direction].queue.push(carId)
+                    ins.updateOne({ _id: id }, data, (err2, res2) => cb(res2));
+                })
+            }
         },
         get: (id, cb) => {
             cb = cb || function (cbr) { console.log(cbr) };
@@ -140,6 +156,7 @@
         },
         clear: (id, cb) => {
             cb = cb || function (cbr) { console.log(cbr) };
+            usedID = [];
             ins.updateOne({ _id: id }, {
                 "top":
                 {
