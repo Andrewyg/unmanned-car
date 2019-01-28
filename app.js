@@ -104,6 +104,9 @@ app.post('/operate', (req, res) => {
                 }
             }
         }
+        //if (mostVal == 0) {
+        //    break;
+        //}
         // if (mostVal == 0) { //check if any car left on intersection
         //     break;
         // }
@@ -129,7 +132,7 @@ app.post('/operate', (req, res) => {
         }
         console.log("--------" + against);
 
-        for (asd1 = 0; asd1 < 4; asd1++) {
+        for (asd1 = 0; asd1 < against.length; asd1++) {
             console.log(against[asd1].toString());
             available.remove(against[asd1].toString());
         }
@@ -140,6 +143,7 @@ app.post('/operate', (req, res) => {
         movingIns[asd2][0] = keys[movingIns[asd2][0]];
         movingIns[asd2][1] = dirs[movingIns[asd2][1]]
     }
+    console.log(movingIns);
     res.json(movingIns);
     // res.end();
     // })
