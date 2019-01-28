@@ -104,9 +104,9 @@ app.post('/operate', (req, res) => {
                 }
             }
         }
-        //if (mostVal == 0) {
-        //    break;
-        //}
+        if (mostVal == 0) {
+            break;
+        }
         // if (mostVal == 0) { //check if any car left on intersection
         //     break;
         // }
