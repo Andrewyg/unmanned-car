@@ -20,20 +20,29 @@ app.use(bodyParser.json());
 //     id = rbval._id;
 // })
 
+var keys = ["bottom", "right", "top", "left"];
+var dirs = ["left", "straight"];
+var usedID = [];
+
 // app.get('/id', (req, res) => {
 //     res.send(id);
 // })
 // app.post('/add', (req, res) => {
 //     var data = req.body;
-//     db.add(id, data.place, data.direction, data.id, (cbr) => {
-//         res.json(cbr)
-//     });
+//     if (keys.includes(data.place) && dirs.includes(data.direction) && !usedID.includes(data.id)) {
+//         db.add(id, data.place, data.direction, data.id, (cbr) => {
+//             res.json(cbr)
+//         });
+//     }
 // })
+
+// app.post('/bulk', (req, res) => {
+
+// })
+
 app.post('/operate', (req, res) => {
     // db.get(id, (cbr) => {
     var ins = req.body;
-    var keys = ["bottom", "right", "top", "left"];
-    var dirs = ["left", "straight"];
     var mostVal;
     var mostName = [];
     var mostName2 = [];
@@ -130,6 +139,10 @@ app.post('/operate', (req, res) => {
 
 
         updateLights(); //reset
+    }
+    for (asd2 = 0; asd2 < movingIns.length; asd2++) {
+        movingIns[asd2][0] = keys[movingIns[asd2][0]];
+        movingIns[asd2][1] = dirs[movingIns[asd2][1]]
     }
     res.json(movingIns);
     // res.end();

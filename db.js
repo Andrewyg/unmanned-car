@@ -7,7 +7,6 @@
         strict: true
     }
     var Schema = mongoose.Schema;
-    var usedID = [];
     var intersectionSchema = new Schema({
         top: {
             straight: {
@@ -138,15 +137,12 @@
         add: (id, place, direction, carId, cb) => {
             cb = cb || function (cbr) { console.log(cbr) };
             var data;
-            if (!usedID.includes(carId)) {
-                usedID.push(carId);
-                ins.findOne({ _id: id }).lean().exec((err, res) => {
-                    data = res;
-                    data[place][direction].amount++;
-                    data[place][direction].queue.push(carId)
-                    ins.updateOne({ _id: id }, data, (err2, res2) => cb(res2));
-                })
-            }
+            ins.findOne({ _id: id }).lean().exec((err, res) => {
+                data = res;
+                data[place][direction].amount++;
+                data[place][direction].queue.push(carId)
+                ins.updateOne({ _id: id }, data, (err2, res2) => cb(res2));
+            })
         },
         get: (id, cb) => {
             cb = cb || function (cbr) { console.log(cbr) };
@@ -156,7 +152,6 @@
         },
         clear: (id, cb) => {
             cb = cb || function (cbr) { console.log(cbr) };
-            usedID = [];
             ins.updateOne({ _id: id }, {
                 "top":
                 {
