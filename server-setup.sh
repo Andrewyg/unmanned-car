@@ -30,13 +30,8 @@ sudo service mongod start
 sudo chkconfig mongod on
 
 cd ~
-git clone https://github.com/Andrewyg/unmanned-car.git
-cd unmanned-car
-npm i
 sudo npm i pm2@latest -g
-sudo pm2 start app.js
 sudo pm2 startup systemd
-sudo pm2 save
 
 sudo -i
 yum install openssh openssh-server -y
