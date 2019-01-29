@@ -178,6 +178,76 @@
                     right: { amount: 0, queue: [] }
                 }
             }, (err, res) => cb(res))
+        },
+        validate: (obj, cb) => {
+            cb = cb || function (cbr) { console.log(cbr) };
+            var rtd = {
+                "top": {
+                    "straight": {
+                        "amount": 0,
+                        "queue": []
+                    },
+                    "left": {
+                        "amount": 0,
+                        "queue": []
+                    },
+                    "right": {
+                        "amount": 0,
+                        "queue": []
+                    }
+                },
+                "left": {
+                    "straight": {
+                        "amount": 0,
+                        "queue": []
+                    },
+                    "left": {
+                        "amount": 0,
+                        "queue": []
+                    },
+                    "right": {
+                        "amount": 0,
+                        "queue": []
+                    }
+                },
+                "right": {
+                    "straight": {
+                        "amount": 0,
+                        "queue": []
+                    },
+                    "left": {
+                        "amount": 0,
+                        "queue": []
+                    },
+                    "right": {
+                        "amount": 0,
+                        "queue": []
+                    }
+                },
+                "bottom": {
+                    "straight": {
+                        "amount": 0,
+                        "queue": []
+                    },
+                    "left": {
+                        "amount": 0,
+                        "queue": []
+                    },
+                    "right": {
+                        "amount": 0,
+                        "queue": []
+                    }
+                }
+            };
+            ins.create(obj, (err, res) => {
+                if (err) cb(rtd);
+                console.log(res._id);
+                ins.findOne({ _id: res._id }).lean().exec((err2, res2) => {
+                    ins.deleteOne({ _id: res._id }, (err3, res3) => {
+                        cb(res2);
+                    });
+                });
+            });
         }
     }
 }())
