@@ -155,16 +155,21 @@ app.post('/operate', (req, res) => {
                 for (asd2 = 0; asd2 < locMovingIns.length; asd2++) {
                     locMovingIns[asd2][0] = keys[locMovingIns[asd2][0]];
                     locMovingIns[asd2][1] = dirs[locMovingIns[asd2][1]];
-                    ins[locMovingIns[asd2][0]][locMovingIns[asd2][1]].amount -= ins[locMovingIns[locMovingIns.length - 1][0]][locMovingIns[locMovingIns.length - 1][1]].amount;
                     // if (ins[locMovingIns[asd2][0]][locMovingIns[asd2][1]].amount < 0) ins[locMovingIns[asd2][0]][locMovingIns[asd2][1]].amount = 0;
                     //console.log(ins[locMovingIns[asd2][0]][locMovingIns[asd2][1]].amount);
                     //console.log(locMovingIns[asd2]);
                     ////console.log("\n" + JSON.stringify(ins));
                 }
+                for (asd2 = 0; asd2 < locMovingIns.length; asd2++) {
+                    ins[locMovingIns[asd2][0]][locMovingIns[asd2][1]].amount -= ins[locMovingIns[locMovingIns.length - 1][0]][locMovingIns[locMovingIns.length - 1][1]].amount;
+                }
                 //console.log(JSON.stringify(ins));
                 movingIns[minskey] = locMovingIns;
                 minskey++;
                 console.log(ins);
+            }
+            if (ins._id) {
+                db.remove(ins._id);
             }
             res.json(movingIns);
         })

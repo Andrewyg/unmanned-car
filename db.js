@@ -243,11 +243,13 @@
                 if (err) cb(rtd);
                 console.log(res._id);
                 ins.findOne({ _id: res._id }).lean().exec((err2, res2) => {
-                    ins.deleteOne({ _id: res._id }, (err3, res3) => {
-                        cb(res2);
-                    });
+                    cb(res2);
                 });
             });
+        },
+        remove: (id, cb) => {
+            cb = cb || function (cbr) { console.log(cbr) };
+            ins.deleteOne({ _id: id }, (err, res) => cb(res));
         }
     }
 }())
