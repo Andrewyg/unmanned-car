@@ -302,4 +302,4 @@ app.get('/test', (req, res) => {
 
 
 app.use(express.static('./public'))
-app.listen(80)
+app.listen(80, '0.0.0.0')
