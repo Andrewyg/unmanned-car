@@ -21,7 +21,7 @@ sudo yum install git -y
 
 echo "[mongodb-org-4.0]" | sudo tee --append /etc/yum.repos.d/mongodb-org-4.0.repo > /dev/null
 echo "name=MongoDB Repository" | sudo tee --append /etc/yum.repos.d/mongodb-org-4.0.repo > /dev/null
-echo "baseurl=https://repo.mongodb.org/yum/redhat/$releasever/mongodb-org/4.0/x86_64/" | sudo tee --append /etc/yum.repos.d/mongodb-org-4.0.repo > /dev/null
+echo "baseurl=https://repo.mongodb.org/yum/redhat/\$releasever/mongodb-org/4.0/x86_64/" | sudo tee --append /etc/yum.repos.d/mongodb-org-4.0.repo > /dev/null
 echo "gpgcheck=1" | sudo tee --append /etc/yum.repos.d/mongodb-org-4.0.repo > /dev/null
 echo "enabled=1" | sudo tee --append /etc/yum.repos.d/mongodb-org-4.0.repo > /dev/null
 echo "gpgkey=https://www.mongodb.org/static/pgp/server-4.0.asc" | sudo tee --append /etc/yum.repos.d/mongodb-org-4.0.repo > /dev/null
@@ -33,19 +33,22 @@ cd ~
 sudo npm i pm2@latest -g
 sudo pm2 startup systemd
 
+sudo yum install policycoreutils-python -y
+
 sudo -i
 yum install openssh openssh-server -y
 cp /etc/ssh/sshd_config /etc/ssh/sshd_config.orig
-sed -i -e 's/Port 22/Port 3007/g' /etc/ssh/sshd_config
-sed -i -e 's/AllowUsers/AllowUsers uc/g' /etc/ssh/sshd_config
-sed -i -e 's/PermitRootLogin yes/PermitRootLogin no/g' /etc/ssh/sshd_config
-sed -i -e 's/Protocol 1/Protocol 2/g' /etc/ssh/sshd_config
-systemctl restart sshd.service
-systemctl enable sshd.service
 semanage port -a -t ssh_port_t -p tcp 3007
 firewall-cmd --permanent --zone=public --add-port=3007/tcp
+firewall-cmd --permanent --zone=public --add-port=3001/tcp
+firewall-cmd --permanent --zone=public --add-port=80/tcp
+firewall-cmd --zone=public --add-forward-port=port=80:proto=tcp:toport=8080 --permanent
 firewall-cmd --reload
+sed -i -e 's/#Port 22/Port 3007/g' /etc/ssh/sshd_config
+sed -i -e 's/#PermitRootLogin yes/PermitRootLogin no/g' /etc/ssh/sshd_config
+systemctl restart sshd.service
+systemctl enable sshd.service
 exit
 
 sudo cp ~/revision.sh /usr/bin/
-sudo chmod +x /usr/bin/revision.sh
+sudo chmod +x /usr/bin/revision
