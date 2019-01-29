@@ -131,11 +131,11 @@
             ins.deleteMany({}, (err, res) => console.log(res));
         },
         create: (cb) => {
-            cb = cb || function (cbr) { console.log(cbr) };
+            cb = cb || function (cbr) { };
             ins.create({}, (err, res) => cb(res.toObject()));
         },
         add: (id, place, direction, carId, cb) => {
-            cb = cb || function (cbr) { console.log(cbr) };
+            cb = cb || function (cbr) { };
             var data;
             ins.findOne({ _id: id }).lean().exec((err, res) => {
                 data = res;
@@ -145,13 +145,13 @@
             })
         },
         get: (id, cb) => {
-            cb = cb || function (cbr) { console.log(cbr) };
+            cb = cb || function (cbr) { };
             ins.findOne({ _id: id }).lean().exec((err, res) => {
                 cb(res);
             })
         },
         clear: (id, cb) => {
-            cb = cb || function (cbr) { console.log(cbr) };
+            cb = cb || function (cbr) { };
             ins.updateOne({ _id: id }, {
                 "top":
                 {
@@ -180,7 +180,7 @@
             }, (err, res) => cb(res))
         },
         validate: (obj, cb) => {
-            cb = cb || function (cbr) { console.log(cbr) };
+            cb = cb || function (cbr) { };
             var rtd = {
                 "top": {
                     "straight": {
@@ -248,7 +248,7 @@
             });
         },
         remove: (id, cb) => {
-            cb = cb || function (cbr) { console.log(cbr) };
+            cb = cb || function (cbr) { };
             ins.deleteOne({ _id: id }, (err, res) => cb(res));
         }
     }

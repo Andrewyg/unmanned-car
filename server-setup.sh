@@ -52,3 +52,4 @@ exit
 
 sudo cp ~/revision.sh /usr/bin/
 sudo chmod +x /usr/bin/revision
+sudo mkdir -p /var/www/
