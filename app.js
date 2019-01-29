@@ -61,12 +61,21 @@ app.post('/operate', (req, res) => {
     while (true) {
 
         var available = ["0,0", "0,1", "1,0", "1,1", "2,0", "2,1", "3,0", "3,1"];
-        if (mostVal == 0) {
-            break;
+        mostVal = 0
+        for (i = 0; i < keys.length; i++) { //get a focused by the value of each intersection
+            for (j = 0; j < dirs.length; j++) {
+                if (ins[keys[i]][dirs[j]].amount >= mostVal) {
+                    mostVal = ins[keys[i]][dirs[j]].amount;
+                    mostName = [i, j];
+                }
+            }
         }
+        if (mostVal <= 0) break;
+        var locMovingIns = movingIns[minskey];
+        locMovingIns = [];
+        var bbb = 0;
+        var thisRoundNum = mostVal;
         while (available.length > 0) { //break when all cars are out
-            var locMovingIns = movingIns[minskey];
-            locMovingIns = [];
             var lights = [[0, 0, 1], [0, 0, 1], [0, 0, 1], [0, 0, 1]];
             var pendingLights = [[0, 0, 1], [0, 0, 1], [0, 0, 1], [0, 0, 1]];
             function updateLights(arr = pendingLights) {
@@ -98,11 +107,11 @@ app.post('/operate', (req, res) => {
             }
 
             // while () {
-            console.log(available);
+            ////console.log(available);
 
             for (i = 0; i < keys.length; i++) { //get a focused by the value of each intersection
                 for (j = 0; j < dirs.length; j++) {
-                    if (ins[keys[i]][dirs[j]].amount >= mostVal && available.includes((i + "," + j))) {
+                    if (ins[keys[i]][dirs[j]].amount > mostVal && available.includes((i + "," + j))) {
                         mostVal = ins[keys[i]][dirs[j]].amount;
                         mostName = [i, j];
                     }
@@ -111,6 +120,7 @@ app.post('/operate', (req, res) => {
                     }
                 }
             }
+            if (mostVal <= 0) break;
 
 
             available.remove(mostName.toString());
@@ -131,26 +141,35 @@ app.post('/operate', (req, res) => {
                 against.push([keyRight(mostName[0]), 0]);
                 against.push([keyOpp(mostName[0]), 0]);
             }
-            console.log("--------" + against);
+            ////console.log("--------" + against);
 
             for (asd1 = 0; asd1 < against.length; asd1++) {
-                console.log(against[asd1].toString());
+                ////console.log(against[asd1].toString());
                 available.remove(against[asd1].toString());
             }
-
-            //convert and consume
-            for (asd2 = 0; asd2 < locMovingIns.length; asd2++) {
-                locMovingIns[asd2][0] = keys[locMovingIns[asd2][0]];
-                locMovingIns[asd2][1] = dirs[locMovingIns[asd2][1]];
-                ins[locMovingIns[asd2][0]][locMovingIns[asd2][1]].amount -= ins[locMovingIns[0][0]][locMovingIns[0][1]].amount;
-                if (ins[locMovingIns[asd2][0]][locMovingIns[asd2][1]].amount < 0) ins[locMovingIns[asd2][0]][locMovingIns[asd2][1]].amount = 0;
-                console.log("\n" + JSON.stringify(ins));
-            }
-            movingIns[minskey] = locMovingIns
-            minskey++;
+            locMovingIns[bbb][0] = keys[locMovingIns[bbb][0]];
+            locMovingIns[bbb][1] = dirs[locMovingIns[bbb][1]];
+            ins[locMovingIns[bbb][0]][locMovingIns[bbb][1]].amount -= thisRoundNum;
+            if (ins[locMovingIns[bbb][0]][locMovingIns[bbb][1]].amount < 0) ins[locMovingIns[bbb][0]][locMovingIns[bbb][1]].amount = 0;
+            console.log("hi" + ins[locMovingIns[0][0]][locMovingIns[0][1]].amount)
+            bbb++;
         }
+        //convert and consume
+        // for (asd2 = 0; asd2 < locMovingIns.length; asd2++) {
+        //     locMovingIns[asd2][0] = keys[locMovingIns[asd2][0]];
+        //     locMovingIns[asd2][1] = dirs[locMovingIns[asd2][1]];
+        //     ins[locMovingIns[asd2][0]][locMovingIns[asd2][1]].amount -= ins[locMovingIns[0][0]][locMovingIns[0][1]].amount;
+        //     if (ins[locMovingIns[asd2][0]][locMovingIns[asd2][1]].amount < 0) ins[locMovingIns[asd2][0]][locMovingIns[asd2][1]].amount = 0;
+        //     //console.log(ins[locMovingIns[asd2][0]][locMovingIns[asd2][1]].amount);
+        //     //console.log(locMovingIns[asd2]);
+        //     ////console.log("\n" + JSON.stringify(ins));
+        // }
+        //console.log(JSON.stringify(ins));
+        movingIns[minskey] = locMovingIns;
+        minskey++;
+        console.log(ins);
     }
-    console.log(movingIns);
+    ////console.log(movingIns);
     res.json(movingIns);
     // res.end();
     // })
@@ -293,10 +312,10 @@ app.get('/test', (req, res) => {
         method: "POST",
         json: data
     }, (err, res1, body) => {
-        if (err) console.log(err);
-        // console.log(res);
-        console.log(body);
-        resloc.output = body;
+        if (err) ////console.log(err);
+            // ////console.log(res);
+            ////console.log(body);
+            resloc.output = body;
         res.json(resloc)
     })
 })
