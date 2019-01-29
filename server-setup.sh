@@ -46,3 +46,6 @@ semanage port -a -t ssh_port_t -p tcp 3007
 firewall-cmd --permanent --zone=public --add-port=3007/tcp
 firewall-cmd --reload
 exit
+
+sudo cp ~/revision.sh /usr/bin/
+sudo chmod +x /usr/bin/revision.sh
