@@ -77,7 +77,6 @@ app.post('/operate', (req, res) => {
                 var locMovingIns = movingIns[minskey];
                 locMovingIns = [];
                 var bbb = 0;
-                var thisRoundNum = mostVal;
                 while (available.length > 0) { //break when all cars are out
                     var lights = [[0, 0, 1], [0, 0, 1], [0, 0, 1], [0, 0, 1]];
                     var pendingLights = [[0, 0, 1], [0, 0, 1], [0, 0, 1], [0, 0, 1]];
@@ -150,23 +149,18 @@ app.post('/operate', (req, res) => {
                         ////console.log(against[asd1].toString());
                         available.remove(against[asd1].toString());
                     }
-                    locMovingIns[bbb][0] = keys[locMovingIns[bbb][0]];
-                    locMovingIns[bbb][1] = dirs[locMovingIns[bbb][1]];
-                    ins[locMovingIns[bbb][0]][locMovingIns[bbb][1]].amount -= thisRoundNum;
-                    if (ins[locMovingIns[bbb][0]][locMovingIns[bbb][1]].amount < 0) ins[locMovingIns[bbb][0]][locMovingIns[bbb][1]].amount = 0;
-                    console.log("hi" + ins[locMovingIns[0][0]][locMovingIns[0][1]].amount)
                     bbb++;
                 }
                 //convert and consume
-                // for (asd2 = 0; asd2 < locMovingIns.length; asd2++) {
-                //     locMovingIns[asd2][0] = keys[locMovingIns[asd2][0]];
-                //     locMovingIns[asd2][1] = dirs[locMovingIns[asd2][1]];
-                //     ins[locMovingIns[asd2][0]][locMovingIns[asd2][1]].amount -= ins[locMovingIns[0][0]][locMovingIns[0][1]].amount;
-                //     if (ins[locMovingIns[asd2][0]][locMovingIns[asd2][1]].amount < 0) ins[locMovingIns[asd2][0]][locMovingIns[asd2][1]].amount = 0;
-                //     //console.log(ins[locMovingIns[asd2][0]][locMovingIns[asd2][1]].amount);
-                //     //console.log(locMovingIns[asd2]);
-                //     ////console.log("\n" + JSON.stringify(ins));
-                // }
+                for (asd2 = 0; asd2 < locMovingIns.length; asd2++) {
+                    locMovingIns[asd2][0] = keys[locMovingIns[asd2][0]];
+                    locMovingIns[asd2][1] = dirs[locMovingIns[asd2][1]];
+                    ins[locMovingIns[asd2][0]][locMovingIns[asd2][1]].amount -= ins[locMovingIns[locMovingIns.length - 1][0]][locMovingIns[locMovingIns.length - 1][1]].amount;
+                    // if (ins[locMovingIns[asd2][0]][locMovingIns[asd2][1]].amount < 0) ins[locMovingIns[asd2][0]][locMovingIns[asd2][1]].amount = 0;
+                    //console.log(ins[locMovingIns[asd2][0]][locMovingIns[asd2][1]].amount);
+                    //console.log(locMovingIns[asd2]);
+                    ////console.log("\n" + JSON.stringify(ins));
+                }
                 //console.log(JSON.stringify(ins));
                 movingIns[minskey] = locMovingIns;
                 minskey++;
