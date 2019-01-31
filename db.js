@@ -239,7 +239,7 @@
                     cins.create({}, (err, res) => cb(res));;
                 });
             });
-        }
+        },
         ins: {
             reset: () => {
                 ins.deleteMany({}, (err, res) => console.log(res));
