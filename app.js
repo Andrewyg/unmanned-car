@@ -36,9 +36,16 @@ var nowCIns = "";
 // })
 
 // var usedID = [];
-
+var running = false;
+db.init((rtb) => {
+    running = true;
+})
 app.get('/status', (req, res) => {
-    res.send("running");
+    if (running) {
+        res.send("running");
+    } else {
+        res.send("Initializing");
+    }
 })
 
 app.post('/add', (req, res) => {

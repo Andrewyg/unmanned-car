@@ -232,6 +232,14 @@
         refCIns: String
     })
     module.exports = {
+        init: (cb) => {
+            cb = cb || function (cbr) { };
+            car.create({}, (err, res) => {
+                ins.create({}, (err, res) => {
+                    cins.create({}, (err, res) => cb(res));;
+                });
+            });
+        }
         ins: {
             reset: () => {
                 ins.deleteMany({}, (err, res) => console.log(res));
