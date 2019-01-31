@@ -2,10 +2,6 @@
     var mongoose = require('mongoose');
     // var userdb = mongoose.createConnection('mongodb://localhost:27017/ttiwa-users', { autoIndex: true });
     var mongodb = mongoose.createConnection('mongodb://localhost:27017/unmanned-car', { useNewUrlParser: true });
-    var options = {
-        upsert: true,
-        strict: true
-    }
     var Schema = mongoose.Schema;
     var intersectionSchema = new Schema({
         top: {

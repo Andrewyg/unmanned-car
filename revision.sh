@@ -1,7 +1,8 @@
 #! /bin/bash
 cd /var/www/
-sudo pm2 stop all
-sudo rm -rf unmanned-car
+pm2 stop all
+pm2 delete all
+rm -rf unmanned-car
 git clone https://github.com/Andrewyg/unmanned-car.git
 cd unmanned-car
 git reset $1 --hard
