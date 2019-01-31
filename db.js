@@ -234,9 +234,13 @@
     module.exports = {
         init: (cb) => {
             cb = cb || function (cbr) { };
-            car.create({}, (err, res) => {
-                ins.create({}, (err, res) => {
-                    cins.create({}, (err, res) => cb(res));;
+            car.create({
+                license: "XX-0000",
+                type: "small",
+                speed: "60"
+            }, (err, res) => {
+                ins.create({}, (err2, res2) => {
+                    cins.create({}, (err3, res3) => cb(res3));;
                 });
             });
         },
