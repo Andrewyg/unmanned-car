@@ -3,7 +3,26 @@
     // var userdb = mongoose.createConnection('mongodb://localhost:27017/ttiwa-users', { autoIndex: true });
     var mongodb = mongoose.createConnection('mongodb://localhost:27017/unmanned-car', { useNewUrlParser: true });
     var Schema = mongoose.Schema;
+    var carSchema = new Schema({
+        id: {
+            type: String,
+            required: true
+        },
+        type: {
+            type: String,
+            required: true
+        }
+    })
+    var car = mongodb.model('car', carSchema, 'cars');
     var intersectionSchema = new Schema({
+        columns: {
+            type: Number,
+            minimum: 1,
+            required: true
+        }
+    })
+    var ins = mongodb.model('intersection', intersectionSchema, 'intersections');
+    var CIntersectionSchema = new Schema({
         top: {
             straight: {
                 amount: {
@@ -121,7 +140,7 @@
             }
         }
     });
-    var ins = mongodb.model('intersection', intersectionSchema, 'intersections');
+    var cins = mongodb.model("CurrentIns", CIntersectionSchema, "CurrentInss");
     module.exports = {
         reset: () => {
             ins.deleteMany({}, (err, res) => console.log(res));
