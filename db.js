@@ -1,6 +1,7 @@
 (function () {
     var mongoose = require('mongoose');
-    var mongodb = mongoose.createConnection('mongodb://uc:a@localhost:3001/unmanned-car', { useNewUrlParser: true });
+    // var mongodb = mongoose.createConnection('mongodb://uc:a@localhost:3001/unmanned-car', { useNewUrlParser: true });
+    var mongodb = mongoose.createConnection('mongodb://localhost:27017/unmanned-car', { useNewUrlParser: true });
     var Schema = mongoose.Schema;
     var carSchema = new Schema({
         license: {
@@ -37,7 +38,10 @@
     })
     var ins = mongodb.model('intersection', intersectionSchema, 'intersections');
     var CIntersectionSchema = new Schema({
-        refIns: String,
+        refIns: {
+            type: String,
+            required: true
+        },
         top: {
             straight: {
                 amount: {
@@ -234,13 +238,26 @@
     module.exports = {
         init: (cb) => {
             cb = cb || function (cbr) { };
+            var rtd = {
+                car: "", ins: "", cins: ""
+            }
             car.create({
                 license: "XX-0000",
                 type: "small",
                 speed: "60"
             }, (err, res) => {
-                ins.create({}, (err2, res2) => {
-                    cins.create({}, (err3, res3) => cb(res3));;
+                rtd.car = res._id;
+                ins.create({
+                    location: "台中市",
+                    name: "中清路",
+                    waitZoneLength: 18,
+                    columns: 2
+                }, (err2, res2) => {
+                    rtd.ins = res2._id
+                    cins.create({ refIns: res2._id }, (err3, res3) => {
+                        rtd.cins = res3._id;
+                        cb(rtd);
+                    });;
                 });
             });
         },
@@ -387,10 +404,15 @@
                     });
                 });
             },
-            archive: (cb) => {
+            archive: (id, cb) => {
                 cb = cb || function (cbr) { };
-                cins.create({}, (err, res) => {
-                    cb(res);
+                // console.log(id);
+                cins.findById(id).lean().exec((err, res) => {
+                    // console.log(err);
+                    // console.log(res);
+                    cins.create({ refIns: res.refIns }, (err2, res2) => {
+                        cb(res);
+                    })
                 });
             },
             remove: (id, cb) => {

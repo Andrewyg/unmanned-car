@@ -48,6 +48,7 @@
             cb = cb || function (cbr) { };
             var db = require('./db');
             db.scene.get(CIns, (rtd) => {
+                console.log(rtd);
                 db.ins.get(rtd.refIns, (rtd2) => {
                     refIns = rtd2;
                     // data.refIns = refIns;
@@ -56,7 +57,8 @@
                     var oriA = [];
                     dirs.remove("right");
                     var rightAllied = false;
-                    if (refIns.columns == 2) {
+                    console.log(rtd2);
+                    if (rtd2.columns == 2) {
                         oriA = ["0,0", "0,1", "1,0", "1,1", "2,0", "2,1", "3,0", "3,1"];
                         rightAllied = true;
                         for (i = 0; i < 4; i++) {

@@ -37,7 +37,8 @@ var nowCIns = "";
 
 // var usedID = [];
 var running = false;
-db.init((rtb) => {
+db.init((rtd) => {
+    nowCIns = rtd.cins;
     running = true;
 })
 app.get('/status', (req, res) => {
@@ -57,13 +58,14 @@ app.post('/add', (req, res) => {
     }
 })
 
-app.post('/operate', (req, res) => {
-    if (req.body.method == "db") { } else {
-        db.scene.archive((rtd) => {
-            nowCIns = rtd._id;
-            res.json(compiler.run(nowCIns));
-        })
-    }
+app.get('/operate', (req, res) => {
+    // if (req.body.method == "db") { } else {
+    console.log(nowCIns);
+    db.scene.archive((nowCIns, rtd) => {
+        nowCIns = rtd._id;
+        res.json(compiler.run(nowCIns));
+    })
+    // }
 })
 
 app.get('/test', (req, res) => {
