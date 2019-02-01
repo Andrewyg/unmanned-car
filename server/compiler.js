@@ -31,6 +31,9 @@
         var tempArr = [];
         var sorted = [];
         tempArr = cins[key][dir1].queue;
+        for (i = 0; i < cins[key][dir2].queue.length; i++) {
+            cins[key][dir2].queue[i].ntd = dir2;
+        }
         tempArr = tempArr.concat(cins[key][dir2].queue);
         for (i = 0; i < tempArr.length; i++) {
             var sindex = 0;
@@ -59,15 +62,6 @@
                     var available = [];
                     var returnData = {};
 
-                    if (joinData) {
-                        returnData = {
-                            input: {},
-                            output: {}
-                        }
-                        returnData.input = rtd;
-                        returnData.input.refIns = rtd2
-                    }
-
                     if (rtd2.lanes == 2) {
                         dirs.remove("right");
                         oriA = ["0,0", "0,1", "1,0", "1,1", "2,0", "2,1", "3,0", "3,1"];
@@ -75,8 +69,16 @@
                             cins[keys[abcd]]["straight"].amount += cins[keys[abcd]]["right"].amount;
                             cins[keys[abcd]]["right"].amount = 0;
                             cins[keys[abcd]]["straight"].queue = joinColumns(cins, keys[abcd], "straight", "right");
-                            cins[keys[abcd]]["right"].queue = [];
                         }
+                    }
+
+                    if (joinData) {
+                        returnData = {
+                            input: {},
+                            output: {}
+                        }
+                        returnData.input = cins;
+                        returnData.input.refIns = rtd2
                     }
 
                     while (true) {
