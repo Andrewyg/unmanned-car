@@ -235,14 +235,12 @@
                     }, (err2, res2) => {
                         rtd.ins = res2._id
                         cins.create({ refIns: res2._id }, (err3, res3) => {
-                            rtd.cins = res3._id;
-                            cb(rtd);
+                            cb(res3._id);
                         });
                     });
                 } else {
                     cins.create({ refIns: res._id }, (err3, res3) => {
-                        rtd.cins = res3._id;
-                        cb(rtd);
+                        cb(res3._id);
                     });
                 }
             })

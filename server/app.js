@@ -40,7 +40,7 @@ var fs = require('fs')
 fs.readFile('./nowCIns', (err, data) => {
     if (err || data.length <= 0) {
         db.init((rtd) => {
-            nowCIns = rtd.cins;
+            nowCIns = rtd;
             fs.writeFileSync('./nowCIns', nowCIns);
             running = true;
         })
