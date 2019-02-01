@@ -39,6 +39,7 @@ var nowCIns = "";
 var running = false;
 var keys = ["bottom", "right", "top", "left"];
 var dirs = ["left", "straight", "right"];
+var usedID = [];
 db.init((rtd) => {
     nowCIns = rtd.cins;
     running = true;
@@ -54,6 +55,7 @@ app.get('/status', (req, res) => {
 app.post('/add', (req, res) => {
     var data = req.body;
     if (keys.includes(data.place) && dirs.includes(data.direction) && !usedID.includes(data.id)) {
+        usedID.push(data.id)
         console.log("add")
         db.scene.add(id, data.place, data.direction, data.id, (cbr) => {
             res.json(cbr)
