@@ -30,7 +30,7 @@
             minimum: 1,
             required: true
         },
-        columns: {
+        lanes: {
             type: Number,
             minimum: 1,
             required: true

@@ -1,0 +1,72 @@
+{
+    "input": {
+        "refIns": "whole object",
+        "top": {
+            "straight": {
+                "amount": 0,
+                "queue": []
+            },
+            "left": {
+                "amount": 0,
+                "queue": []
+            },
+            "right": {
+                "amount": 0,
+                "queue": []
+            }
+        },
+        "left": {
+            "straight": {
+                "amount": 0,
+                "queue": []
+            },
+            "left": {
+                "amount": 0,
+                "queue": []
+            },
+            "right": {
+                "amount": 0,
+                "queue": []
+            }
+        },
+        "right": {
+            "straight": {
+                "amount": 0,
+                "queue": []
+            },
+            "left": {
+                "amount": 0,
+                "queue": []
+            },
+            "right": {
+                "amount": 0,
+                "queue": []
+            }
+        },
+        "bottom": {
+            "straight": {
+                "amount": 0,
+                "queue": []
+            },
+            "left": {
+                "amount": 0,
+                "queue": []
+            },
+            "right": {
+                "amount": 0,
+                "queue": []
+            }
+        }
+    },
+    "output": [
+        {
+            "allow": [
+                {
+                    "location": "",
+                    "direction": 0
+                }
+            ],
+            "delay": 0
+        }
+    ]
+}
