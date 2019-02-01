@@ -35,7 +35,7 @@ var usedID = [];
 var running = false;
 var keys = ["bottom", "right", "top", "left"];
 var dirs = ["left", "straight", "right"];
-var usedID = [];
+// var usedID = [];
 db.init((rtd) => {
     nowCIns = rtd.cins;
     running = true;
@@ -48,27 +48,26 @@ app.get('/status', (req, res) => {
     }
 })
 
-app.post('/add', (req, res) => {
-    var data = req.body;
-    if (keys.includes(data.place) && dirs.includes(data.direction) && !usedID.includes(data.id)) {
-        usedID.push(data.id);
-        db.scene.add(nowCIns, data.place, data.direction, data.id, (cbr) => {
-            res.json(cbr);
-        });
-    } else {
-        res.writeHead(403);
-        res.end();
-    }
-})
+// app.post('/add', (req, res) => {
+//     var data = req.body;
+//     if (keys.includes(data.place) && dirs.includes(data.direction) && !usedID.includes(data.id)) {
+//         usedID.push(data.id);
+//         db.scene.add(nowCIns, data.place, data.direction, data.id, (cbr) => {
+//             res.json(cbr);
+//         });
+//     } else {
+//         res.writeHead(403);
+//         res.end();
+//     }
+// })
 
-app.post('/operate', (req, res) => {
-    console.log(req.body.ins)
+app.get('/operate', (req, res) => {
     compiler.run(nowCIns, true, (rtd) => {
         res.json(rtd);
         db.scene.archive(nowCIns, (rtd2) => {
             nowCIns = rtd2._id;
         })
-    }, req.body.cins, req.body.ins)
+    })
 })
 
 app.get('/test', (req, res) => {

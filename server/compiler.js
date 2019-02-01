@@ -44,7 +44,7 @@
         return sorted
     }
     module.exports = {
-        run: (CIns, joinData, cb, input1, input2) => {
+        run: (CIns, joinData, cb) => {
             cb = cb || function (cbr) { };
             var db = require('./db');
             db.scene.get(CIns, (rtd) => {
