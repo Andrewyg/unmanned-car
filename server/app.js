@@ -37,6 +37,8 @@ var nowCIns = "";
 
 // var usedID = [];
 var running = false;
+var keys = ["bottom", "right", "top", "left"];
+var dirs = ["left", "straight", "right"];
 db.init((rtd) => {
     nowCIns = rtd.cins;
     running = true;
