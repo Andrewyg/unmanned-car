@@ -1,6 +1,6 @@
 (function () {
     var mongoose = require('mongoose');
-    var mongodb = mongoose.createConnection('mongodb://uc:a@localhost:3001/unmanned-car', { useNewUrlParser: true });
+    var mongodb = mongoose.createConnection('mongodb://uc:a@uc.ccsource.org:3001/unmanned-car', { useNewUrlParser: true });
     var Schema = mongoose.Schema;
     var carSchema = new Schema({
         license: {
@@ -337,66 +337,10 @@
             },
             validate: (obj, cb) => {
                 cb = cb || function (cbr) { };
-                var rtd = {
-                    "top": {
-                        "straight": {
-                            "amount": 0,
-                            "queue": []
-                        },
-                        "left": {
-                            "amount": 0,
-                            "queue": []
-                        },
-                        "right": {
-                            "amount": 0,
-                            "queue": []
-                        }
-                    },
-                    "left": {
-                        "straight": {
-                            "amount": 0,
-                            "queue": []
-                        },
-                        "left": {
-                            "amount": 0,
-                            "queue": []
-                        },
-                        "right": {
-                            "amount": 0,
-                            "queue": []
-                        }
-                    },
-                    "right": {
-                        "straight": {
-                            "amount": 0,
-                            "queue": []
-                        },
-                        "left": {
-                            "amount": 0,
-                            "queue": []
-                        },
-                        "right": {
-                            "amount": 0,
-                            "queue": []
-                        }
-                    },
-                    "bottom": {
-                        "straight": {
-                            "amount": 0,
-                            "queue": []
-                        },
-                        "left": {
-                            "amount": 0,
-                            "queue": []
-                        },
-                        "right": {
-                            "amount": 0,
-                            "queue": []
-                        }
-                    }
-                };
+                // console.log(obj);
                 cins.create(obj, (err, res) => {
-                    if (err) cb(rtd);
+                    // if (err) { cb(false); console.log(err) }
+                    console.log(res);
                     console.log(res._id);
                     cins.findOne({ _id: res._id }).lean().exec((err2, res2) => {
                         cb(res2);

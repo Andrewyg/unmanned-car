@@ -60,10 +60,12 @@ app.post('/add', (req, res) => {
 
 app.get('/operate', (req, res) => {
     // if (req.body.method == "db") { } else {
-    console.log(nowCIns);
-    res.json(compiler.run(nowCIns));
-    db.scene.archive((nowCIns, rtd) => {
-        nowCIns = rtd._id;
+    compiler.run(nowCIns, (rtd) => {
+        res.json(rtd)
+        db.scene.archive(nowCIns, (rtd2) => {
+            console.log("archived")
+            nowCIns = rtd2._id;
+        })
     })
     // }
 })

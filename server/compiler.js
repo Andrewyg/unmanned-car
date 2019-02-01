@@ -48,7 +48,6 @@
             cb = cb || function (cbr) { };
             var db = require('./db');
             db.scene.get(CIns, (rtd) => {
-                console.log(rtd);
                 db.ins.get(rtd.refIns, (rtd2) => {
                     refIns = rtd2;
                     // data.refIns = refIns;
@@ -57,7 +56,6 @@
                     var oriA = [];
                     dirs.remove("right");
                     var rightAllied = false;
-                    console.log(rtd2);
                     if (rtd2.columns == 2) {
                         oriA = ["0,0", "0,1", "1,0", "1,1", "2,0", "2,1", "3,0", "3,1"];
                         rightAllied = true;
@@ -68,27 +66,43 @@
                             cins[keys[i]]["right"].queue = [];
                         }
                     }
-                    db.validate(rtd, (rtd3) => {
-                        cins = rtd3;
-                        var mostVal;
-                        var mostName = [];
-                        var movingIns = [];
-                        var minskey = 0;
+                    // db.scene.validate(cins, (rtd3) => {
+                    // cins = rtd3;
+                    var mostVal;
+                    var mostName = [];
+                    var movingIns = [];
+                    var minskey = 0;
 
-                        if (!rightAllied) {
-                            movingIns.push([0, 2]);
-                            movingIns.push([1, 2]);
-                            movingIns.push([2, 2]);
-                            movingIns.push([3, 2]);
+                    if (!rightAllied) {
+                        movingIns.push([0, 2]);
+                        movingIns.push([1, 2]);
+                        movingIns.push([2, 2]);
+                        movingIns.push([3, 2]);
+                    }
+
+                    while (true) {
+                        var available = oriA;
+                        mostVal = 0
+
+                        for (i = 0; i < keys.length; i++) {
+                            for (j = 0; j < dirs.length; j++) {
+                                if (cins[keys[i]][dirs[j]].amount >= mostVal) {
+                                    mostVal = cins[keys[i]][dirs[j]].amount;
+                                    mostName = [i, j];
+                                }
+                            }
                         }
+                        if (mostVal <= 0) break;
 
-                        while (true) {
-                            var available = oriA;
-                            mostVal = 0
+                        var locMovingIns = movingIns[minskey];
+                        locMovingIns = [];
 
-                            for (i = 0; i < keys.length; i++) {
+                        while (available.length > 0) {
+                            mostVal = 0;
+
+                            for (i = 0; i < keys.length; i++) { //get a focused by the value of each intersection
                                 for (j = 0; j < dirs.length; j++) {
-                                    if (cins[keys[i]][dirs[j]].amount >= mostVal) {
+                                    if (cins[keys[i]][dirs[j]].amount > mostVal && available.includes((i + "," + j))) {
                                         mostVal = cins[keys[i]][dirs[j]].amount;
                                         mostName = [i, j];
                                     }
@@ -96,62 +110,46 @@
                             }
                             if (mostVal <= 0) break;
 
-                            var locMovingIns = movingIns[minskey];
-                            locMovingIns = [];
+                            available.remove(mostName.toString());
+                            locMovingIns.push(mostName);
 
-                            while (available.length > 0) {
-                                mostVal = 0;
-
-                                for (i = 0; i < keys.length; i++) { //get a focused by the value of each intersection
-                                    for (j = 0; j < dirs.length; j++) {
-                                        if (cins[keys[i]][dirs[j]].amount > mostVal && available.includes((i + "," + j))) {
-                                            mostVal = cins[keys[i]][dirs[j]].amount;
-                                            mostName = [i, j];
-                                        }
-                                    }
-                                }
-                                if (mostVal <= 0) break;
-
-                                available.remove(mostName.toString());
-                                locMovingIns.push(mostName);
-
-                                var against = [];
-                                if (mostName[1] == 0) {
-                                    against.push([keyLeft(mostName[0]), 0]);
-                                    against.push([keyLeft(mostName[0]), 1]);
-                                    against.push([keyRight(mostName[0]), 0]);
-                                    against.push([keyOpp(mostName[0]), 1]);
-                                }
-                                if (mostName[1] == 1) {
-                                    against.push([keyLeft(mostName[0]), 1]);
-                                    against.push([keyRight(mostName[0]), 1]);
-                                    against.push([keyRight(mostName[0]), 0]);
-                                    against.push([keyOpp(mostName[0]), 0]);
-                                }
-                                for (asd1 = 0; asd1 < against.length; asd1++) {
-                                    available.remove(against[asd1].toString());
-                                }
+                            var against = [];
+                            if (mostName[1] == 0) {
+                                against.push([keyLeft(mostName[0]), 0]);
+                                against.push([keyLeft(mostName[0]), 1]);
+                                against.push([keyRight(mostName[0]), 0]);
+                                against.push([keyOpp(mostName[0]), 1]);
                             }
-
-                            //convert and consume
-                            for (asd2 = 0; asd2 < locMovingIns.length; asd2++) {
-                                locMovingIns[asd2][0] = keys[locMovingIns[asd2][0]];
-                                locMovingIns[asd2][1] = dirs[locMovingIns[asd2][1]];
+                            if (mostName[1] == 1) {
+                                against.push([keyLeft(mostName[0]), 1]);
+                                against.push([keyRight(mostName[0]), 1]);
+                                against.push([keyRight(mostName[0]), 0]);
+                                against.push([keyOpp(mostName[0]), 0]);
                             }
-                            for (asd2 = 0; asd2 < locMovingIns.length; asd2++) {
-                                cins[locMovingIns[asd2][0]][locMovingIns[asd2][1]].amount -= cins[locMovingIns[locMovingIns.length - 1][0]][locMovingIns[locMovingIns.length - 1][1]].amount;
+                            for (asd1 = 0; asd1 < against.length; asd1++) {
+                                available.remove(against[asd1].toString());
                             }
-
-                            movingIns[minskey] = locMovingIns;
-                            minskey++;
                         }
 
-                        if (cins._id != oriID) {
-                            db.remove(cins._id);
+                        //convert and consume
+                        for (asd2 = 0; asd2 < locMovingIns.length; asd2++) {
+                            locMovingIns[asd2][0] = keys[locMovingIns[asd2][0]];
+                            locMovingIns[asd2][1] = dirs[locMovingIns[asd2][1]];
+                        }
+                        for (asd2 = 0; asd2 < locMovingIns.length; asd2++) {
+                            cins[locMovingIns[asd2][0]][locMovingIns[asd2][1]].amount -= cins[locMovingIns[locMovingIns.length - 1][0]][locMovingIns[locMovingIns.length - 1][1]].amount;
                         }
 
-                        return movingIns;
-                    })
+                        movingIns[minskey] = locMovingIns;
+                        minskey++;
+                    }
+
+                    if (cins._id != oriID) {
+                        db.scene.remove(cins._id);
+                    }
+
+                    cb(movingIns)
+                    // })
                 })
             })
         }
