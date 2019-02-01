@@ -65,7 +65,7 @@ app.get('/operate', (req, res) => {
         db.scene.archive(nowCIns, (rtd2) => {
             console.log("archived")
             nowCIns = rtd2._id;
-        })
+        }, req.body.cins, req.body.ins)
     })
     // }
 })
