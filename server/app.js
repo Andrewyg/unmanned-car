@@ -52,6 +52,7 @@ app.get('/status', (req, res) => {
 app.post('/add', (req, res) => {
     var data = req.body;
     if (keys.includes(data.place) && dirs.includes(data.direction) && !usedID.includes(data.id)) {
+        console.log("add")
         db.scene.add(id, data.place, data.direction, data.id, (cbr) => {
             res.json(cbr)
         });

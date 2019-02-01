@@ -294,6 +294,7 @@
                 cb = cb || function (cbr) { };
                 var data;
                 cins.findOne({ _id: id }).lean().exec((err, res) => {
+                    if (err) console.log(err)
                     data = res;
                     data[place][direction].amount++;
                     data[place][direction].queue.push(carId)
