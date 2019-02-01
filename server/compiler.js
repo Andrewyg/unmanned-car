@@ -48,7 +48,7 @@
             cb = cb || function (cbr) { };
             var db = require('./db');
             // db.scene.get(CIns, (rtd) => {
-            // db.ins.get(rtd.refIns, (rtd2) => {
+            //     db.ins.get(rtd.refIns, (rtd2) => {
             var rtd = input1
             var rtd2 = input2
             refIns = rtd2;
@@ -152,8 +152,8 @@
 
             cb(movingIns)
             // })
-        })
-    })
-}
+            //     })
+            // })
+        }
     }
 }())
