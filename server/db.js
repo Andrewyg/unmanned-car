@@ -52,8 +52,7 @@
                 queue: [{
                     refCar: String,
                     arriveTime: {
-                        type: Date,
-                        default: Date.now
+                        type: Date
                     }
                 }]
             },
@@ -67,8 +66,7 @@
                 queue: [{
                     refCar: String,
                     arriveTime: {
-                        type: Date,
-                        default: Date.now
+                        type: Date
                     }
                 }]
             },
@@ -82,8 +80,7 @@
                 queue: [{
                     refCar: String,
                     arriveTime: {
-                        type: Date,
-                        default: Date.now
+                        type: Date
                     }
                 }]
             }
@@ -99,8 +96,7 @@
                 queue: [{
                     refCar: String,
                     arriveTime: {
-                        type: Date,
-                        default: Date.now
+                        type: Date
                     }
                 }]
             },
@@ -114,8 +110,7 @@
                 queue: [{
                     refCar: String,
                     arriveTime: {
-                        type: Date,
-                        default: Date.now
+                        type: Date
                     }
                 }]
             },
@@ -129,8 +124,7 @@
                 queue: [{
                     refCar: String,
                     arriveTime: {
-                        type: Date,
-                        default: Date.now
+                        type: Date
                     }
                 }]
             }
@@ -146,8 +140,7 @@
                 queue: [{
                     refCar: String,
                     arriveTime: {
-                        type: Date,
-                        default: Date.now
+                        type: Date
                     }
                 }]
             },
@@ -161,8 +154,7 @@
                 queue: [{
                     refCar: String,
                     arriveTime: {
-                        type: Date,
-                        default: Date.now
+                        type: Date
                     }
                 }]
             },
@@ -176,8 +168,7 @@
                 queue: [{
                     refCar: String,
                     arriveTime: {
-                        type: Date,
-                        default: Date.now
+                        type: Date
                     }
                 }]
             }
@@ -193,8 +184,7 @@
                 queue: [{
                     refCar: String,
                     arriveTime: {
-                        type: Date,
-                        default: Date.now
+                        type: Date
                     }
                 }]
             },
@@ -208,8 +198,7 @@
                 queue: [{
                     refCar: String,
                     arriveTime: {
-                        type: Date,
-                        default: Date.now
+                        type: Date
                     }
                 }]
             },
@@ -223,8 +212,7 @@
                 queue: [{
                     refCar: String,
                     arriveTime: {
-                        type: Date,
-                        default: Date.now
+                        type: Date
                     }
                 }]
             }
@@ -297,8 +285,9 @@
                     if (err) console.log(err)
                     data = res;
                     data[place][direction].amount++;
-                    data[place][direction].queue.push(carId)
-                    ins.updateOne({ _id: id }, data, (err2, res2) => cb(res2));
+                    data[place][direction].queue.push({ refCar: carId, arriveTime: (new Date()).toISOString() })
+                    console.log(data.bottom.straight.queue)
+                    cins.updateOne({ _id: id }, data, (err2, res2) => cb(res2));
                 })
             },
             get: (id, cb) => {
