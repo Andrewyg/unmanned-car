@@ -58,7 +58,7 @@ app.post('/add', (req, res) => {
     }
 })
 
-app.get('/operate', (req, res) => {
+app.post('/operate', (req, res) => {
     // if (req.body.method == "db") { } else {
     compiler.run(nowCIns, (rtd) => {
         res.json(rtd)
