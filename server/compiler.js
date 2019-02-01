@@ -58,6 +58,16 @@
                     var minskey = 0;
                     var available = [];
                     var returnData = {};
+
+                    if (joinData) {
+                        returnData = {
+                            input: {},
+                            output: {}
+                        }
+                        returnData.input = rtd;
+                        returnData.input.refIns = rtd2
+                    }
+
                     if (rtd2.lanes == 2) {
                         dirs.remove("right");
                         oriA = ["0,0", "0,1", "1,0", "1,1", "2,0", "2,1", "3,0", "3,1"];
@@ -143,15 +153,6 @@
                             delay: 0 //haven't count delay
                         };
                         minskey++;
-                    }
-
-                    if (joinData) {
-                        returnData = {
-                            input: {},
-                            output: {}
-                        }
-                        returnData.input = rtd;
-                        returnData.input.refIns = rtd2
                     }
 
                     returnData.output = movingIns;
