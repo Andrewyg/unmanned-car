@@ -59,11 +59,13 @@
             // data.refIns = refIns;
             var cins = rtd;
             var oriID = rtd._id;
-            var oriA = [];
+            var oriA = ["0,0", "0,1", "0,2", "1,0", "1,1", "1,2", "2,0", "2,1", "2,2", "3,0", "3,1", "3,2"];
+            console.log(oriA);
             var mostVal;
             var mostName = [];
             var movingIns = [];
             var minskey = 0;
+            var available = []
             ////console.log("0.5")
             if (rtd2.lanes == 2) {
                 dirs.remove("right");
@@ -88,7 +90,8 @@
 
             ////console.log("1");
             while (true) {
-                var available = oriA;
+                available = oriA.slice();
+                console.log(oriA);
                 mostVal = 0
 
                 for (i = 0; i < keys.length; i++) {
@@ -99,7 +102,7 @@
                         }
                     }
                 }
-                // ////console.log(mostVal)
+                console.log(mostVal)
                 if (mostVal <= 0) break;
 
                 var locMovingIns = movingIns[minskey];
