@@ -233,7 +233,6 @@
                         waitZoneLength: 18,
                         lanes: 2
                     }, (err2, res2) => {
-                        rtd.ins = res2._id
                         cins.create({ refIns: res2._id }, (err3, res3) => {
                             cb(res3._id);
                         });
