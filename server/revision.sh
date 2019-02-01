@@ -5,7 +5,7 @@ pm2 stop all
 pm2 delete all
 rm -rf unmanned-car
 git clone https://github.com/Andrewyg/unmanned-car.git
-cd unmanned-car
+cd unmanned-car/server
 git reset $1 --hard
 npm i
 pm2 start app.js
