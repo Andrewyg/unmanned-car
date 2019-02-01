@@ -48,7 +48,7 @@
         return sorted
     }
     module.exports = {
-        run: (CIns, cb, input1, input2) => {
+        run: (CIns, joinData, cb, input1, input2) => {
             cb = cb || function (cbr) { };
             var db = require('./db');
             // db.scene.get(CIns, (rtd) => {
@@ -65,7 +65,16 @@
             var mostName = [];
             var movingIns = [];
             var minskey = 0;
-            var available = []
+            var available = [];
+            var returnData = {};
+            if (joinData) {
+                returnData = {
+                    input: {},
+                    output: {}
+                }
+                returnData.input = rtd;
+                returnData.input.refIns = rtd2
+            }
             ////console.log("0.5")
             if (rtd2.lanes == 2) {
                 dirs.remove("right");
@@ -154,8 +163,17 @@
                     }
                     cins[locMovingIns[asd2][0]][locMovingIns[asd2][1]].amount -= cins[locMovingIns[locMovingIns.length - 1][0]][locMovingIns[locMovingIns.length - 1][1]].amount;
                 }
+                for (asd2 = 0; asd2 < locMovingIns.length; asd2++) {
+                    locMovingIns[asd2] = {
+                        location: locMovingIns[asd2][0],
+                        direction: locMovingIns[asd2][1]
+                    }
+                }
 
-                movingIns[minskey] = locMovingIns;
+                movingIns[minskey] = {
+                    allow: locMovingIns,
+                    delay: 0 //haven't count delay
+                };
                 minskey++;
             }
 
@@ -163,7 +181,9 @@
                 db.scene.remove(cins._id);
             }
 
-            cb(movingIns)
+            returnData.output = movingIns;
+
+            cb(returnData)
             // })
             //     })
             // })

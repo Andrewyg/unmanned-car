@@ -65,10 +65,10 @@ app.get('/status', (req, res) => {
 //     }
 // })
 
-app.post('/operate', (req, res) => {
+app.post('/operate/manual', (req, res) => {
     // console.log("0")
     // if (req.body.method == "db") { } else {
-    compiler.run(nowCIns, (rtd) => {
+    compiler.run(nowCIns, true, (rtd) => {
         res.json(rtd)
         db.scene.archive(nowCIns, (rtd2) => {
             console.log("archived")

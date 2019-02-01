@@ -27,8 +27,8 @@ def createIns():
     deceperateLineWidth = 0.1
     waitZone=shapes.rectangle(width=1,height=WZLength)
     waitZoneR=shapes.rectangle(width=1,height=WZLength,rotate=radians(90))
-    runningZone=shapes.rectangle(width=lanes*2+deceperateLineWidth,height=lanes*2+deceperateLineWidth)
-    extrusion(path=[vector(0,-0.35,0),vector(0,-0.27,0)],shape=runningZone,color=color.black)
+    runningZone=shapes.rectangle(width=lanes*2+deceperateLineWidth*3,height=lanes*2+deceperateLineWidth*3)
+    extrusion(path=[vector(0,-0.35,0),vector(0,-0.26,0)],shape=runningZone,color=color.yellow)
     #deceperate line
     deceperateLine = shapes.rectangle(width=deceperateLineWidth,height=WZLength)
     deceperateLineR = shapes.rectangle(width=deceperateLineWidth,height=WZLength,rotate=radians(90))
