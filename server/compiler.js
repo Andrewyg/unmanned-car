@@ -31,14 +31,10 @@
         var tempArr = [];
         var sorted = [];
         tempArr = cins[key][dir1].queue;
-        ////console.log(cins[key][dir2].queue)
-        tempArr.concat(cins[key][dir2].queue);
-        ////console.log(tempArr.length)
+        tempArr = tempArr.concat(cins[key][dir2].queue);
         for (i = 0; i < tempArr.length; i++) {
-            ////console.log(i)
             var sindex = 0;
-            for (j = 0; j < sorted.length; j++) {
-                ////////console.log(tempArr[i].arriveTime)
+            for (j = 0; j < sorted.length; j++) {]
                 if ((new Date(tempArr[i].arriveTime)).getTime() > (new Date(sorted[j].arriveTime)).getTime()) {
                     sindex++;
                 }
@@ -48,59 +44,33 @@
         return sorted
     }
     module.exports = {
-        run: (CIns, joinData, cb) => {
+        run: (CIns, joinData, cb, input1, input2) => {
             cb = cb || function (cbr) { };
             var db = require('./db');
             db.scene.get(CIns, (rtd) => {
                 db.ins.get(rtd.refIns, (rtd2) => {
-                    // var rtd = input1
-                    // var rtd2 = input2
                     refIns = rtd2;
-                    // data.refIns = refIns;
                     var cins = rtd;
-                    var oriID = rtd._id;
                     var oriA = ["0,0", "0,1", "0,2", "1,0", "1,1", "1,2", "2,0", "2,1", "2,2", "3,0", "3,1", "3,2"];
-                    ////console.log(oriA);
                     var mostVal;
                     var mostName = [];
                     var movingIns = [];
                     var minskey = 0;
                     var available = [];
                     var returnData = {};
-                    if (joinData) {
-                        returnData = {
-                            input: {},
-                            output: {}
-                        }
-                        returnData.input = rtd;
-                        returnData.input.refIns = rtd2
-                    }
-                    ////////console.log("0.5")
                     if (rtd2.lanes == 2) {
                         dirs.remove("right");
                         oriA = ["0,0", "0,1", "1,0", "1,1", "2,0", "2,1", "3,0", "3,1"];
                         for (abcd = 0; abcd < 4; abcd++) {
-                            //////console.log(abcd)
                             cins[keys[abcd]]["straight"].amount += cins[keys[abcd]]["right"].amount;
                             cins[keys[abcd]]["right"].amount = 0;
-                            // cins[keys[abcd]]["straight"].queue = joinColumns(cins, keys[abcd], "straight", "right");
-                            // cins[keys[abcd]]["right"].queue = [];
+                            cins[keys[abcd]]["straight"].queue = joinColumns(cins, keys[abcd], "straight", "right");
+                            cins[keys[abcd]]["right"].queue = [];
                         }
-                        // movingIns.push(["bottom", "right"]);
-                        // movingIns.push(["right", "right"]);
-                        // movingIns.push(["top", "right"]);
-                        // movingIns.push(["left", "right"]);
                     }
-                    //////console.log(cins["left"]["straight"])
-                    ////////console.log(cins["left"]["straight"])
-                    ////////console.log(0.6)
-                    // db.scene.validate(cins, (rtd3) => {
-                    // cins = rtd3;
 
-                    ////////console.log("1");
                     while (true) {
                         available = oriA.slice();
-                        //console.log(oriA);
                         mostVal = 0
 
                         for (i = 0; i < keys.length; i++) {
@@ -111,14 +81,12 @@
                                 }
                             }
                         }
-                        ////console.log(mostVal)
                         if (mostVal <= 0) break;
 
                         var locMovingIns = movingIns[minskey];
                         locMovingIns = [];
 
                         while (available.length > 0) {
-                            ////////console.log(4)
                             mostVal = 0;
 
                             for (i = 0; i < keys.length; i++) { //get a focused by the value of each intersection
@@ -177,16 +145,18 @@
                         minskey++;
                     }
 
-                    if (cins._id != oriID) {
-                        db.scene.remove(cins._id);
+                    if (joinData) {
+                        returnData = {
+                            input: {},
+                            output: {}
+                        }
+                        returnData.input = rtd;
+                        returnData.input.refIns = rtd2
                     }
-
-                    //console.log(returnData)
 
                     returnData.output = movingIns;
 
                     cb(returnData)
-                    // })
                 })
             })
         }

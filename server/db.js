@@ -1,6 +1,6 @@
 (function () {
     var mongoose = require('mongoose');
-    var mongodb = mongoose.createConnection('mongodb://uc:a@192.168.10.98:3001/unmanned-car', { useNewUrlParser: true });
+    var mongodb = mongoose.createConnection('mongodb://uc:a@uc.ccsource.org:3001/unmanned-car', { useNewUrlParser: true });
     var Schema = mongoose.Schema;
     var carSchema = new Schema({
         license: {
@@ -327,9 +327,7 @@
             },
             validate: (obj, cb) => {
                 cb = cb || function (cbr) { };
-                // console.log(obj);
                 cins.create(obj, (err, res) => {
-                    // if (err) { cb(false); console.log(err) }
                     console.log(res);
                     console.log(res._id);
                     cins.findOne({ _id: res._id }).lean().exec((err2, res2) => {
@@ -339,10 +337,7 @@
             },
             archive: (id, cb) => {
                 cb = cb || function (cbr) { };
-                // console.log(id);
                 cins.findById(id).lean().exec((err, res) => {
-                    // console.log(err);
-                    // console.log(res);
                     cins.create({ refIns: res.refIns }, (err2, res2) => {
                         cb(res);
                     })
@@ -362,7 +357,6 @@
                     var ins = rtd.refIns;
                     db.ins.get(refIns, (rtd2) => {
                         refIns = rtd2;
-                        // data.refIns = refIns;
                     })
                 })
             }

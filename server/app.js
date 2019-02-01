@@ -30,12 +30,8 @@ app.use(bodyParser.json());
 var db = require('./db');
 var compiler = require('./compiler');
 var nowCIns = "";
-// var id;
-// db.create(function (rbval) {
-//     id = rbval._id;
-// })
 
-// var usedID = [];
+var usedID = [];
 var running = false;
 var keys = ["bottom", "right", "top", "left"];
 var dirs = ["left", "straight", "right"];
@@ -65,13 +61,14 @@ app.post('/add', (req, res) => {
     }
 })
 
-app.get('/operate', (req, res) => {
+app.post('/operate', (req, res) => {
+    console.log(req.body.ins)
     compiler.run(nowCIns, true, (rtd) => {
         res.json(rtd);
         db.scene.archive(nowCIns, (rtd2) => {
             nowCIns = rtd2._id;
         })
-    })
+    }, req.body.cins, req.body.ins)
 })
 
 app.get('/test', (req, res) => {
