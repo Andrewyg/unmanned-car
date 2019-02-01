@@ -35,10 +35,18 @@ var usedID = [];
 var running = false;
 var keys = ["bottom", "right", "top", "left"];
 var dirs = ["left", "straight", "right"];
+var fs = require('fs')
 // var usedID = [];
-db.init((rtd) => {
-    nowCIns = rtd.cins;
-    running = true;
+fs.readFile('./nowCIns', (err, data) => {
+    if (err || data.length <= 0) {
+        db.init((rtd) => {
+            nowCIns = rtd.cins;
+            fs.writeFileSync('./nowCIns', nowCIns);
+            running = true;
+        })
+    } else {
+        nowCIns = data
+    }
 })
 app.get('/status', (req, res) => {
     if (running) {

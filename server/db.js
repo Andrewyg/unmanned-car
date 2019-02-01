@@ -225,28 +225,27 @@
     module.exports = {
         init: (cb) => {
             cb = cb || function (cbr) { };
-            var rtd = {
-                car: "", ins: "", cins: ""
-            }
-            car.create({
-                license: "XX-0000",
-                type: "small",
-                speed: "60"
-            }, (err, res) => {
-                rtd.car = res._id;
-                ins.create({
-                    location: "台中市",
-                    name: "中清路",
-                    waitZoneLength: 18,
-                    lanes: 2
-                }, (err2, res2) => {
-                    rtd.ins = res2._id
-                    cins.create({ refIns: res2._id }, (err3, res3) => {
+            ins.findOne({}).lean().exec((err, res) => {
+                if (res == null) {
+                    ins.create({
+                        location: "台中市",
+                        name: "中清路",
+                        waitZoneLength: 18,
+                        lanes: 2
+                    }, (err2, res2) => {
+                        rtd.ins = res2._id
+                        cins.create({ refIns: res2._id }, (err3, res3) => {
+                            rtd.cins = res3._id;
+                            cb(rtd);
+                        });
+                    });
+                } else {
+                    cins.create({ refIns: res._id }, (err3, res3) => {
                         rtd.cins = res3._id;
                         cb(rtd);
-                    });;
-                });
-            });
+                    });
+                }
+            })
         },
         ins: {
             reset: () => {
