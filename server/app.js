@@ -52,23 +52,22 @@ app.get('/status', (req, res) => {
     }
 })
 
-// app.post('/add', (req, res) => {
-//     var data = req.body;
-//     if (keys.includes(data.place) && dirs.includes(data.direction) && !usedID.includes(data.id)) {
-//         usedID.push(data.id);
-//         db.scene.add(nowCIns, data.place, data.direction, data.id, (cbr) => {
-//             res.json(cbr);
-//         });
-//     } else {
-//         res.writeHead(403);
-//         res.end();
-//     }
-// })
+app.post('/add', (req, res) => {
+    var data = req.body;
+    if (keys.includes(data.place) && dirs.includes(data.direction) && !usedID.includes(data.id)) {
+        usedID.push(data.id);
+        db.scene.add(nowCIns, data.place, data.direction, data.id, (cbr) => {
+            res.json(cbr);
+        });
+    } else {
+        res.writeHead(403);
+        res.end();
+    }
+})
 
-app.post('/operate/manual', (req, res) => {
-    // console.log("0")
+app.get('/operate', (req, res) => {
     // if (req.body.method == "db") { } else {
-    compiler.run(nowCIns, true, (rtd) => {
+    compiler.run(nowCIns, (rtd) => {
         res.json(rtd)
         db.scene.archive(nowCIns, (rtd2) => {
             console.log("archived")
