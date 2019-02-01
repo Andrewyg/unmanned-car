@@ -39,10 +39,12 @@ var fs = require('fs')
 // var usedID = [];
 fs.readFile('./nowCIns', (err, data) => {
     if (err || data.length <= 0) {
-        db.init((rtd) => {
-            nowCIns = rtd;
-            fs.writeFileSync('./nowCIns', nowCIns);
-            running = true;
+        db.reset((rtd2) => {
+            db.init((rtd) => {
+                nowCIns = rtd;
+                fs.writeFileSync('./nowCIns', nowCIns);
+                running = true;
+            })
         })
     } else {
         nowCIns = data

@@ -245,6 +245,16 @@
                 }
             })
         },
+        reset: (cb) => {
+            cb = cb || function (cbr) { };
+            car.deleteMany({}, (err, res) => {
+                ins.deleteMany({}, (err2, res2) => {
+                    cins.deleteMany({}, (err3, res3) => {
+                        cb(res3)
+                    })
+                })
+            })
+        },
         ins: {
             reset: () => {
                 ins.deleteMany({}, (err, res) => console.log(res));
