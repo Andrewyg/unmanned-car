@@ -27,15 +27,19 @@
     }
     var keys = ["bottom", "right", "top", "left"];
     var dirs = ["left", "straight", "right"];
-    function joinColumns(key, dir1, dir2, raf) {
+    function joinColumns(cins, key, dir1, dir2, raf) {
         var tempArr = [];
         var sorted = [];
-        tempArr.concat(cins[keys[key]][dir1].queue);
-        tempArr.concat(cins[keys[key]][dir2].queue);
+        tempArr = cins[key][dir1].queue;
+        console.log(cins[key][dir2].queue)
+        tempArr.concat(cins[key][dir2].queue);
+        console.log(tempArr.length)
         for (i = 0; i < tempArr.length; i++) {
+            console.log(i)
             var sindex = 0;
             for (j = 0; j < sorted.length; j++) {
-                if (tempArr[i].arriveTime.getTime() > sorted.getTime()) {
+                ////console.log(tempArr[i].arriveTime)
+                if ((new Date(tempArr[i].arriveTime)).getTime() > (new Date(sorted[j].arriveTime)).getTime()) {
                     sindex++;
                 }
             }
@@ -56,32 +60,33 @@
             var cins = rtd;
             var oriID = rtd._id;
             var oriA = [];
-            dirs.remove("right");
-            var rightAllied = false;
-            if (rtd2.columns == 2) {
-                oriA = ["0,0", "0,1", "1,0", "1,1", "2,0", "2,1", "3,0", "3,1"];
-                rightAllied = true;
-                for (i = 0; i < 4; i++) {
-                    cins[keys[i]]["straight"].amount += cins[keys[i]]["right"].amount;
-                    cins[keys[i]]["right"].amount = 0;
-                    cins[keys[i]]["straight"].queue = joinColumns(i, "straight", "right");
-                    cins[keys[i]]["right"].queue = [];
-                }
-            }
-            // db.scene.validate(cins, (rtd3) => {
-            // cins = rtd3;
             var mostVal;
             var mostName = [];
             var movingIns = [];
             var minskey = 0;
-
-            if (!rightAllied) {
-                movingIns.push([0, 2]);
-                movingIns.push([1, 2]);
-                movingIns.push([2, 2]);
-                movingIns.push([3, 2]);
+            ////console.log("0.5")
+            if (rtd2.lanes == 2) {
+                dirs.remove("right");
+                oriA = ["0,0", "0,1", "1,0", "1,1", "2,0", "2,1", "3,0", "3,1"];
+                for (abcd = 0; abcd < 4; abcd++) {
+                    //console.log(abcd)
+                    cins[keys[abcd]]["straight"].amount += cins[keys[abcd]]["right"].amount;
+                    cins[keys[abcd]]["right"].amount = 0;
+                    // cins[keys[abcd]]["straight"].queue = joinColumns(cins, keys[abcd], "straight", "right");
+                    // cins[keys[abcd]]["right"].queue = [];
+                }
+                // movingIns.push(["bottom", "right"]);
+                // movingIns.push(["right", "right"]);
+                // movingIns.push(["top", "right"]);
+                // movingIns.push(["left", "right"]);
             }
+            //console.log(cins["left"]["straight"])
+            ////console.log(cins["left"]["straight"])
+            ////console.log(0.6)
+            // db.scene.validate(cins, (rtd3) => {
+            // cins = rtd3;
 
+            ////console.log("1");
             while (true) {
                 var available = oriA;
                 mostVal = 0
@@ -94,12 +99,14 @@
                         }
                     }
                 }
+                // ////console.log(mostVal)
                 if (mostVal <= 0) break;
 
                 var locMovingIns = movingIns[minskey];
                 locMovingIns = [];
 
                 while (available.length > 0) {
+                    ////console.log(4)
                     mostVal = 0;
 
                     for (i = 0; i < keys.length; i++) { //get a focused by the value of each intersection
@@ -139,6 +146,9 @@
                     locMovingIns[asd2][1] = dirs[locMovingIns[asd2][1]];
                 }
                 for (asd2 = 0; asd2 < locMovingIns.length; asd2++) {
+                    for (asd3 = 0; asd3 < cins[locMovingIns[locMovingIns.length - 1][0]][locMovingIns[locMovingIns.length - 1][1]].amount; asd3++) {
+                        cins[locMovingIns[asd2][0]][locMovingIns[asd2][1]].queue.shift()
+                    }
                     cins[locMovingIns[asd2][0]][locMovingIns[asd2][1]].amount -= cins[locMovingIns[locMovingIns.length - 1][0]][locMovingIns[locMovingIns.length - 1][1]].amount;
                 }
 

@@ -1,6 +1,6 @@
 (function () {
     var mongoose = require('mongoose');
-    var mongodb = mongoose.createConnection('mongodb://uc:a@uc.ccsource.org:3001/unmanned-car', { useNewUrlParser: true });
+    var mongodb = mongoose.createConnection('mongodb://uc:a@192.168.10.98:3001/unmanned-car', { useNewUrlParser: true });
     var Schema = mongoose.Schema;
     var carSchema = new Schema({
         license: {

@@ -17,6 +17,9 @@ carWheel4 = cylinder(radius=0.1,axis=vector(0,0,0.1),pos=carBody.pos+vector(-0.3
 car = compound([carBody,carWheel1,carWheel2,carWheel3,carWheel4])
 car.visible = False
 cars = []
+
+WZLength = data["refIns"]["waitZoneLength"]
+lanes = data["refIns"]["lanes"]
 def createCar(posi,pointDir,goingDir):
     pointDir = 90+(pointDir*90)
     goingDir = 270+(goingDir*90)
@@ -26,7 +29,7 @@ def createCar(posi,pointDir,goingDir):
     carDirection = shapes.triangle(length=0.37,rotate=radians(goingDir-pointDir))
     extrusion(path=[cars[id].pos+vector(0,0.25,0), cars[id].pos+vector(0,0.3,0)],shape=carDirection,color=vector(255,0,0))
     return id
-def createIns(WZLength,lanes):
+def createIns():
     rtd = []
     deceperateLineWidth = 0.1
     waitZone=shapes.rectangle(width=1,height=WZLength)
@@ -47,7 +50,7 @@ def createIns(WZLength,lanes):
         extrusion(path=[vector(eachDLPosi*1,-0.35,(WZLength/2+lanes)*-1),vector(eachDLPosi*1,-0.27,(WZLength/2+lanes)*-1)],shape=deceperateLineR,color=vector(255*(k%2),255*(k%2),255*(k%2)))
     for i in range(lanes):
         eachLanePosi = i+1/2+deceperateLineWidth*1.5
-        rtp.append(eachLanePosi)
+        rtd.append(eachLanePosi)
         #橫向
         extrusion(path=[vector((WZLength/2+lanes),-0.35,eachLanePosi*1),vector((WZLength/2+lanes),-0.27,eachLanePosi*1)],shape=waitZone,color=color.black)
         extrusion(path=[vector((WZLength/2+lanes)*-1,-0.35,eachLanePosi*1),vector((WZLength/2+lanes)*-1,-0.27,eachLanePosi*1)],shape=waitZone,color=color.black)
@@ -72,12 +75,13 @@ def createIns(WZLength,lanes):
             extrusion(path=[vector(eachDLPosi*-1,-0.35,(WZLength/2+lanes)),vector(eachDLPosi*-1,-0.26,(WZLength/2+lanes))],shape=deceperateLineR,color=vector(255*(k%2),255*(k%2),255*(k%2)))
             extrusion(path=[vector(eachDLPosi*-1,-0.35,(WZLength/2+lanes)*-1),vector(eachDLPosi*-1,-0.26,(WZLength/2+lanes)*-1)],shape=deceperateLineR,color=vector(255*(k%2),255*(k%2),255*(k%2)))
     return rtd
-startCordArr = createIns(data["refIns"]["waitZoneLength"],data["refIns"]["lanes"])
+startCordArr = createIns()
 data["refIns"] = "" # delete refIns
 for i in data: # bottom, right, top, left
-    for j in i: # left, straight, right
+    for j in i: # left, straight, right 
         locAmount = j["amount"]
         k=0
-        startCord = 
         while(k<locAmount):
+            startCord = vector(lanes+0.5+k*1,0,startCordArr[0])
+            createCar(startCord,i,j)
             k+=1

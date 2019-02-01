@@ -66,14 +66,15 @@ app.post('/add', (req, res) => {
 })
 
 app.post('/operate', (req, res) => {
+    // console.log("0")
     // if (req.body.method == "db") { } else {
     compiler.run(nowCIns, (rtd) => {
         res.json(rtd)
         db.scene.archive(nowCIns, (rtd2) => {
             console.log("archived")
             nowCIns = rtd2._id;
-        }, req.body.cins, req.body.ins)
-    })
+        })
+    }, req.body.cins, req.body.ins)
     // }
 })
 
