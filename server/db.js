@@ -1,7 +1,6 @@
 (function () {
     var mongoose = require('mongoose');
-    // var mongodb = mongoose.createConnection('mongodb://uc:a@localhost:3001/unmanned-car', { useNewUrlParser: true });
-    var mongodb = mongoose.createConnection('mongodb://localhost:27017/unmanned-car', { useNewUrlParser: true });
+    var mongodb = mongoose.createConnection('mongodb://uc:a@localhost:3001/unmanned-car', { useNewUrlParser: true });
     var Schema = mongoose.Schema;
     var carSchema = new Schema({
         license: {
