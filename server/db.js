@@ -41,21 +41,7 @@
             type: String,
             required: true
         },
-        top: {
-            straight: {
-                amount: {
-                    type: Number,
-                    default: 0,
-                    required: true,
-                    minimum: 0
-                },
-                queue: [{
-                    refCar: String,
-                    arriveTime: {
-                        type: Date
-                    }
-                }]
-            },
+        bottom: {
             left: {
                 amount: {
                     type: Number,
@@ -70,37 +56,7 @@
                     }
                 }]
             },
-            right: {
-                amount: {
-                    type: Number,
-                    default: 0,
-                    required: true,
-                    minimum: 0
-                },
-                queue: [{
-                    refCar: String,
-                    arriveTime: {
-                        type: Date
-                    }
-                }]
-            }
-        },
-        left: {
             straight: {
-                amount: {
-                    type: Number,
-                    default: 0,
-                    required: true,
-                    minimum: 0
-                },
-                queue: [{
-                    refCar: String,
-                    arriveTime: {
-                        type: Date
-                    }
-                }]
-            },
-            left: {
                 amount: {
                     type: Number,
                     default: 0,
@@ -130,7 +86,7 @@
             }
         },
         right: {
-            straight: {
+            left: {
                 amount: {
                     type: Number,
                     default: 0,
@@ -144,7 +100,7 @@
                     }
                 }]
             },
-            left: {
+            straight: {
                 amount: {
                     type: Number,
                     default: 0,
@@ -173,7 +129,21 @@
                 }]
             }
         },
-        bottom: {
+        top: {
+            left: {
+                amount: {
+                    type: Number,
+                    default: 0,
+                    required: true,
+                    minimum: 0
+                },
+                queue: [{
+                    refCar: String,
+                    arriveTime: {
+                        type: Date
+                    }
+                }]
+            },
             straight: {
                 amount: {
                     type: Number,
@@ -188,7 +158,37 @@
                     }
                 }]
             },
+            right: {
+                amount: {
+                    type: Number,
+                    default: 0,
+                    required: true,
+                    minimum: 0
+                },
+                queue: [{
+                    refCar: String,
+                    arriveTime: {
+                        type: Date
+                    }
+                }]
+            }
+        },
+        left: {
             left: {
+                amount: {
+                    type: Number,
+                    default: 0,
+                    required: true,
+                    minimum: 0
+                },
+                queue: [{
+                    refCar: String,
+                    arriveTime: {
+                        type: Date
+                    }
+                }]
+            },
+            straight: {
                 amount: {
                     type: Number,
                     default: 0,

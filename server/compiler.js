@@ -34,7 +34,7 @@
         tempArr = tempArr.concat(cins[key][dir2].queue);
         for (i = 0; i < tempArr.length; i++) {
             var sindex = 0;
-            for (j = 0; j < sorted.length; j++) {]
+            for (j = 0; j < sorted.length; j++) {
                 if ((new Date(tempArr[i].arriveTime)).getTime() > (new Date(sorted[j].arriveTime)).getTime()) {
                     sindex++;
                 }
