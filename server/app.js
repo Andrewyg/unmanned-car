@@ -61,9 +61,9 @@ app.post('/add', (req, res) => {
 app.get('/operate', (req, res) => {
     // if (req.body.method == "db") { } else {
     console.log(nowCIns);
+    res.json(compiler.run(nowCIns));
     db.scene.archive((nowCIns, rtd) => {
         nowCIns = rtd._id;
-        res.json(compiler.run(nowCIns));
     })
     // }
 })

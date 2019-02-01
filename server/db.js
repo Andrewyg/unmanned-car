@@ -250,7 +250,7 @@
                     location: "台中市",
                     name: "中清路",
                     waitZoneLength: 18,
-                    columns: 2
+                    lanes: 2
                 }, (err2, res2) => {
                     rtd.ins = res2._id
                     cins.create({ refIns: res2._id }, (err3, res3) => {
