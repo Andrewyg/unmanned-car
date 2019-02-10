@@ -29,6 +29,7 @@ app.use(bodyParser.json());
 
 var db = require('./db');
 var compiler = require('./compiler');
+var simulator = require('./simulator');
 var nowCIns = "";
 
 var usedID = [];
@@ -36,7 +37,7 @@ var running = false;
 var keys = ["bottom", "right", "top", "left"];
 var dirs = ["left", "straight", "right"];
 var fs = require('fs')
-// var usedID = [];
+
 fs.readFile('./nowCIns', (err, data) => {
     if (err || data.length <= 0) {
         db.reset((rtd2) => {
@@ -77,6 +78,12 @@ app.get('/operate', (req, res) => {
         db.scene.archive(nowCIns, (rtd2) => {
             nowCIns = rtd2._id;
         })
+    })
+})
+
+app.get('/compare', (req, res) => {
+    simulator.run((rtd) => {
+        res.json(rtd);
     })
 })
 
