@@ -9,7 +9,9 @@
         }
         return this;
     };
+
     var db = require('./db');
+
     function keyLeft(x) {
         x -= 1;
         if (x < 0) x += 4;
@@ -25,8 +27,10 @@
         if (x > 3) x -= 4;
         return x;
     }
+
     var keys = ["bottom", "right", "top", "left"];
     var dirs = ["left", "straight", "right"];
+
     function joinColumns(cins, key, dir1, dir2, raf) {
         var tempArr = [];
         var sorted = [];
@@ -46,6 +50,7 @@
         }
         return sorted
     }
+
     module.exports = {
         run: (CIns, joinData, cb) => {
             cb = cb || function (cbr) { };

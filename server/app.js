@@ -157,47 +157,69 @@ app.get('/test', (req, res) => {
     for (i = 0; i < rn; i++) {
         data.top.left.amount++;
         data.top.left.queue.push(makeID());
-    } rn = randNumber(numberOfMinData, numberOfMaxData);
+    }
+
+    rn = randNumber(numberOfMinData, numberOfMaxData);
     for (i = 0; i < rn; i++) {
         data.top.straight.amount++;
         data.top.straight.queue.push(makeID());
-    } rn = randNumber(numberOfMinData, numberOfMaxData);
+    }
+
+    rn = randNumber(numberOfMinData, numberOfMaxData);
     for (i = 0; i < rn; i++) {
         data.top.right.amount++;
         data.top.right.queue.push(makeID());
-    } rn = randNumber(numberOfMinData, numberOfMaxData);
+    }
+
+    rn = randNumber(numberOfMinData, numberOfMaxData);
     for (i = 0; i < rn; i++) {
         data.right.left.amount++;
         data.right.left.queue.push(makeID());
-    } rn = randNumber(numberOfMinData, numberOfMaxData);
+    }
+
+    rn = randNumber(numberOfMinData, numberOfMaxData);
     for (i = 0; i < rn; i++) {
         data.right.straight.amount++;
         data.right.straight.queue.push(makeID());
-    } rn = randNumber(numberOfMinData, numberOfMaxData);
+    }
+
+    rn = randNumber(numberOfMinData, numberOfMaxData);
     for (i = 0; i < rn; i++) {
         data.right.right.amount++;
         data.right.right.queue.push(makeID());
-    } rn = randNumber(numberOfMinData, numberOfMaxData);
+    }
+
+    rn = randNumber(numberOfMinData, numberOfMaxData);
     for (i = 0; i < rn; i++) {
         data.bottom.left.amount++;
         data.bottom.left.queue.push(makeID());
-    } rn = randNumber(numberOfMinData, numberOfMaxData);
+    }
+
+    rn = randNumber(numberOfMinData, numberOfMaxData);
     for (i = 0; i < rn; i++) {
         data.bottom.straight.amount++;
         data.bottom.straight.queue.push(makeID());
-    } rn = randNumber(numberOfMinData, numberOfMaxData);
+    }
+
+    rn = randNumber(numberOfMinData, numberOfMaxData);
     for (i = 0; i < rn; i++) {
         data.bottom.right.amount++;
         data.bottom.right.queue.push(makeID());
-    } rn = randNumber(numberOfMinData, numberOfMaxData);
+    }
+
+    rn = randNumber(numberOfMinData, numberOfMaxData);
     for (i = 0; i < rn; i++) {
         data.left.left.amount++;
         data.left.left.queue.push(makeID());
-    } rn = randNumber(numberOfMinData, numberOfMaxData);
+    }
+
+    rn = randNumber(numberOfMinData, numberOfMaxData);
     for (i = 0; i < rn; i++) {
         data.left.straight.amount++;
         data.left.straight.queue.push(makeID());
-    } rn = randNumber(numberOfMinData, numberOfMaxData);
+    }
+
+    rn = randNumber(numberOfMinData, numberOfMaxData);
     for (i = 0; i < rn; i++) {
         data.left.right.amount++;
         data.left.right.queue.push(makeID());
@@ -216,7 +238,6 @@ app.get('/test', (req, res) => {
     })
 })
 
+app.use(express.static('./public'));
 
-
-app.use(express.static('./public'))
 app.listen(8080, '0.0.0.0')

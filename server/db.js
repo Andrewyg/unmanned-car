@@ -2,6 +2,7 @@
     var mongoose = require('mongoose');
     var mongodb = mongoose.createConnection('mongodb://uc:a@uc.ccsource.org:3001/unmanned-car', { useNewUrlParser: true });
     var Schema = mongoose.Schema;
+
     var carSchema = new Schema({
         license: {
             type: String,
@@ -18,6 +19,7 @@
         }
     })
     var car = mongodb.model('car', carSchema, 'cars');
+
     var intersectionSchema = new Schema({
         location: {
             type: String,
@@ -36,6 +38,7 @@
         }
     })
     var ins = mongodb.model('intersection', intersectionSchema, 'intersections');
+
     var CIntersectionSchema = new Schema({
         refIns: {
             type: String,
@@ -219,9 +222,7 @@
         }
     });
     var cins = mongodb.model("CurrentIns", CIntersectionSchema, "CurrentInss");
-    var resultSchema = new Schema({
-        refCIns: String
-    })
+
     module.exports = {
         init: (cb) => {
             cb = cb || function (cbr) { };
