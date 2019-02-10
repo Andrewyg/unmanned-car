@@ -9,23 +9,6 @@ Array.prototype.remove = function () {
     return this;
 };
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 var express = require('express');
 var app = express();
 
