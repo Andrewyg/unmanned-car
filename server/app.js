@@ -20,13 +20,9 @@ var db = require('./db');
 var compiler = require('./compiler');
 var simulator = require('./simulator');
 var nowCIns = "";
-
-var usedID = [];
 var running = false;
-var keys = ["bottom", "right", "top", "left"];
-var dirs = ["left", "straight", "right"];
-var fs = require('fs')
 
+var fs = require('fs');
 fs.readFile('./nowCIns', (err, data) => {
     if (err || data.length <= 0) {
         db.reset((rtd2) => {
@@ -40,6 +36,7 @@ fs.readFile('./nowCIns', (err, data) => {
         nowCIns = data
     }
 })
+
 app.get('/status', (req, res) => {
     if (running) {
         res.send("running");
@@ -47,19 +44,6 @@ app.get('/status', (req, res) => {
         res.send("Initializing");
     }
 })
-
-// app.post('/add', (req, res) => {
-//     var data = req.body;
-//     if (keys.includes(data.place) && dirs.includes(data.direction) && !usedID.includes(data.id)) {
-//         usedID.push(data.id);
-//         db.scene.add(nowCIns, data.place, data.direction, data.id, (cbr) => {
-//             res.json(cbr);
-//         });
-//     } else {
-//         res.writeHead(403);
-//         res.end();
-//     }
-// })
 
 app.get('/operate', (req, res) => {
     compiler.run(nowCIns, true, (rtd) => {
