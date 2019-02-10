@@ -20,15 +20,13 @@ cars = []
 
 WZLength = data["refIns"]["waitZoneLength"]
 lanes = data["refIns"]["lanes"]
-def createCar(posi,pointDir,goingDir):
+def createCar(id,posi,pointDir,goingDir):
     pointDir = 90+(pointDir*90)
     goingDir = 270+(goingDir*90)
-    cars.append(car.clone(pos=posi))
-    id = len(cars)-1
+    cars[id](car.clone(pos=posi))
     cars[id].rotate(angle=radians(pointDir),axis=vector(0,1,0))
     carDirection = shapes.triangle(length=0.37,rotate=radians(goingDir-pointDir))
     extrusion(path=[cars[id].pos+vector(0,0.25,0), cars[id].pos+vector(0,0.3,0)],shape=carDirection,color=vector(255,0,0))
-    return id
 def createIns():
     rtd = []
     deceperateLineWidth = 0.1
@@ -77,11 +75,21 @@ def createIns():
     return rtd
 startCordArr = createIns()
 data["refIns"] = "" # delete refIns
+iNum=0
+jNum=0
 for i in data: # bottom, right, top, left
     for j in i: # left, straight, right 
         locAmount = j["amount"]
         k=0
         while(k<locAmount):
-            startCord = vector(lanes+0.5+k*1,0,startCordArr[0])
-            createCar(startCord,i,j)
+            startCord = vector(lanes+0.7+k*1.2,0,startCordArr[0])
+            print(j["queue"][k]["ntd"])
+            if(j["queue"][k]["ntd"] == "right"):
+                createCar(startCord,iNum,2)
+            else:
+                createCar(startCord,iNum,jNum)
             k+=1
+        jNum+=1
+    iNum+=1
+
+#move car
