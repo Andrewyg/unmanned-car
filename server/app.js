@@ -138,54 +138,69 @@ app.get('/test', (req, res) => {
         return Math.random() * (max - min) + min;
     }
 
-    var rn = randNumber(0, 10);
+    var numberOfMaxData = req.query.max || 18;
+    var numberOfMinData = req.query.min || 0;
 
-    // var ids = [];
-    // function makeID() {
-    //     var id = randText(10);
-    //     if (ids.includes(id)) {
-    //         return makeID();
-    //     } else {
-    //         ids.push(id);
-    //         return id;
-    //     }
-    // }
+    var rn = randNumber(numberOfMinData, numberOfMaxData);
+
+    var ids = [];
+    function makeID() {
+        var id = randText(18);
+        if (ids.includes(id)) {
+            return makeID();
+        } else {
+            ids.push(id);
+            return id;
+        }
+    }
 
     for (i = 0; i < rn; i++) {
         data.top.left.amount++;
-    } rn = randNumber(0, 10);
+        data.top.left.queue.push(makeID());
+    } rn = randNumber(numberOfMinData, numberOfMaxData);
     for (i = 0; i < rn; i++) {
         data.top.straight.amount++;
-    } rn = randNumber(0, 10);
+        data.top.straight.queue.push(makeID());
+    } rn = randNumber(numberOfMinData, numberOfMaxData);
     for (i = 0; i < rn; i++) {
         data.top.right.amount++;
-    } rn = randNumber(0, 10);
+        data.top.right.queue.push(makeID());
+    } rn = randNumber(numberOfMinData, numberOfMaxData);
     for (i = 0; i < rn; i++) {
         data.right.left.amount++;
-    } rn = randNumber(0, 10);
+        data.right.left.queue.push(makeID());
+    } rn = randNumber(numberOfMinData, numberOfMaxData);
     for (i = 0; i < rn; i++) {
         data.right.straight.amount++;
-    } rn = randNumber(0, 10);
+        data.right.straight.queue.push(makeID());
+    } rn = randNumber(numberOfMinData, numberOfMaxData);
     for (i = 0; i < rn; i++) {
         data.right.right.amount++;
-    } rn = randNumber(0, 10);
+        data.right.right.queue.push(makeID());
+    } rn = randNumber(numberOfMinData, numberOfMaxData);
     for (i = 0; i < rn; i++) {
         data.bottom.left.amount++;
-    } rn = randNumber(0, 10);
+        data.bottom.left.queue.push(makeID());
+    } rn = randNumber(numberOfMinData, numberOfMaxData);
     for (i = 0; i < rn; i++) {
         data.bottom.straight.amount++;
-    } rn = randNumber(0, 10);
+        data.bottom.straight.queue.push(makeID());
+    } rn = randNumber(numberOfMinData, numberOfMaxData);
     for (i = 0; i < rn; i++) {
         data.bottom.right.amount++;
-    } rn = randNumber(0, 10);
+        data.bottom.right.queue.push(makeID());
+    } rn = randNumber(numberOfMinData, numberOfMaxData);
     for (i = 0; i < rn; i++) {
         data.left.left.amount++;
-    } rn = randNumber(0, 10);
+        data.left.left.queue.push(makeID());
+    } rn = randNumber(numberOfMinData, numberOfMaxData);
     for (i = 0; i < rn; i++) {
         data.left.straight.amount++;
-    } rn = randNumber(0, 10);
+        data.left.straight.queue.push(makeID());
+    } rn = randNumber(numberOfMinData, numberOfMaxData);
     for (i = 0; i < rn; i++) {
         data.left.right.amount++;
+        data.left.right.queue.push(makeID());
     }
 
     resloc.input = data;
