@@ -11,6 +11,7 @@
     };
 
     var db = require('./db');
+    var simulator = require('./simulator');
 
     function keyLeft(x) {
         x -= 1;
@@ -142,11 +143,16 @@
                             locMovingIns[asd2][0] = keys[locMovingIns[asd2][0]];
                             locMovingIns[asd2][1] = dirs[locMovingIns[asd2][1]];
                         }
+                        var minCar = {
+                            key: locMovingIns[locMovingIns.length - 1][0],
+                            dir: locMovingIns[locMovingIns.length - 1][1],
+                            amount: cins[locMovingIns[locMovingIns.length - 1][0]][locMovingIns[locMovingIns.length - 1][1]].amount
+                        }
                         for (asd2 = 0; asd2 < locMovingIns.length; asd2++) {
-                            for (asd3 = 0; asd3 < cins[locMovingIns[locMovingIns.length - 1][0]][locMovingIns[locMovingIns.length - 1][1]].amount; asd3++) {
+                            for (asd3 = 0; asd3 < minCar.amount; asd3++) {
                                 cins[locMovingIns[asd2][0]][locMovingIns[asd2][1]].queue.shift()
                             }
-                            cins[locMovingIns[asd2][0]][locMovingIns[asd2][1]].amount -= cins[locMovingIns[locMovingIns.length - 1][0]][locMovingIns[locMovingIns.length - 1][1]].amount;
+                            cins[locMovingIns[asd2][0]][locMovingIns[asd2][1]].amount -= minCar.amount;
                         }
                         for (asd2 = 0; asd2 < locMovingIns.length; asd2++) {
                             locMovingIns[asd2] = {
@@ -155,9 +161,14 @@
                             }
                         }
 
+                        var calcedDelay = 0;
+                        simulator.ccins.delay(minCar, 0, 0, 0, 0, (rtd99) => {
+                            calcedDelay = rtd99;
+                        })
+
                         movingIns[minskey] = {
                             allow: locMovingIns,
-                            delay: 0 //haven't count delay
+                            delay: calcedDelay
                         };
                         minskey++;
                     }
