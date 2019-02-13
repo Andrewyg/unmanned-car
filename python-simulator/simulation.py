@@ -13,7 +13,7 @@ from colorama import Back, Style
 def call_api():
     dict_header = {"Content-Type": "application/json"}
 
-    obj_response = requests.get('https://uc.ccsource.org/operate', headers=dict_header, params={}, verify=False)
+    obj_response = requests.get('https://uc.ccsource.org/api/operate', headers=dict_header, params={}, verify=False)
     if obj_response:
         n_result = obj_response.status_code
         if n_result == codes.ok:
@@ -178,8 +178,9 @@ if __name__ == "__main__":
     init()
 
     # call rest api
-    #dict_response = call_api()
-    dict_data = {
+    dict_response = call_api()
+    dict_data = dict_response
+    """dict_data = {
       "input": {
         "_id": "hiyhnuhyu",
         "top": {
@@ -304,7 +305,7 @@ if __name__ == "__main__":
           "delay": 4
         }
       ]
-    }
+    }"""
 
     # refill car data
     dict_car = refill_car_data(dict_data.get('input', {}))
