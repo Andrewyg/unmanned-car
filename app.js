@@ -34,6 +34,7 @@ fs.readFile('./nowCIns', (err, data) => {
         })
     } else {
         nowCIns = data
+        running = true;
     }
 })
 
