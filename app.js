@@ -40,7 +40,7 @@ fs.readFile('./nowCIns', (err, data) => {
 
 app.get('/status', (req, res) => {
     if (running) {
-        res.send("running");
+        res.send(nowCIns);
     } else {
         res.send("Initializing");
     }
