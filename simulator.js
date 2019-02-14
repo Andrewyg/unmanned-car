@@ -23,6 +23,14 @@
         var totalPassCarS = calcTimeR(straightGoTime, insLightTime, oneCarTime);
         var takenTime = 0;
         while (true) {
+            var clearedIns = 0;
+            for (i = 0; i < 4; i++) {
+                for (j = 0; j < 3; j++) {
+                    if (insData[keys[i]][dirs[j]].amount == 0) clearedIns++;
+                }
+            }
+            if (clearedIns == 12) break;
+
             //first top & bottom
             //first straight+right
             insData.bottom.straight.amount = minusCar(insData.bottom.straight.amount, totalPassCarS);
@@ -43,14 +51,6 @@
             insData.left.left.amount = minusCar(insData.left.left.amount, totalPassCarL);
 
             takenTime += insLightTime;
-
-            var clearedIns = 0;
-            for (i = 0; i < 4; i++) {
-                for (j = 0; j < 3; j++) {
-                    if (insData[keys[i]][dirs[j]].amount == 0) clearedIns++;
-                }
-            }
-            if (clearedIns == 12) break;
         }
         return takenTime;
     }
