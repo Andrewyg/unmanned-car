@@ -23,7 +23,7 @@ var nowCIns = "";
 var running = false;
 
 var fs = require('fs');
-fs.readFile('./nowCIns', (err, data) => {
+fs.readFile('./nowCIns', "utf8", (err, data) => {
     if (err || data.length <= 0) {
         db.reset((rtd2) => {
             db.init((rtd) => {
@@ -33,7 +33,7 @@ fs.readFile('./nowCIns', (err, data) => {
             })
         })
     } else {
-        nowCIns = data.toString();
+        nowCIns = data;
         running = true;
     }
 })
