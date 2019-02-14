@@ -345,7 +345,7 @@
             archive: (id, cb) => {
                 cb = cb || function (cbr) { };
                 cins.findById(id).lean().exec((err, res) => {
-                    cins.create({ refIns: res.refIns }, (err2, res2) => {
+                    cins.create(res, (err2, res2) => {
                         cb(res2);
                     })
                 });
