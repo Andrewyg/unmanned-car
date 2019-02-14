@@ -303,6 +303,12 @@
                     cb(res);
                 })
             },
+            getAll: (cb) => {
+                cb = cb || function (cbr) { };
+                cins.find({}).lean().exec((err, res) => {
+                    cb(res);
+                })
+            },
             clear: (id, cb) => {
                 cb = cb || function (cbr) { };
                 cins.updateOne({ _id: id }, {

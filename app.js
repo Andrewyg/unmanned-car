@@ -91,8 +91,12 @@ app.post('/add', (req, res) => {
     })
 })
 
+app.get('/db/:id', (req, res) => {
+    db.scene.get(req.params.id, (rtd) => res.json(rtd));
+})
+
 app.get('/db', (req, res) => {
-    db.scene.get("*", (rtd) => res.json(rtd))
+    db.scene.getAll((rtd) => res.json(rtd));
 })
 
 app.use(express.static('./public'));
