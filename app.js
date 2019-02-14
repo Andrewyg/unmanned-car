@@ -33,7 +33,7 @@ fs.readFile('./nowCIns', (err, data) => {
             })
         })
     } else {
-        nowCIns = data
+        nowCIns = data.toString();
         running = true;
     }
 })
