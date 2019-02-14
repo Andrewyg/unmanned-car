@@ -46,6 +46,12 @@ app.get('/status', (req, res) => {
     }
 })
 
+function getQueryStr(url) {
+    var urlIndex = url.indexOf('?');
+    var query = url.substr(i + 1);
+    return query;
+}
+
 app.get('/operate', (req, res) => {
     compiler.run(nowCIns, req.query.left, req.query.straight, req.query.right, req.query.car, (rtd) => {
         res.json(rtd);
@@ -230,12 +236,12 @@ app.get('/test', (req, res) => {
 
     var request = require('request');
     request({
-        url: "http://localhost:8080/operate?left=3&straight=2&right=1&car=1",
+        url: "http://localhost:8080/operate?" + getQueryStr(req.url),
         method: "GET",
         json: data
     }, (err, res1, body) => {
         request({
-            url: "http://localhost:8080/compare?left=3&straight=2&right=1&car=1&light=80&input=" + body.input + "&output=" + body.output,
+            url: "http://localhost:8080/compare?" + getQueryStr(req.url) + "&input=" + body.input + "&output=" + body.output,
             method: "GET",
             json: data
         }, (err2, res2, body) => {
