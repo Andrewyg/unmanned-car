@@ -1,6 +1,9 @@
 (function () {
     var request = require('request');
 
+    var keys = ["bottom", "right", "top", "left"];
+    var dirs = ["left", "straight", "right"];
+
     function calcTime(moveTime, oneCarTime, carNum) {
         return moveTime + oneCarTime * carNum;
     }
@@ -44,7 +47,7 @@
             var clearedIns = 0;
             for (i = 0; i < 4; i++) {
                 for (j = 0; j < 3; j++) {
-                    if (insData[i][j].amount == 0) clearedIns++;
+                    if (insData[keys[i]][dirs[j]].amount == 0) clearedIns++;
                 }
             }
             if (clearedIns == 12) break;
