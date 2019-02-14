@@ -84,8 +84,8 @@
                         }
                     }
 
-                    returnData.input = cins.slice();
-                    returnData.input.refIns = rtd2.slice();
+                    returnData.input = Object.assign({}, cins);
+                    returnData.input.refIns = Object.assign({}, rtd2);
 
                     while (true) {
                         available = oriA.slice();
