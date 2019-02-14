@@ -25,22 +25,22 @@
         while (true) {
             //first top & bottom
             //first straight+right
-            insData.bottom.straight = minusCar(insData.bottom.straight, totalPassCarS);
-            insData.bottom.right = minusCar(insData.bottom.right, totalPassCarS);
-            insData.top.straight = minusCar(insData.top.straight, totalPassCarS);
-            insData.top.right = minusCar(insData.top.right, totalPassCarS);
+            insData.bottom.straight.amount = minusCar(insData.bottom.straight.amount, totalPassCarS);
+            insData.bottom.right.amount = minusCar(insData.bottom.right.amount, totalPassCarS);
+            insData.top.straight.amount = minusCar(insData.top.straight.amount, totalPassCarS);
+            insData.top.right.amount = minusCar(insData.top.right.amount, totalPassCarS);
             //then left
-            insData.bottom.left = minusCar(insData.bottom.left, totalPassCarL);
-            insData.top.left = minusCar(insData.top.left, totalPassCarL);
+            insData.bottom.left.amount = minusCar(insData.bottom.left.amount, totalPassCarL);
+            insData.top.left.amount = minusCar(insData.top.left.amount, totalPassCarL);
             //then left & right
             //first straight+right
-            insData.right.straight = minusCar(insData.right.straight, totalPassCarS);
-            insData.right.right = minusCar(insData.right.right, totalPassCarS);
-            insData.left.straight = minusCar(insData.left.straight, totalPassCarS);
-            insData.left.right = minusCar(insData.left.right, totalPassCarS);
+            insData.right.straight.amount = minusCar(insData.right.straight.amount, totalPassCarS);
+            insData.right.right.amount = minusCar(insData.right.right.amount, totalPassCarS);
+            insData.left.straight.amount = minusCar(insData.left.straight.amount, totalPassCarS);
+            insData.left.right.amount = minusCar(insData.left.right.amount, totalPassCarS);
             //then left
-            insData.right.left = minusCar(insData.right.left, totalPassCarL);
-            insData.left.left = minusCar(insData.left.left, totalPassCarL);
+            insData.right.left.amount = minusCar(insData.right.left.amount, totalPassCarL);
+            insData.left.left.amount = minusCar(insData.left.left.amount, totalPassCarL);
 
             takenTime += insLightTime;
 
@@ -69,7 +69,7 @@
             if (input && output) {
                 cb({ "normalInsTakenTime": normalIns(input, leftTurnTime, straightGoTime, oneCarTime, insLightTime), "computerControledInsTakenTime": ccIns(output) });
             } else {
-                request.get("https://uc.ccsource.org/api/operate?left=" + leftTurnTime + "&straight=" + straightGoTime + "&right=" + rightTurnTime + "&car=" + oneCarTime, (err, res, body) => {
+                request.get("http://localhost:8080/operate?left=" + leftTurnTime + "&straight=" + straightGoTime + "&right=" + rightTurnTime + "&car=" + oneCarTime, (err, res, body) => {
                     var data = JSON.parse(body);
                     var input = data.input,
                         output = data.output;
