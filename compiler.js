@@ -164,13 +164,12 @@
                         var calcedDelay = 0;
                         simulator.ccins.delay(minCar, leftTurnTime, straightGoTime, rightTurnTime, oneCarTime, (rtd99) => {
                             calcedDelay = rtd99;
+                            movingIns[minskey] = {
+                                allow: locMovingIns,
+                                delay: calcedDelay
+                            };
+                            minskey++;
                         })
-
-                        movingIns[minskey] = {
-                            allow: locMovingIns,
-                            delay: calcedDelay
-                        };
-                        minskey++;
                     }
 
                     returnData.output = movingIns;
