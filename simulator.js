@@ -66,7 +66,7 @@
             if (input && output) {
                 cb({ "normalInsTakenTime": normalIns(input, leftTurnTime, straightGoTime, oneCarTime, insLightTime), "computerControledInsTakenTime": ccIns(output) });
             } else {
-                request.get("https://uc.ccsource.org/operate?left=" + leftTurnTime + "&straight=" + straightGoTime + "&right=" + rightTurnTime + "&car=" + oneCarTime, (err, res, body) => {
+                request.get("https://uc.ccsource.org/api/operate?left=" + leftTurnTime + "&straight=" + straightGoTime + "&right=" + rightTurnTime + "&car=" + oneCarTime, (err, res, body) => {
                     var data = JSON.parse(body);
                     var input = data.input,
                         output = data.output;
