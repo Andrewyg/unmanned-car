@@ -77,10 +77,10 @@
         ccins: {
             delay: (minInsInfo, leftTurnTime, straightGoTime, rightTurnTime, oneCarTime, cb) => {
                 cb = cb || function (cbr) { };
-                var oneCarTime = 0;
-                if (minInsInfo.dir == "left") oneCarTime = leftTurnTime
-                if (minInsInfo.dir == "straight") oneCarTime = straightGoTime
-                if (minInsInfo.dir == "right") oneCarTime = rightTurnTime
+                var moveTime = 0;
+                if (minInsInfo.dir == "left") moveTime = leftTurnTime
+                if (minInsInfo.dir == "straight") moveTime = straightGoTime
+                if (minInsInfo.dir == "right") moveTime = rightTurnTime
                 return calcTime(moveTime, oneCarTime, minInsInfo.amount);
             }
         },
