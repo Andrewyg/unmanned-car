@@ -299,7 +299,7 @@
             },
             get: (id, cb) => {
                 cb = cb || function (cbr) { };
-                cins.find({ _id: id }).lean().exec((err, res) => {
+                cins.findOne({ _id: id }).lean().exec((err, res) => {
                     cb(res);
                 })
             },
