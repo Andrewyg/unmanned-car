@@ -81,7 +81,7 @@
                 if (minInsInfo.dir == "left") moveTime = leftTurnTime
                 if (minInsInfo.dir == "straight") moveTime = straightGoTime
                 if (minInsInfo.dir == "right") moveTime = rightTurnTime
-                return calcTime(moveTime, oneCarTime, minInsInfo.amount);
+                cb(calcTime(moveTime, oneCarTime, minInsInfo.amount));
             }
         },
         animation: {
