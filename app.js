@@ -53,7 +53,11 @@ function getQueryStr(url) {
 }
 
 app.get('/operate', (req, res) => {
-    compiler.run(nowCIns, req.query.left, req.query.straight, req.query.right, req.query.car, (rtd) => {
+    var qLeft = Number(req.query.left),
+        qStraight = Number(req.query.straight),
+        qRight = Number(req.query.right),
+        qCar = Number(req.query.car)
+    compiler.run(nowCIns, qLeft, qStraight, qRight, qCar, (rtd) => {
         res.json(rtd);
         db.scene.archive(nowCIns, (rtd2) => {
             nowCIns = rtd2._id;
@@ -62,7 +66,11 @@ app.get('/operate', (req, res) => {
 })
 
 app.get('/compare', (req, res) => {
-    simulator.run(req.query.left, req.query.straight, req.query.right, req.query.car, req.query.light, (rtd) => {
+    var qLeft = Number(req.query.left),
+        qStraight = Number(req.query.straight),
+        qRight = Number(req.query.right),
+        qCar = Number(req.query.car)
+    simulator.run(qLeft, qStraight, qRight, qCar, req.query.light, (rtd) => {
         res.json(rtd);
     }, req.query.input, req.query.output)
 })
