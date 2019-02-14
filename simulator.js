@@ -85,7 +85,7 @@
                     var data = JSON.parse(body);
                     var input = data.input,
                         output = data.output;
-                    cb({ "normalInsTakenTime": normalIns(input, leftTurnTime, straightGoTime, oneCarTime, insLightTime), "computerControledInsTakenTime": ccIns(output) });
+                    cb({ "normalInsTakenTime": normalIns(input, leftTurnTime, straightGoTime, oneCarTime, insLightTime), "computerControledInsTakenTime": ccIns(output), "refCIns": input._id });
                 })
             }
         },
