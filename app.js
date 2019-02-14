@@ -91,6 +91,10 @@ app.post('/add', (req, res) => {
     })
 })
 
+app.get('/db', (req, res) => {
+    db.scene.get("*", (rtd) => res.json(rtd))
+})
+
 app.use(express.static('./public'));
 
 app.listen(8080, '0.0.0.0')
