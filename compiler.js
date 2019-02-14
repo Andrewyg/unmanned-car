@@ -53,9 +53,8 @@
     }
 
     module.exports = {
-        run: (CIns, joinData, cb) => {
+        run: (CIns, leftTurnTime, straightGoTime, rightTurnTime, oneCarTime, cb, joinData) => {
             cb = cb || function (cbr) { };
-            var db = require('./db');
             db.scene.get(CIns, (rtd) => {
                 db.ins.get(rtd.refIns, (rtd2) => {
                     refIns = rtd2;
@@ -162,7 +161,7 @@
                         }
 
                         var calcedDelay = 0;
-                        simulator.ccins.delay(minCar, 0, 0, 0, 0, (rtd99) => {
+                        simulator.ccins.delay(minCar, leftTurnTime, straightGoTime, rightTurnTime, oneCarTime, (rtd99) => {
                             calcedDelay = rtd99;
                         })
 

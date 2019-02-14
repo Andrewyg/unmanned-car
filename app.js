@@ -46,18 +46,18 @@ app.get('/status', (req, res) => {
 })
 
 app.get('/operate', (req, res) => {
-    compiler.run(nowCIns, true, (rtd) => {
+    compiler.run(nowCIns, req.query.left, req.query.straight, req.query.right, req.query.car, (rtd) => {
         res.json(rtd);
         db.scene.archive(nowCIns, (rtd2) => {
             nowCIns = rtd2._id;
         })
-    })
+    }, true)
 })
 
 app.get('/compare', (req, res) => {
-    simulator.run((rtd) => {
+    simulator.run(req.query.left, req.query.straight, req.query.right, req.query.car, req.query.light, (rtd) => {
         res.json(rtd);
-    })
+    }, req.query.input, req.query.output)
 })
 
 app.get('/test', (req, res) => {
@@ -229,12 +229,17 @@ app.get('/test', (req, res) => {
 
     var request = require('request');
     request({
-        url: "http://localhost:8080/operate",
-        method: "POST",
+        url: "http://localhost:8080/operate?left=3&straight=2&right=1&car=1",
+        method: "GET",
         json: data
     }, (err, res1, body) => {
-        resloc.output = body;
-        res.json(resloc)
+        request({
+            url: "http://localhost:8080/compare?left=3&straight=2&right=1&car=1&light=80&input=" + body.input + "&output=" + body.output,
+            method: "GET",
+            json: data
+        }, (err2, res2, body) => {
+            res.json(body)
+        })
     })
 })
 

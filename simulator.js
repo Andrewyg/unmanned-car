@@ -61,7 +61,7 @@
     }
 
     module.exports = {
-        run: (leftTurnTime, straightGoTime, oneCarTime, insLightTime, cb, input, output) => {
+        run: (leftTurnTime, straightGoTime, rightTurnTime, oneCarTime, insLightTime, cb, input, output) => {
             cb = cb || function (cbr) { };
             if (input && output) {
                 cb({ "normalInsTakenTime": normalIns(input, leftTurnTime, straightGoTime, oneCarTime, insLightTime), "computerControledInsTakenTime": ccIns(output) });
