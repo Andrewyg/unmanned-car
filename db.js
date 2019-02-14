@@ -257,7 +257,7 @@
         },
         ins: {
             reset: () => {
-                ins.deleteMany({}, (err, res) => console.log(res));
+                ins.deleteMany({}, (err, res) => { });
             },
             create: (obj, cb) => {
                 cb = cb || function (cbr) { };
@@ -266,7 +266,6 @@
             get: (id, cb) => {
                 cb = cb || function (cbr) { };
                 ins.findOne({ _id: id }).lean().exec((err, res) => {
-                    console.log(res);
                     cb(res);
                 })
             }
@@ -283,17 +282,15 @@
         },
         scene: {
             reset: () => {
-                cins.deleteMany({}, (err, res) => console.log(res));
+                cins.deleteMany({}, (err, res) => { });
             },
             add: (id, place, direction, carId, cb) => {
                 cb = cb || function (cbr) { };
                 var data;
                 cins.findOne({ _id: id }).lean().exec((err, res) => {
-                    if (err) console.log(err)
                     data = res;
                     data[place][direction].amount++;
                     data[place][direction].queue.push({ refCar: carId, arriveTime: (new Date()).toISOString() })
-                    console.log(data.bottom.straight.queue)
                     cins.updateOne({ _id: id }, data, (err2, res2) => cb(res2));
                 })
             },
@@ -341,8 +338,6 @@
             validate: (obj, cb) => {
                 cb = cb || function (cbr) { };
                 cins.create(obj, (err, res) => {
-                    console.log(res);
-                    console.log(res._id);
                     cins.findOne({ _id: res._id }).lean().exec((err2, res2) => {
                         cb(res2);
                     });
