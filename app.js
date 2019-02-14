@@ -69,8 +69,9 @@ app.get('/compare', (req, res) => {
     var qLeft = Number(req.query.left),
         qStraight = Number(req.query.straight),
         qRight = Number(req.query.right),
-        qCar = Number(req.query.car)
-    simulator.run(qLeft, qStraight, qRight, qCar, req.query.light, (rtd) => {
+        qCar = Number(req.query.car),
+        qLight = Number(req.query.light);
+    simulator.run(qLeft, qStraight, qRight, qCar, qLight, (rtd) => {
         res.json(rtd);
     }, req.query.input, req.query.output)
 })
