@@ -82,9 +82,10 @@
                             input: {},
                             output: {}
                         }
-                        returnData.input = cins;
-                        returnData.input.refIns = rtd2
                     }
+
+                    returnData.input = cins.slice();
+                    returnData.input.refIns = rtd2.slice();
 
                     while (true) {
                         available = oriA.slice();
