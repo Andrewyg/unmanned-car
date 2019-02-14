@@ -84,8 +84,8 @@
                         }
                     }
 
-                    returnData.input = Object.assign({}, cins);
-                    returnData.input.refIns = Object.assign({}, rtd2);
+                    returnData.input = JSON.parse(JSON.stringify(cins));
+                    returnData.input.refIns = JSON.parse(JSON.stringify(rtd2));
 
                     while (true) {
                         available = oriA.slice();
