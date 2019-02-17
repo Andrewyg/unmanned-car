@@ -19,6 +19,7 @@
         return vars;
     }
     var query = getUrlVars();
+    var queryFull = window.location.href.slice(window.location.href.indexOf('?') + 1);
     function addCar(dest) {
         $.post("/api/add", { place: keys.getRand(), direction: dirs.getRand() }, (data) => {
             if (dest > 0) return addCar(dest - 1);
@@ -27,7 +28,7 @@
     var results = [];
     function operate(dest) {
         addCar(randNum(query.carMin, query.carMax));
-        $.get('/api/operate/current', (data) => {
+        $.get('/api/operate/current?' + queryFull, (data) => {
             results.push(data);
             if (dest > 0) return operate(dest - 1);
         })
