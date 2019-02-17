@@ -41,7 +41,7 @@
         }
     })
     var ins = mongodb.model('intersection', intersectionSchema, 'intersections');
-    ins.pre('save', function (next) {
+    ins.schema.pre('save', function (next) {
         if (!this.name) this.name = this.get('location');
         next();
     });
@@ -323,7 +323,7 @@
         }
     })
     var compare = mongodb.model("compareResult", compareResultSchema, "compareResults");
-    compare.pre('save', function (next) {
+    compare.schema.pre('save', function (next) {
         if (!this.time.horizontal.right) this.time.horizontal.right = this.get('time.horizontal.straight');
         if (!this.time.verticle.right) this.time.verticle.right = this.get('time.vertical.straight');
         next();
