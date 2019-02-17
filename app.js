@@ -153,6 +153,7 @@ app.get('/export/compare/:id', (req, res) => {
             }
             csv += '"normal","' + compare.normalInsTakenTime + '",""\n';
             csv += '"computer controled","' + compare.computerControledInsTakenTime + '",""\n';
+            res.end(csv);
         })
     })
 })
