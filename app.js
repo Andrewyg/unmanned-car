@@ -70,9 +70,11 @@ app.get('/compare', (req, res) => {
         qStraight = Number(req.query.straight),
         qRight = Number(req.query.right),
         qCar = Number(req.query.car),
-        qLightS = Number(req.query.lightS),
-        qLeftL = Number(req.query.lightL)
-    simulator.run(qLeft, qStraight, qRight, qCar, qLightS, qLeftL, (req.query.copy == "true"), (rtd) => {
+        qLightHS = Number(req.query.lightHS),
+        qLightHL = Number(req.query.lightHL),
+        qLightVS = Number(req.query.lightVS),
+        qLightVL = Number(req.query.lightVL)
+    simulator.run(qLeft, qStraight, qRight, qCar, qLightHS, qLightHL, qLightVS, qLightVL, (req.query.copy == "true"), (rtd) => {
         res.json(rtd);
     }, req.query.input, req.query.output)
 })
