@@ -39,6 +39,30 @@
             insData.top.straight.amount = minusCar(insData.top.straight.amount, totalPassCarS);
             insData.top.right.amount = minusCar(insData.top.right.amount, totalPassCarS);
 
+            takenTime += insLightTime;
+
+            clearedIns = 0;
+            for (i = 0; i < 4; i++) {
+                for (j = 0; j < 3; j++) {
+                    if (insData[keys[i]][dirs[j]].amount == 0) clearedIns++;
+                }
+            }
+            if (clearedIns == 12) break;
+
+            //then left
+            insData.bottom.left.amount = minusCar(insData.bottom.left.amount, totalPassCarL);
+            insData.top.left.amount = minusCar(insData.top.left.amount, totalPassCarL);
+
+            takenTime += insLightTime;
+
+            clearedIns = 0;
+            for (i = 0; i < 4; i++) {
+                for (j = 0; j < 3; j++) {
+                    if (insData[keys[i]][dirs[j]].amount == 0) clearedIns++;
+                }
+            }
+            if (clearedIns == 12) break;
+
             //then left & right
             //first straight+right
             insData.right.straight.amount = minusCar(insData.right.straight.amount, totalPassCarS);
@@ -57,8 +81,6 @@
             if (clearedIns == 12) break;
 
             //then left
-            insData.bottom.left.amount = minusCar(insData.bottom.left.amount, totalPassCarL);
-            insData.top.left.amount = minusCar(insData.top.left.amount, totalPassCarL);
             insData.right.left.amount = minusCar(insData.right.left.amount, totalPassCarL);
             insData.left.left.amount = minusCar(insData.left.left.amount, totalPassCarL);
 
