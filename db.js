@@ -418,7 +418,7 @@
         compare: {
             save: (obj, cb) => {
                 cb = cb || function (cbr) { };
-                compare.create(data, (err, res) => cb(res.toObject()));
+                compare.create(obj, (err, res) => cb(res.toObject()));
             },
             get: (id, cb) => {
                 cb = cb || function (cbr) { };
