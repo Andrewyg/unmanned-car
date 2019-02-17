@@ -221,7 +221,7 @@
             }
         }
     });
-    var cins = mongodb.model("currentIns", CIntersectionSchema, "CurrentInss");
+    var cins = mongodb.model("currentIns", CIntersectionSchema, "currentInss");
 
     var compileResultSchema = new Schema({
         refCIns: String,
