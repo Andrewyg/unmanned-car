@@ -1,3 +1,21 @@
+<style>
+    table,
+    td,
+    th {
+        border: 1px solid #ddd;
+        text-align: left;
+    }
+
+    table {
+        border-collapse: collapse;
+        width: 100%;
+    }
+
+    th,
+    td {
+        padding: 15px;
+    }
+</style>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <script>
     Array.prototype.getRand = function () {
@@ -50,7 +68,7 @@
         for (i = 0; i < results.length; i++) {
             $('body').append("<table><tr><td>&nbsp;</td><td>left</td><td>straight</td><td>right</td></tr>");
             for (j = 0; j < keys.length; j++) {
-                $('body').append("<tr>");
+                $('body').append("<tr><td>" + keys[j] + "</td>");
                 for (k = 0; k < dirs.length; k++) {
                     $('body').append("<td>" + original[i][keys[j]][dirs[k]].amount + "</td>");
                 }
