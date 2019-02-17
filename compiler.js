@@ -32,7 +32,7 @@
     var keys = ["bottom", "right", "top", "left"];
     var dirs = ["left", "straight", "right"];
 
-    function joinColumns(cins, key, dir1, dir2, raf) {
+    function joinColumns(cins, key, dir1, dir2) {
         var tempArr = [];
         var sorted = [];
         tempArr = cins[key][dir1].queue;
