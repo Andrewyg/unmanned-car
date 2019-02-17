@@ -259,10 +259,7 @@
             type: String,
             required: true
         },
-        refResult: {
-            type: String,
-            required: true
-        },
+        refResult: String,
         time: {
             left: {
                 type: Number,
