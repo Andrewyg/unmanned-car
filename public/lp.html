@@ -26,6 +26,7 @@
     }
     var keys = ["bottom", "right", "top", "left"];
     var dirs = ["left", "straight", "right"];
+    var wholeHTML = "";
     function getUrlVars() {
         var vars = [], hash;
         var hashes = window.location.href.slice(window.location.href.indexOf('?') + 1).split('&');
@@ -66,17 +67,17 @@
     }
     function createTable() {
         for (i = 0; i < results.length; i++) {
-            $('body').append("<table><tr><td>&nbsp;</td><td>left</td><td>straight</td><td>right</td></tr>");
+            wholeHTML += "<table><tr><td>&nbsp;</td><td>left</td><td>straight</td><td>right</td></tr>";
             for (j = 0; j < keys.length; j++) {
-                $('body').append("<tr><td>" + keys[j] + "</td>");
+                wholeHTML += "<tr><td>" + keys[j] + "</td>";
                 for (k = 0; k < dirs.length; k++) {
-                    $('body').append("<td>" + original[i][keys[j]][dirs[k]].amount + "</td>");
+                    wholeHTML += "<td>" + original[i][keys[j]][dirs[k]].amount + "</td>";
                 }
-                $('body').append("</tr>");
+                wholeHTML += "</tr>";
             }
-            $('body').append("<tr><td colspan='2'>Normal</td><td colspan='2'>" + compare[i].normalInsTakenTime + "sec</td></tr>");
-            $('body').append("<tr><td colspan='2'>CCIns</td><td colspan='2'>" + compare[i].computerControledInsTakenTime + "sec</td></tr>");
-            $('body').append("</table><hr />");
+            wholeHTML += "<tr><td colspan='2'>Normal</td><td colspan='2'>" + compare[i].normalInsTakenTime + "sec</td></tr>";
+            wholeHTML += "<tr><td colspan='2'>CCIns</td><td colspan='2'>" + compare[i].computerControledInsTakenTime + "sec</td></tr>";
+            wholeHTML += "</table><hr />";
         }
     }
 </script>
