@@ -160,6 +160,12 @@ app.get('/export/compare/:id', (req, res) => {
     })
 })
 
+app.get('/clear/scene', (req, res) => {
+    db.scene.clear(nowCIns, (rtd) => {
+        res.redirect('/api/db/scene')
+    });
+})
+
 app.use(express.static('./public'));
 
 app.listen(8080, '0.0.0.0')
