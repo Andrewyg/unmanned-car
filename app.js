@@ -117,7 +117,7 @@ app.get('/db/:type', (req, res) => {
     db[req.params.type].getAll((rtd) => res.json(rtd));
 })
 
-app.get('/export/compare/:id', (req, res) => {
+app.get('/export/compare/all', (req, res) => {
     var csv = "";
     res.writeHead(200, { "Content-Disposition": "attachment;filename=compare-all.csv", 'Content-Type': 'text/csv' });
     db.compare.getAll((compare) => {
