@@ -43,6 +43,7 @@
     var queryFull = window.location.href.slice(window.location.href.indexOf('?') + 1);
     function addCar(dest) {
         $.post("/api/add", { place: keys.getRand(), direction: dirs.getRand() }, (data) => {
+        }).done(() => {
             if (dest > 0) return addCar(dest - 1); else return;
         })
     }
@@ -51,6 +52,7 @@
         addCar(randNum(query.carMin, query.carMax));
         $.get('/api/operate/current?' + queryFull, (data) => {
             results.push(data.output);
+        }).done(() => {
             if (dest > 0) return operate(dest - 1); else return getOtherData(0);
         })
     }
@@ -62,6 +64,7 @@
             original.push(data);
             $.get("/api/db/compare/" + results[dest].refCompare, (data2) => {
                 compare.push(data2);
+            }).done(() => {
                 if (dest < results.length - 1) return getOtherData(dest + 1); else return window.location.replace("/api/clear/scene");
             })
         })
