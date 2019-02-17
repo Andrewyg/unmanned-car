@@ -18,7 +18,7 @@
         return num;
     }
 
-    function normalIns(insData, leftTurnTime, straightGoTime, oneCarTime, insLightTime) {
+    function normalIns(insData, leftTurnTime, straightGoTime, oneCarTime, insLightTimeS, insLightTimeL) {
         var totalPassCarL = calcTimeR(leftTurnTime, insLightTime, oneCarTime);
         var totalPassCarS = calcTimeR(straightGoTime, insLightTime, oneCarTime);
         var takenTime = 0;
@@ -39,7 +39,7 @@
             insData.top.straight.amount = minusCar(insData.top.straight.amount, totalPassCarS);
             insData.top.right.amount = minusCar(insData.top.right.amount, totalPassCarS);
 
-            takenTime += insLightTime;
+            takenTime += insLightTimeS;
 
             clearedIns = 0;
             for (i = 0; i < 4; i++) {
@@ -53,7 +53,7 @@
             insData.bottom.left.amount = minusCar(insData.bottom.left.amount, totalPassCarL);
             insData.top.left.amount = minusCar(insData.top.left.amount, totalPassCarL);
 
-            takenTime += insLightTime;
+            takenTime += insLightTimeL;
 
             clearedIns = 0;
             for (i = 0; i < 4; i++) {
@@ -70,7 +70,7 @@
             insData.left.straight.amount = minusCar(insData.left.straight.amount, totalPassCarS);
             insData.left.right.amount = minusCar(insData.left.right.amount, totalPassCarS);
 
-            takenTime += insLightTime;
+            takenTime += insLightTimeS;
 
             clearedIns = 0;
             for (i = 0; i < 4; i++) {
@@ -84,7 +84,7 @@
             insData.right.left.amount = minusCar(insData.right.left.amount, totalPassCarL);
             insData.left.left.amount = minusCar(insData.left.left.amount, totalPassCarL);
 
-            takenTime += insLightTime;
+            takenTime += insLightTimeL;
         }
         return takenTime;
     }
@@ -98,16 +98,16 @@
     }
 
     module.exports = {
-        run: (leftTurnTime, straightGoTime, rightTurnTime, oneCarTime, insLightTime, passCopy, cb, input, output) => {
+        run: (leftTurnTime, straightGoTime, rightTurnTime, oneCarTime, insLightTimeS, insLightTimeL, passCopy, cb, input, output) => {
             cb = cb || function (cbr) { };
             if (input && output) {
-                cb({ "normalInsTakenTime": normalIns(input, leftTurnTime, straightGoTime, oneCarTime, insLightTime), "computerControledInsTakenTime": ccIns(output) });
+                cb({ "normalInsTakenTime": normalIns(input, leftTurnTime, straightGoTime, oneCarTime, insLightTimeS, insLightTimeL), "computerControledInsTakenTime": ccIns(output) });
             } else {
                 request.get("http://localhost:8080/operate?left=" + leftTurnTime + "&straight=" + straightGoTime + "&right=" + rightTurnTime + "&car=" + oneCarTime + "&copy=" + passCopy, (err, res, body) => {
                     var data = JSON.parse(body);
                     var input = data.input,
                         output = data.output;
-                    cb({ "normalInsTakenTime": normalIns(input, leftTurnTime, straightGoTime, oneCarTime, insLightTime), "computerControledInsTakenTime": ccIns(output), "refCIns": input._id });
+                    cb({ "normalInsTakenTime": normalIns(input, leftTurnTime, straightGoTime, oneCarTime, insLightTimeS, insLightTimeL), "computerControledInsTakenTime": ccIns(output), "refCIns": input._id });
                 })
             }
         },
