@@ -124,10 +124,10 @@ app.get('/export/compare/all', (req, res) => {
         function addResult(i) {
             csv += '"scene","result","compare"\n';
             csv += '"' + compare[i].refCIns + '","' + compare[i].refCIns + '","' + compare[i]._id + '"\n';
-            csv += 'left","straight","right"\n';
+            csv += '"left","straight","right"\n';
             db.scene.get(compare[i].refCIns, (scene) => {
-                for (j = 0; j < compare[i].length; j++) {
-                    var lockey = Object.keys(compare[i])[j];
+                for (j = 0; j < scene[i].length; j++) {
+                    var lockey = Object.keys(scene[i])[j];
                     csv += '"' + lockey + '","' + scene[lockey].left.amount + '","' + scene[lockey].straight.amount + '","' + scene[lockey].right.amount + '"\n';
                 }
                 csv += '"normal","' + compare.normalInsTakenTime + '",""\n';
@@ -145,10 +145,10 @@ app.get('/export/compare/:id', (req, res) => {
     db.compare.get(req.params.id, (compare) => {
         csv += '"scene","result","compare"\n';
         csv += '"' + compare.refCIns + '","' + compare.refCIns + '","' + compare._id + '"\n';
-        csv += 'left","straight","right"\n';
+        csv += '"left","straight","right"\n';
         db.scene.get(compare.refCIns, (scene) => {
-            for (j = 0; j < compare.length; j++) {
-                var lockey = Object.keys(compare)[j];
+            for (j = 0; j < scene.length; j++) {
+                var lockey = Object.keys(scene)[j];
                 csv += '"' + lockey + '","' + scene[lockey].left.amount + '","' + scene[lockey].straight.amount + '","' + scene[lockey].right.amount + '"\n';
             }
             csv += '"normal","' + compare.normalInsTakenTime + '",""\n';
