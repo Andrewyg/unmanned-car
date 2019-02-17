@@ -56,30 +56,13 @@
     operate(query.dataAmount - 1);
     var original = [];
     var compare = [];
-    // for (i = 0; i < results.length; i++) {
     function getOtherData(dest) {
         $.get("/api/db/scene/" + results[dest].refCIns, (data) => {
             original.push(data);
             $.get("/api/db/compare/" + results[dest].refCompare, (data2) => {
                 compare.push(data2);
-                if (dest < results.length - 1) return getOtherData(dest + 1); else return createTable();
+                if (dest < results.length - 1) return getOtherData(dest + 1); else return window.location.replace("/api/db/compare");
             })
         })
-    }
-    function createTable() {
-        for (i = 0; i < results.length; i++) {
-            wholeHTML += "<table><tr><td>&nbsp;</td><td>left</td><td>straight</td><td>right</td></tr>";
-            for (j = 0; j < keys.length; j++) {
-                wholeHTML += "<tr><td>" + keys[j] + "</td>";
-                for (k = 0; k < dirs.length; k++) {
-                    wholeHTML += "<td>" + original[i][keys[j]][dirs[k]].amount + "</td>";
-                }
-                wholeHTML += "</tr>";
-            }
-            wholeHTML += "<tr><td colspan='2'>Normal</td><td colspan='2'>" + compare[i].normalInsTakenTime + "sec</td></tr>";
-            wholeHTML += "<tr><td colspan='2'>CCIns</td><td colspan='2'>" + compare[i].computerControledInsTakenTime + "sec</td></tr>";
-            wholeHTML += "</table><hr />";
-        }
-        $('body').html(wholeHTML);
     }
 </script>
