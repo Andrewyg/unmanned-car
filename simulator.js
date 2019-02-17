@@ -104,7 +104,31 @@
     module.exports = {
         run: (leftTurnTime, straightGoTime, oneCarTime, insLightTimeHS, insLightTimeHL, insLightTimeVS, insLightTimeVL, cb, input, output) => {
             cb = cb || function (cbr) { };
-            db.compare.save({ "normalInsTakenTime": normalIns(input, leftTurnTime, straightGoTime, oneCarTime, insLightTimeHS, insLightTimeHL, insLightTimeVS, insLightTimeVL), "computerControledInsTakenTime": ccIns(output), "refCIns": input._id, "refResult": output._id }, (rtd) => {
+            var dts = {
+                "normalInsTakenTime": normalIns(input, leftTurnTime, straightGoTime, oneCarTime, insLightTimeHS, insLightTimeHL, insLightTimeVS, insLightTimeVL),
+                "computerControledInsTakenTime": ccIns(output),
+                "refCIns": input._id,
+                "refResult": output._id,
+                "time": {
+                    "left": leftTurnTime,
+                    "straight": straightGoTime,
+                    "right": rightTurnTime,
+                    "car": oneCarTime,
+                    "lights": {
+                        "horizontal": {
+                            "left": insLightTimeHL,
+                            "straight": insLightTimeHS,
+                            "right": insLightTimeHS
+                        },
+                        "verticle": {
+                            "left": insLightTimeVL,
+                            "straight": insLightTimeVS,
+                            "right": insLightTimeVS
+                        }
+                    }
+                }
+            };
+            db.compare.save(dts, (rtd) => {
                 cb(rtd);
             })
         },

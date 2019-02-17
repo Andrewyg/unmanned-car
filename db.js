@@ -234,7 +234,25 @@
         normalInsTakenTime: Number,
         computerControledInsTakenTime: Number,
         refCIns: String,
-        refResult: String
+        refResult: String,
+        time: {
+            left: Number,
+            straight: Number,
+            right: Number,
+            car: Number,
+            lights: {
+                horizontal: {
+                    left: Number,
+                    straight: Number,
+                    right: Number
+                },
+                verticle: {
+                    left: Number,
+                    straight: Number,
+                    right: Number
+                }
+            }
+        }
     })
     var compare = mongodb.model("compareResult", compareResultSchema, "compareResults");
 
