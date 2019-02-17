@@ -233,7 +233,8 @@
     var compareResultSchema = new Schema({
         normalInsTakenTime: Number,
         computerControledInsTakenTime: Number,
-        refCIns: String
+        refCIns: String,
+        refResult: String
     })
     var compare = mongodb.model("compareResult", compareResultSchema, "compareResults");
 
@@ -419,6 +420,10 @@
             save: (obj, cb) => {
                 cb = cb || function (cbr) { };
                 compare.create(obj, (err, res) => cb(res.toObject()));
+            },
+            setResult: (id, resultId, cb) => {
+                cb = cb || function (cbr) { };
+                compare.updateOne({ _id: id }, { refResult: resultId }, (err, res) => cb());
             },
             get: (id, cb) => {
                 cb = cb || function (cbr) { };
