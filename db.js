@@ -281,6 +281,12 @@
                 ins.findOne({ _id: id }).lean().exec((err, res) => {
                     cb(res);
                 })
+            },
+            getAll: (cb) => {
+                cb = cb || function (cbr) { };
+                ins.find({}).lean().exec((err, res) => {
+                    cb(res);
+                })
             }
         },
         car: {
@@ -291,6 +297,18 @@
             modify: (obj, cb) => {
                 cb = cb || function (cbr) { };
                 car.updateOne({ _id: obj._id }, obj, (err, res) => cb(res));
+            },
+            get: (id, cb) => {
+                cb = cb || function (cbr) { };
+                car.findOne({ _id: id }).lean().exec((err, res) => {
+                    cb(res);
+                })
+            },
+            getAll: (cb) => {
+                cb = cb || function (cbr) { };
+                car.find({}).lean().exec((err, res) => {
+                    cb(res);
+                })
             }
         },
         scene: {
@@ -379,12 +397,36 @@
                     result: obj
                 }
                 result.create(data, (err, res) => cb(res.toObject()));
+            },
+            get: (id, cb) => {
+                cb = cb || function (cbr) { };
+                result.findOne({ _id: id }).lean().exec((err, res) => {
+                    cb(res);
+                })
+            },
+            getAll: (cb) => {
+                cb = cb || function (cbr) { };
+                result.find({}).lean().exec((err, res) => {
+                    cb(res);
+                })
             }
         },
         compare: {
             save: (obj, cb) => {
                 cb = cb || function (cbr) { };
                 compare.create(data, (err, res) => cb(res.toObject()));
+            },
+            get: (id, cb) => {
+                cb = cb || function (cbr) { };
+                compare.findOne({ _id: id }).lean().exec((err, res) => {
+                    cb(res);
+                })
+            },
+            getAll: (cb) => {
+                cb = cb || function (cbr) { };
+                compare.find({}).lean().exec((err, res) => {
+                    cb(res);
+                })
             }
         }
     }
