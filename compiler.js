@@ -79,7 +79,7 @@
                         }
                     }
 
-                    insP = JSON.parse(JSON.stringify(cins));
+                    cinsP = JSON.parse(JSON.stringify(cins));
                     cinsP.refIns = JSON.parse(JSON.stringify(rtd2));
 
                     if (joinData) {
