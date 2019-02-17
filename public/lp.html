@@ -41,25 +41,25 @@
     }
     var query = getUrlVars();
     var queryFull = window.location.href.slice(window.location.href.indexOf('?') + 1);
-    function addCar(dest) {
+    async function addCar(dest) {
         $.post("/api/add", { place: keys.getRand(), direction: dirs.getRand() }, (data) => {
         }).then(() => {
             if (dest > 0) return addCar(dest - 1); else return;
         })
     }
     var results = [];
-    function operate(dest) {
-        addCar(randNum(query.carMin, query.carMax));
+    async function operate(dest) {
+        await addCar(randNum(query.carMin, query.carMax));
         $.get('/api/operate/current?' + queryFull, (data) => {
             results.push(data.output);
         }).then(() => {
-            if (dest > 0) return operate(dest - 1); else return getOtherData(0);
+            if (dest > 0) return operate(dest - 1); else return;
         })
     }
-    operate(query.dataAmount - 1);
     var original = [];
     var compare = [];
-    function getOtherData(dest) {
+    async function getOtherData(dest) {
+        await operate(query.dataAmount - 1);
         $.get("/api/db/scene/" + results[dest].refCIns, (data) => {
             original.push(data);
             $.get("/api/db/compare/" + results[dest].refCompare, (data2) => {
@@ -69,4 +69,5 @@
             })
         })
     }
+    getOtherData(0)
 </script>
