@@ -48,16 +48,16 @@
     }
     function createTable() {
         for (i = 0; i < results.length; i++) {
-            $('body').append("<table><tr><td>left</td><td>straight</td><td>right</td></tr>");
-            for (j = 0; j < 4; j++) {
+            $('body').append("<table><tr><td>&nbsp;</td><td>left</td><td>straight</td><td>right</td></tr>");
+            for (j = 0; j < keys.length; j++) {
                 $('body').append("<tr>");
-                for (k = 0; k < 3; k++) {
-                    $('body').append("<td>" + original[i][j][k].amount + "</td>");
+                for (k = 0; k < dirs.length; k++) {
+                    $('body').append("<td>" + original[i][keys[j]][dirs[k]].amount + "</td>");
                 }
                 $('body').append("</tr>");
             }
-            $('body').append("<tr><td>Normal</td><td colspan='2'>" + compare[i].normalInsTakenTime + "sec</td></tr>");
-            $('body').append("<tr><td>CCIns</td><td colspan='2'>" + compare[i].computerControledInsTakenTime + "sec</td></tr>");
+            $('body').append("<tr><td colspan='2'>Normal</td><td colspan='2'>" + compare[i].normalInsTakenTime + "sec</td></tr>");
+            $('body').append("<tr><td colspan='2'>CCIns</td><td colspan='2'>" + compare[i].computerControledInsTakenTime + "sec</td></tr>");
             $('body').append("</table><hr />");
         }
     }
