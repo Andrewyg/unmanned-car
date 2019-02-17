@@ -21,8 +21,9 @@
     Array.prototype.getRand = function () {
         return this[Math.floor(Math.random() * this.length)]
     }
-    function randNum(min, max) {
-        return Math.random() * (max - min) + min;
+    function randNum(low, high) {
+        var r = Math.floor(Math.random() * (high - low + 1)) + low;
+        return r;
     }
     var keys = ["bottom", "right", "top", "left"];
     var dirs = ["left", "straight", "right"];
