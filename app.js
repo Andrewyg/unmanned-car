@@ -117,29 +117,6 @@ app.get('/db/:type', (req, res) => {
     db[req.params.type].getAll((rtd) => res.json(rtd));
 })
 
-app.get('/export/all', (req, res) => {
-    var csv = "";
-    res.writeHead(200, { 'Content-Type': 'text/csv' });
-    db.result.getAll((result) => {
-        function addResult(i) {
-            csv += '"scene","result","compare"\n';
-            csv += '"' + result[i].refCIns + '","' + result[i]._id + '","' + result[i].refCompare + '"\n';
-            csv += '"","left","straight","right"\n';
-            db.scene.get(result[i].refCIns, (scene) => {
-                for (i = 0; i < scene.length; i++) {
-                    csv += '"' + Object.keys(scene)[i] + '","' + scene[i].left.amount + '","' + scene[i].straight.amount + '","' + scene[i].right.amount + '"\n';
-                }
-                db.compare.get(result[i].refCompare, (compare) => {
-                    csv += '"normal","' + compare.normalInsTakenTime + '\n';
-                    csv += '"computer controled","' + compare.computerControledInsTakenTime + '\n';
-                    if (i < result.length - 1) return addResult(i + 1); else return res.end(csv);
-                })
-            })
-        }
-        addResult(0);
-    })
-})
-
 app.get('/export/compare/:id', (req, res) => {
     var csv = "";
     res.writeHead(200, { 'Content-Type': 'text/csv' });
@@ -149,8 +126,9 @@ app.get('/export/compare/:id', (req, res) => {
             csv += '"' + compare[i].refCIns + '","' + compare[i].refCIns + '","' + compare[i]._id + '"\n';
             csv += '"","left","straight","right"\n';
             db.scene.get(compare[i].refCIns, (scene) => {
-                for (i = 0; i < scene.length; i++) {
-                    csv += '"' + Object.keys(scene)[i] + '","' + scene[i].left.amount + '","' + scene[i].straight.amount + '","' + scene[i].right.amount + '"\n';
+                for (j = 0; j < compare[i].length; j++) {
+                    var lockey = Object.keys(compare[i])[j];
+                    csv += '"' + lockey + '","' + scene[lockey].left.amount + '","' + scene[lockey].straight.amount + '","' + scene[lockey].right.amount + '"\n';
                 }
                 csv += '"normal","' + compare.normalInsTakenTime + '",""\n';
                 csv += '"computer controled","' + compare.computerControledInsTakenTime + '",""\n';
@@ -158,6 +136,24 @@ app.get('/export/compare/:id', (req, res) => {
             })
         }
         addResult(0);
+    })
+})
+
+app.get('/export/compare/:id', (req, res) => {
+    var csv = "";
+    res.writeHead(200, { 'Content-Type': 'text/csv' });
+    db.compare.get(req.params.id, (compare) => {
+        csv += '"scene","result","compare"\n';
+        csv += '"' + compare.refCIns + '","' + compare.refCIns + '","' + compare._id + '"\n';
+        csv += '"","left","straight","right"\n';
+        db.scene.get(compare.refCIns, (scene) => {
+            for (j = 0; j < compare.length; j++) {
+                var lockey = Object.keys(compare)[j];
+                csv += '"' + lockey + '","' + scene[lockey].left.amount + '","' + scene[lockey].straight.amount + '","' + scene[lockey].right.amount + '"\n';
+            }
+            csv += '"normal","' + compare.normalInsTakenTime + '",""\n';
+            csv += '"computer controled","' + compare.computerControledInsTakenTime + '",""\n';
+        })
     })
 })
 
