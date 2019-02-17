@@ -41,33 +41,22 @@
     }
     var query = getUrlVars();
     var queryFull = window.location.href.slice(window.location.href.indexOf('?') + 1);
-    async function addCar(dest) {
-        $.post("/api/add", { place: keys.getRand(), direction: dirs.getRand() }, (data) => {
-        }).then(() => {
-            if (dest > 0) return addCar(dest - 1); else return;
-        })
-    }
+    var addCar = new Promise((resolve, reject) => {
+        $.post("/api/add", { place: keys.getRand(), direction: dirs.getRand() }, (data) => { }).then(() => resolve())
+    })
     var results = [];
-    async function operate(dest) {
-        await addCar(randNum(query.carMin, query.carMax));
+    var operate = new Promise((resolce, reject) => {
         $.get('/api/operate/current?' + queryFull, (data) => {
             results.push(data.output);
-        }).then(() => {
-            if (dest > 0) return operate(dest - 1); else return;
-        })
+        }).then(() => resolve())
+    })
+    async function main() {
+        for (j = 0; j < query.dataAmount; j++) {
+            for (i = 0; i < query.carAmount; i++) {
+                await addCar;
+            }
+            await operate
+        }
+        return window.location.replace("/api/clear/scene");
     }
-    var original = [];
-    var compare = [];
-    async function getOtherData(dest) {
-        await operate(query.dataAmount - 1);
-        $.get("/api/db/scene/" + results[dest].refCIns, (data) => {
-            original.push(data);
-            $.get("/api/db/compare/" + results[dest].refCompare, (data2) => {
-                compare.push(data2);
-            }).then(() => {
-                if (dest < results.length - 1) return getOtherData(dest + 1); else return window.location.replace("/api/clear/scene");
-            })
-        })
-    }
-    getOtherData(0)
 </script>
