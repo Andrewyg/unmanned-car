@@ -343,10 +343,12 @@
                     });
                 });
             },
-            archive: (id, cb) => {
+            archive: (id, copyData, cb) => {
                 cb = cb || function (cbr) { };
                 cins.findById(id).lean().exec((err, res) => {
-                    cins.create({ refIns: res.refIns }, (err2, res2) => {
+                    delete res._id
+                    if (!copyData) res = { refIns: res.refIns }
+                    cins.create(res, (err2, res2) => {
                         cb(res2);
                     })
                 });

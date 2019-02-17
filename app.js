@@ -59,7 +59,7 @@ app.get('/operate', (req, res) => {
         qCar = Number(req.query.car)
     compiler.run(nowCIns, qLeft, qStraight, qRight, qCar, (rtd) => {
         res.json(rtd);
-        db.scene.archive(nowCIns, (rtd2) => {
+        db.scene.archive(nowCIns, !!req.query.copy, (rtd2) => {
             nowCIns = rtd2._id;
         })
     }, true)
