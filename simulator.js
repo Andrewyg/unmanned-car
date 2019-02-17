@@ -19,8 +19,8 @@
     }
 
     function normalIns(insData, leftTurnTime, straightGoTime, oneCarTime, insLightTimeS, insLightTimeL) {
-        var totalPassCarL = calcTimeR(leftTurnTime, insLightTime, oneCarTime);
-        var totalPassCarS = calcTimeR(straightGoTime, insLightTime, oneCarTime);
+        var totalPassCarL = calcTimeR(leftTurnTime, insLightTimeL, oneCarTime);
+        var totalPassCarS = calcTimeR(straightGoTime, insLightTimeS, oneCarTime);
         var takenTime = 0;
         var clearedIns = 0;
         while (true) {
