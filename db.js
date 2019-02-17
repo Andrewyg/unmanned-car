@@ -25,7 +25,10 @@
             type: String,
             required: true
         },
-        name: String,
+        name: {
+            type: String,
+            required: true
+        },
         waitZoneLength: {
             type: Number,
             minimum: 1,
@@ -38,6 +41,10 @@
         }
     })
     var ins = mongodb.model('intersection', intersectionSchema, 'intersections');
+    ins.pre('save', function (next) {
+        if (!this.name) this.name = this.get('location');
+        next();
+    });
 
     var CIntersectionSchema = new Schema({
         refIns: {
@@ -224,37 +231,103 @@
     var cins = mongodb.model("currentIns", CIntersectionSchema, "currentInss");
 
     var compileResultSchema = new Schema({
-        refCIns: String,
-        refCompare: String,
-        result: Array
+        refCIns: {
+            type: String,
+            required: true
+        },
+        refCompare: {
+            type: String,
+            required: true
+        },
+        result: {
+            type: Array,
+            required: true
+        }
     })
     var result = mongodb.model("compileResult", compileResultSchema, "compileResults");
 
     var compareResultSchema = new Schema({
-        normalInsTakenTime: Number,
-        computerControledInsTakenTime: Number,
-        refCIns: String,
-        refResult: String,
+        normalInsTakenTime: {
+            type: Number,
+            required: true
+        },
+        computerControledInsTakenTime: {
+            type: Number,
+            required: true
+        },
+        refCIns: {
+            type: String,
+            required: true
+        },
+        refResult: {
+            type: String,
+            required: true
+        },
         time: {
-            left: Number,
-            straight: Number,
-            right: Number,
-            car: Number,
+            left: {
+                type: Number,
+                required: true,
+                minimum: 1
+            },
+            straight: {
+                type: Number,
+                required: true,
+                minimum: 1
+            },
+            right: {
+                type: Number,
+                required: true,
+                minimum: 1
+            },
+            car: {
+                type: Number,
+                required: true,
+                minimum: 1
+            },
             lights: {
                 horizontal: {
-                    left: Number,
-                    straight: Number,
-                    right: Number
+                    left: {
+                        type: Number,
+                        required: true,
+                        minimum: 1
+                    },
+                    straight: {
+                        type: Number,
+                        required: true,
+                        minimum: 1
+                    },
+                    right: {
+                        type: Number,
+                        required: true,
+                        minimum: 1
+                    }
                 },
                 verticle: {
-                    left: Number,
-                    straight: Number,
-                    right: Number
+                    left: {
+                        type: Number,
+                        required: true,
+                        minimum: 1
+                    },
+                    straight: {
+                        type: Number,
+                        required: true,
+                        minimum: 1
+                    },
+                    right: {
+                        type: Number,
+                        required: true,
+                        minimum: 1
+                    }
                 }
             }
         }
     })
     var compare = mongodb.model("compareResult", compareResultSchema, "compareResults");
+    compare.pre('save', function (next) {
+        if (!this.time.horizontal.right) this.time.horizontal.right = this.get('time.horizontal.straight');
+        if (!this.time.verticle.right) this.time.verticle.right = this.get('time.vertical.straight');
+        next();
+    });
 
     module.exports = {
         init: (cb) => {

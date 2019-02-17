@@ -102,7 +102,7 @@
     }
 
     module.exports = {
-        run: (leftTurnTime, straightGoTime, oneCarTime, insLightTimeHS, insLightTimeHL, insLightTimeVS, insLightTimeVL, cb, input, output) => {
+        run: (leftTurnTime, straightGoTime, rightTurnTime, oneCarTime, insLightTimeHS, insLightTimeHL, insLightTimeVS, insLightTimeVL, cb, input, output) => {
             cb = cb || function (cbr) { };
             var dts = {
                 "normalInsTakenTime": normalIns(input, leftTurnTime, straightGoTime, oneCarTime, insLightTimeHS, insLightTimeHL, insLightTimeVS, insLightTimeVL),
