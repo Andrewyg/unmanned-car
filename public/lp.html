@@ -62,7 +62,7 @@
             original.push(data);
             $.get("/api/db/compare/" + results[dest].refCompare, (data2) => {
                 compare.push(data2);
-                if (dest < results.length - 1) return getOtherData(dest + 1); else return window.location.replace("/api/lpfinish");
+                if (dest < results.length - 1) return getOtherData(dest + 1); else return window.location.replace("/api/clear/scene");
             })
         })
     }
