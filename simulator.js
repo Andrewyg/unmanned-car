@@ -105,7 +105,7 @@
         run: (leftTurnTime, straightGoTime, oneCarTime, insLightTimeHS, insLightTimeHL, insLightTimeVS, insLightTimeVL, cb, input, output) => {
             cb = cb || function (cbr) { };
             cb({ "normalInsTakenTime": normalIns(input, leftTurnTime, straightGoTime, oneCarTime, insLightTimeHS, insLightTimeHL, insLightTimeVS, insLightTimeVL), "computerControledInsTakenTime": ccIns(output) });
-            db.compare.save({ "normalInsTakenTime": normalIns(input, leftTurnTime, straightGoTime, oneCarTime, insLightTimeHS, insLightTimeHL, insLightTimeVS, insLightTimeVL), "computerControledInsTakenTime": ccIns(output), "refCIns": output.refCIns, "refResult": output._id }, (rtd) => {
+            db.compare.save({ "normalInsTakenTime": normalIns(input, leftTurnTime, straightGoTime, oneCarTime, insLightTimeHS, insLightTimeHL, insLightTimeVS, insLightTimeVL), "computerControledInsTakenTime": ccIns(output), "refCIns": input._id, "refResult": output._id }, (rtd) => {
                 cb(rtd);
             })
         },
