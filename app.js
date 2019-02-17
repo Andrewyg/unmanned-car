@@ -23,12 +23,12 @@ var nowCIns = "";
 var running = false;
 
 var fs = require('fs');
-fs.readFile('./nowCIns', "utf8", (err, data) => {
+fs.readFile('~/nowCIns', "utf8", (err, data) => {
     if (err || data.length <= 0) {
         db.reset((rtd2) => {
             db.init((rtd) => {
                 nowCIns = rtd;
-                fs.writeFileSync('./nowCIns', nowCIns);
+                fs.writeFileSync('~/nowCIns', nowCIns);
                 running = true;
             })
         })
