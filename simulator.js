@@ -21,8 +21,10 @@
     }
 
     function normalIns(insData, leftTurnTime, straightGoTime, oneCarTime, insLightTimeHS, insLightTimeHL, insLightTimeVS, insLightTimeVL) {
-        var totalPassCarL = calcTimeR(leftTurnTime, insLightTimeL, oneCarTime);
-        var totalPassCarS = calcTimeR(straightGoTime, insLightTimeS, oneCarTime);
+        var totalPassCarHL = calcTimeR(leftTurnTime, insLightTimeHL, oneCarTime);
+        var totalPassCarHS = calcTimeR(straightGoTime, insLightTimeHS, oneCarTime);
+        var totalPassCarVL = calcTimeR(leftTurnTime, insLightTimeVL, oneCarTime);
+        var totalPassCarVS = calcTimeR(straightGoTime, insLightTimeVS, oneCarTime);
         var takenTime = 0;
         var clearedIns = 0;
         while (true) {
@@ -36,10 +38,10 @@
 
             //first top & bottom
             //first straight+right
-            insData.bottom.straight.amount = minusCar(insData.bottom.straight.amount, totalPassCarS);
-            insData.bottom.right.amount = minusCar(insData.bottom.right.amount, totalPassCarS);
-            insData.top.straight.amount = minusCar(insData.top.straight.amount, totalPassCarS);
-            insData.top.right.amount = minusCar(insData.top.right.amount, totalPassCarS);
+            insData.bottom.straight.amount = minusCar(insData.bottom.straight.amount, totalPassCarVS);
+            insData.bottom.right.amount = minusCar(insData.bottom.right.amount, totalPassCarVS);
+            insData.top.straight.amount = minusCar(insData.top.straight.amount, totalPassCarVS);
+            insData.top.right.amount = minusCar(insData.top.right.amount, totalPassCarVS);
 
             takenTime += insLightTimeVS;
 
@@ -52,8 +54,8 @@
             if (clearedIns == 12) break;
 
             //then left
-            insData.bottom.left.amount = minusCar(insData.bottom.left.amount, totalPassCarL);
-            insData.top.left.amount = minusCar(insData.top.left.amount, totalPassCarL);
+            insData.bottom.left.amount = minusCar(insData.bottom.left.amount, totalPassCarVL);
+            insData.top.left.amount = minusCar(insData.top.left.amount, totalPassCarVL);
 
             takenTime += insLightTimeVL;
 
@@ -67,10 +69,10 @@
 
             //then left & right
             //first straight+right
-            insData.right.straight.amount = minusCar(insData.right.straight.amount, totalPassCarS);
-            insData.right.right.amount = minusCar(insData.right.right.amount, totalPassCarS);
-            insData.left.straight.amount = minusCar(insData.left.straight.amount, totalPassCarS);
-            insData.left.right.amount = minusCar(insData.left.right.amount, totalPassCarS);
+            insData.right.straight.amount = minusCar(insData.right.straight.amount, totalPassCarHS);
+            insData.right.right.amount = minusCar(insData.right.right.amount, totalPassCarHS);
+            insData.left.straight.amount = minusCar(insData.left.straight.amount, totalPassCarHS);
+            insData.left.right.amount = minusCar(insData.left.right.amount, totalPassCarHS);
 
             takenTime += insLightTimeHS;
 
@@ -83,8 +85,8 @@
             if (clearedIns == 12) break;
 
             //then left
-            insData.right.left.amount = minusCar(insData.right.left.amount, totalPassCarL);
-            insData.left.left.amount = minusCar(insData.left.left.amount, totalPassCarL);
+            insData.right.left.amount = minusCar(insData.right.left.amount, totalPassCarHL);
+            insData.left.left.amount = minusCar(insData.left.left.amount, totalPassCarHL);
 
             takenTime += insLightTimeHL;
         }
