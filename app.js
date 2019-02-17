@@ -22,6 +22,9 @@ var simulator = require('./simulator');
 var nowCIns = "";
 var running = false;
 
+var keys = ["bottom", "right", "top", "left"];
+var dirs = ["left", "straight", "right"];
+
 var fs = require('fs');
 fs.readFile('/nowCIns', "utf8", (err, data) => {
     if (err || data.length <= 1) { //dunno but empty file has a length of 1
@@ -126,9 +129,8 @@ app.get('/export/compare/all', (req, res) => {
             csv += '"' + compare[i].refCIns + '","' + compare[i].refCIns + '","' + compare[i]._id + '"\n';
             csv += '"left","straight","right"\n';
             db.scene.get(compare[i].refCIns, (scene) => {
-                for (j = 0; j < scene[i].length; j++) {
-                    var lockey = Object.keys(scene[i])[j];
-                    csv += '"' + lockey + '","' + scene[lockey].left.amount + '","' + scene[lockey].straight.amount + '","' + scene[lockey].right.amount + '"\n';
+                for (j = 0; j < keys.length; j++) {
+                    csv += '"' + keys[j] + '","' + scene[keys[j]].left.amount + '","' + scene[keys[j]].straight.amount + '","' + scene[keys[j]].right.amount + '"\n';
                 }
                 csv += '"normal","' + compare.normalInsTakenTime + '",""\n';
                 csv += '"computer controled","' + compare.computerControledInsTakenTime + '",""\n';
@@ -147,9 +149,8 @@ app.get('/export/compare/:id', (req, res) => {
         csv += '"' + compare.refCIns + '","' + compare.refCIns + '","' + compare._id + '"\n';
         csv += '"left","straight","right"\n';
         db.scene.get(compare.refCIns, (scene) => {
-            for (j = 0; j < scene.length; j++) {
-                var lockey = Object.keys(scene)[j];
-                csv += '"' + lockey + '","' + scene[lockey].left.amount + '","' + scene[lockey].straight.amount + '","' + scene[lockey].right.amount + '"\n';
+            for (j = 0; j < keys.length; j++) {
+                csv += '"' + keys[j] + '","' + scene[keys[j]].left.amount + '","' + scene[keys[j]].straight.amount + '","' + scene[keys[j]].right.amount + '"\n';
             }
             csv += '"normal","' + compare.normalInsTakenTime + '",""\n';
             csv += '"computer controled","' + compare.computerControledInsTakenTime + '",""\n';
