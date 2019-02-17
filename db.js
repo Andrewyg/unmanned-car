@@ -263,7 +263,9 @@
             car.deleteMany({}, (err, res) => {
                 ins.deleteMany({}, (err2, res2) => {
                     cins.deleteMany({}, (err3, res3) => {
-                        cb(res3)
+                        result.deleteMany({}, (err4, res4) => {
+                            compare.deleteMany({}, (err5, res5) => cb())
+                        })
                     })
                 })
             })
