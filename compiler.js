@@ -53,7 +53,7 @@
     }
 
     module.exports = {
-        run: (CIns, leftTurnTime, straightGoTime, rightTurnTime, oneCarTime, cb, joinData) => {
+        run: (CIns, leftTurnTime, straightGoTime, rightTurnTime, oneCarTime, insLightTimeHS, insLightTimeHL, insLightTimeVS, insLightTimeVL, cb, copyData, joinData) => {
             cb = cb || function (cbr) { };
             db.scene.get(CIns, (rtd) => {
                 db.ins.get(rtd.refIns, (rtd2) => {
@@ -79,10 +79,12 @@
                         }
                     }
 
+                    insP = JSON.parse(JSON.stringify(cins));
+                    cinsP.refIns = JSON.parse(JSON.stringify(rtd2));
+
                     if (joinData) {
                         returnData.input = {};
-                        returnData.input = JSON.parse(JSON.stringify(cins));
-                        returnData.input.refIns = JSON.parse(JSON.stringify(rtd2));
+                        returnData.input = cins;
                     }
 
                     while (true) {
@@ -171,10 +173,14 @@
                         minskey++;
                     }
 
-                    db.result.save(CIns, movingIns, (rtd) => {
-                        returnData.output = rtd;
-                        cb(returnData)
-                    })
+                    simulator.run(leftTurnTime, straightGoTime, oneCarTime, insLightTimeHS, insLightTimeHL, insLightTimeVS, insLightTimeVL, (rtd992) => {
+                        db.result.save(CIns, rtd992._id, movingIns, (rtd991) => {
+                            returnData.output = rtd991;
+                            db.scene.archive(nowCIns, copyData, (rtd999) => {
+                                cb(returnData, rtd999._id)
+                            })
+                        })
+                    }, cinsP, movingIns);
                 })
             })
         }

@@ -1,6 +1,7 @@
 (function () {
     var request = require('request');
     var db = require('./db');
+    var compiler = require('./compiler');
 
     var keys = ["bottom", "right", "top", "left"];
     var dirs = ["left", "straight", "right"];
@@ -99,20 +100,12 @@
     }
 
     module.exports = {
-        run: (leftTurnTime, straightGoTime, rightTurnTime, oneCarTime, insLightTimeHS, insLightTimeHL, insLightTimeVS, insLightTimeVL, passCopy, cb, input, output) => {
+        run: (leftTurnTime, straightGoTime, oneCarTime, insLightTimeHS, insLightTimeHL, insLightTimeVS, insLightTimeVL, cb, input, output) => {
             cb = cb || function (cbr) { };
-            if (input && output) {
-                cb({ "normalInsTakenTime": normalIns(input, leftTurnTime, straightGoTime, oneCarTime, insLightTimeHS, insLightTimeHL, insLightTimeVS, insLightTimeVL), "computerControledInsTakenTime": ccIns(output) });
-            } else {
-                request.get("http://localhost:8080/operate?left=" + leftTurnTime + "&straight=" + straightGoTime + "&right=" + rightTurnTime + "&car=" + oneCarTime + "&copy=" + passCopy, (err, res, body) => {
-                    var data = JSON.parse(body);
-                    var input = data.input,
-                        output = data.output;
-                    db.compare.save({ "normalInsTakenTime": normalIns(input, leftTurnTime, straightGoTime, oneCarTime, insLightTimeHS, insLightTimeHL, insLightTimeVS, insLightTimeVL), "computerControledInsTakenTime": ccIns(output), "refCIns": input._id }, (rtd) => {
-                        cb(rtd);
-                    })
-                })
-            }
+            cb({ "normalInsTakenTime": normalIns(input, leftTurnTime, straightGoTime, oneCarTime, insLightTimeHS, insLightTimeHL, insLightTimeVS, insLightTimeVL), "computerControledInsTakenTime": ccIns(output) });
+            db.compare.save({ "normalInsTakenTime": normalIns(input, leftTurnTime, straightGoTime, oneCarTime, insLightTimeHS, insLightTimeHL, insLightTimeVS, insLightTimeVL), "computerControledInsTakenTime": ccIns(output), "refCIns": input._id }, (rtd) => {
+                cb(rtd);
+            })
         },
         ccins: {
             delay: (minInsInfo, leftTurnTime, straightGoTime, rightTurnTime, oneCarTime, cb) => {

@@ -225,6 +225,7 @@
 
     var compileResultSchema = new Schema({
         refCIns: String,
+        refCompare: String,
         result: Array
     })
     var result = mongodb.model("compileResult", compileResultSchema, "compileResults");
@@ -392,10 +393,11 @@
             }
         },
         result: {
-            save: (refCIns, obj, cb) => {
+            save: (refCIns, refCompare, obj, cb) => {
                 cb = cb || function (cbr) { };
                 var data = {
                     refCIns: refCIns,
+                    refCompare: refCompare,
                     result: obj
                 }
                 result.create(data, (err, res) => cb(res.toObject()));
