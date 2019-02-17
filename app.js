@@ -152,8 +152,8 @@ app.get('/export/compare/:id', (req, res) => {
                 for (i = 0; i < scene.length; i++) {
                     csv += '"' + Object.keys(scene)[i] + '","' + scene[i].left.amount + '","' + scene[i].straight.amount + '","' + scene[i].right.amount + '"\n';
                 }
-                csv += '"normal","' + compare.normalInsTakenTime + '"\n';
-                csv += '"computer controled","' + compare.computerControledInsTakenTime + '"\n';
+                csv += '"normal","' + compare.normalInsTakenTime + '",""\n';
+                csv += '"computer controled","' + compare.computerControledInsTakenTime + '",""\n';
                 if (i < compare.length - 1) return addResult(i + 1); else return res.end(csv);
             })
         }
