@@ -119,7 +119,7 @@ app.get('/db/:type', (req, res) => {
 
 app.get('/export/compare/:id', (req, res) => {
     var csv = "";
-    res.writeHead(200, { 'Content-Type': 'text/csv' });
+    res.writeHead(200, { "Content-Disposition": "attachment;filename=compare-all.csv", 'Content-Type': 'text/csv' });
     db.compare.getAll((compare) => {
         function addResult(i) {
             csv += '"scene","result","compare"\n';
@@ -141,7 +141,7 @@ app.get('/export/compare/:id', (req, res) => {
 
 app.get('/export/compare/:id', (req, res) => {
     var csv = "";
-    res.writeHead(200, { 'Content-Type': 'text/csv' });
+    res.writeHead(200, { "Content-Disposition": "attachment;filename=compare-" + req.params.id + ".csv", 'Content-Type': 'text/csv' });
     db.compare.get(req.params.id, (compare) => {
         csv += '"scene","result","compare"\n';
         csv += '"' + compare.refCIns + '","' + compare.refCIns + '","' + compare._id + '"\n';
