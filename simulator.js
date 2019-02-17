@@ -1,5 +1,6 @@
 (function () {
     var request = require('request');
+    var db = require('./db');
 
     var keys = ["bottom", "right", "top", "left"];
     var dirs = ["left", "straight", "right"];
@@ -107,7 +108,9 @@
                     var data = JSON.parse(body);
                     var input = data.input,
                         output = data.output;
-                    cb({ "normalInsTakenTime": normalIns(input, leftTurnTime, straightGoTime, oneCarTime, insLightTimeS, insLightTimeL), "computerControledInsTakenTime": ccIns(output), "refCIns": input._id });
+                    db.compare.save({ "normalInsTakenTime": normalIns(input, leftTurnTime, straightGoTime, oneCarTime, insLightTimeS, insLightTimeL), "computerControledInsTakenTime": ccIns(output), "refCIns": input._id }, (rtd) => {
+                        cb(rtd);
+                    })
                 })
             }
         },

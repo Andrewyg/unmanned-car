@@ -65,7 +65,9 @@
                     var movingIns = [];
                     var minskey = 0;
                     var available = [];
-                    var returnData = {};
+                    var returnData = {
+                        output: {}
+                    };
 
                     if (rtd2.lanes == 2) {
                         dirs.remove("right");
@@ -78,14 +80,10 @@
                     }
 
                     if (joinData) {
-                        returnData = {
-                            input: {},
-                            output: {}
-                        }
+                        returnData.input = {};
+                        returnData.input = JSON.parse(JSON.stringify(cins));
+                        returnData.input.refIns = JSON.parse(JSON.stringify(rtd2));
                     }
-
-                    returnData.input = JSON.parse(JSON.stringify(cins));
-                    returnData.input.refIns = JSON.parse(JSON.stringify(rtd2));
 
                     while (true) {
                         available = oriA.slice();
@@ -173,9 +171,10 @@
                         minskey++;
                     }
 
-                    returnData.output = movingIns;
-
-                    cb(returnData)
+                    db.result.save(CIns, movingIns, (rtd) => {
+                        returnData.output = rtd;
+                        cb(returnData)
+                    })
                 })
             })
         }

@@ -223,6 +223,19 @@
     });
     var cins = mongodb.model("CurrentIns", CIntersectionSchema, "CurrentInss");
 
+    var compileResultSchema = new Schema({
+        refCIns: String,
+        result: Array
+    })
+    var result = mongodb.model("compileResult", compileResultSchema, "compileResults");
+
+    var compareResultSchema = new Schema({
+        normalInsTakenTime: Number,
+        computerControledInsTakenTime: Number,
+        refCIns: String
+    })
+    var compare = mongodb.model("compareResult", compareResultSchema, "compareResults");
+
     module.exports = {
         init: (cb) => {
             cb = cb || function (cbr) { };
@@ -359,16 +372,19 @@
             }
         },
         result: {
-            run: (cb) => {
+            save: (refCIns, obj, cb) => {
                 cb = cb || function (cbr) { };
-                var db = require('./db');
-                db.scene.get(nowCIns, (rtd) => {
-                    var data = rtd;
-                    var ins = rtd.refIns;
-                    db.ins.get(refIns, (rtd2) => {
-                        refIns = rtd2;
-                    })
-                })
+                var data = {
+                    refCIns: refCIns,
+                    result: obj
+                }
+                result.create(data, (err, res) => cb(res.toObject()));
+            }
+        },
+        compare: {
+            save: (obj, cb) => {
+                cb = cb || function (cbr) { };
+                compare.create(data, (err, res) => cb(res.toObject()));
             }
         }
     }
