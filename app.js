@@ -92,12 +92,12 @@ app.post('/add', (req, res) => {
     })
 })
 
-app.get('/db/:id', (req, res) => {
-    db.scene.get(req.params.id, (rtd) => res.json(rtd));
+app.get('/db/:type/:id', (req, res) => {
+    db[req.params.type].get(req.params.id, (rtd) => res.json(rtd));
 })
 
-app.get('/db', (req, res) => {
-    db.scene.getAll((rtd) => res.json(rtd));
+app.get('/db/:type', (req, res) => {
+    db[req.params.type].getAll((rtd) => res.json(rtd));
 })
 
 app.use(express.static('./public'));
