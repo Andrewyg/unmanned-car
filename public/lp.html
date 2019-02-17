@@ -21,8 +21,8 @@
     Array.prototype.getRand = function () {
         return this[Math.floor(Math.random() * this.length)]
     }
-    function randNum(low, high) {
-        var r = Math.floor(Math.random() * (high - low + 1)) + low;
+    function randNum(min, max) {
+        var r = Math.floor(Math.random() * (max - min + 1)) + min;
         return r;
     }
     var keys = ["bottom", "right", "top", "left"];
@@ -42,7 +42,7 @@
     var queryFull = window.location.href.slice(window.location.href.indexOf('?') + 1);
     function addCar(dest) {
         $.post("/api/add", { place: keys.getRand(), direction: dirs.getRand() }, (data) => {
-            if (dest > 0) return addCar(dest - 1);
+            if (dest > 0) return addCar(dest - 1); else return;
         })
     }
     var results = [];
