@@ -24,7 +24,7 @@ var running = false;
 
 var fs = require('fs');
 fs.readFile('/nowCIns', "utf8", (err, data) => {
-    if (err || data.length <= 0) {
+    if (err || data.length <= 1) {
         db.reset((rtd2) => {
             db.init((rtd) => {
                 nowCIns = rtd;
