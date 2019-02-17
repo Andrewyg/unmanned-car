@@ -71,7 +71,7 @@ app.get('/compare', (req, res) => {
         qRight = Number(req.query.right),
         qCar = Number(req.query.car),
         qLight = Number(req.query.light);
-    simulator.run(qLeft, qStraight, qRight, qCar, qLight, (rtd) => {
+    simulator.run(qLeft, qStraight, qRight, qCar, qLight, (req.query.copy == "true"), (rtd) => {
         res.json(rtd);
     }, req.query.input, req.query.output)
 })

@@ -76,12 +76,12 @@
     }
 
     module.exports = {
-        run: (leftTurnTime, straightGoTime, rightTurnTime, oneCarTime, insLightTime, cb, input, output) => {
+        run: (leftTurnTime, straightGoTime, rightTurnTime, oneCarTime, insLightTime, passCopy, cb, input, output) => {
             cb = cb || function (cbr) { };
             if (input && output) {
                 cb({ "normalInsTakenTime": normalIns(input, leftTurnTime, straightGoTime, oneCarTime, insLightTime), "computerControledInsTakenTime": ccIns(output) });
             } else {
-                request.get("http://localhost:8080/operate?left=" + leftTurnTime + "&straight=" + straightGoTime + "&right=" + rightTurnTime + "&car=" + oneCarTime, (err, res, body) => {
+                request.get("http://localhost:8080/operate?left=" + leftTurnTime + "&straight=" + straightGoTime + "&right=" + rightTurnTime + "&car=" + oneCarTime + "&copy=" + passCopy, (err, res, body) => {
                     var data = JSON.parse(body);
                     var input = data.input,
                         output = data.output;
