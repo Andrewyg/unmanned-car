@@ -104,7 +104,7 @@ app.get('/compare/:id', (req, res) => {
             })
         }, (req.query.copy == "true"), true)
     } else {
-        db.compare.get(useCompare, (rtd) => {
+        db.compare.getByOperateId(useCompare, (rtd) => {
             res.json(rtd)
         })
     }
