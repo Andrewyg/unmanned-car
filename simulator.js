@@ -11,7 +11,7 @@
     }
 
     function calcTimeR(moveTime, elapseTime, oneCarTime) {
-        return (elapseTime - moveTime) / oneCarTime;
+        return Math.floor((elapseTime - moveTime) / oneCarTime);
     }
 
     function minusCar(num, mNum) {
