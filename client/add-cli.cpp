@@ -21,15 +21,16 @@ vector<string> split(string str, char delimiter) {
 int main() {
   if(argv[0] == "cli") {
     string input;
-    while(cin>>input) {
+    while(getline(cin,input)) {
       vector<string> inputArr = split(input, " ");
       system(string("curl --data \"position=")+string(inputArr[0])+string("&direction=")+string(inputArr[1])+string("\" http://localhost/add"));
     }
   } else {
-    std::ifstream inputFile(argv[1]);
-    string posi,dir;
-    while(inputFile>>posi>>dir) {
-      system(string("curl --data \"position=")+string(posi)+string("&direction=")+string(dir)+string("\" http://localhost/add"));
+    ifstream inputFile(argv[1]);
+    string line;
+    while (getline(infile, line)) {
+      vector<string> inputArr = split(line,"\"");
+      system(string("curl --data \"position=")+string(inputArr[1])+string("&direction=")+string(inputArr[3])+string("\" http://localhost/add"));
     }
   }
   system("firefox http://localhost/operate");
