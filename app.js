@@ -19,6 +19,7 @@ app.use(bodyParser.json());
 var db = require('./db');
 var compiler = require('./compiler');
 var simulator = require('./simulator');
+var normalConversion = require('./normal-conversion');
 var nowCIns = "";
 var running = false;
 
@@ -54,6 +55,12 @@ function getQueryStr(url) {
     var query = url.substr(i + 1);
     return query;
 }
+
+app.get('/normal/:id',(req, res) => {
+    normalConversion.convert(req.body.compareId,(rtd) => {
+        res.json(rtd)
+    }
+});
 
 app.get('/operate/:id', (req, res) => {
     var useCIns = req.params.id;
