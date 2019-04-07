@@ -33,6 +33,6 @@ int main() {
       system(string("curl --data \"position=")+string(inputArr[1])+string("&direction=")+string(inputArr[3])+string("\" http://localhost/add"));
     }
   }
-  system("firefox http://localhost/operate");
+  system("start firefox http://localhost/operate");
   return 0;
 }
