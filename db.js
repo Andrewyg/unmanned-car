@@ -519,6 +519,12 @@
                     cb(res);
                 })
             },
+            getByOperateId: (id, cb) => {
+                cb = cb || function (cbr) { };
+                compare.findOne({ refResult: id }).lean().exec((err, res) => {
+                    cb(res);
+                })
+            },
             getAll: (cb) => {
                 cb = cb || function (cbr) { };
                 compare.find({}).lean().exec((err, res) => {
