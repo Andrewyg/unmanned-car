@@ -29,7 +29,7 @@ var dirs = ["left", "straight", "right"];
 var fs = require('fs');
 fs.readFile('/nowCIns', "utf8", (err, data) => {
     if (err || data.length <= 1) { //dunno but empty file has a length of 1
-        db.reset((rtd2) => {
+        db.resetDynamic((rtd2) => {
             db.init((rtd) => {
                 nowCIns = rtd;
                 fs.writeFileSync('/nowCIns', nowCIns);
