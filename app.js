@@ -181,7 +181,7 @@ app.get('/import/:id', (req, res) => {
 
 app.get('/clear/scene', (req, res) => {
     db.scene.clear(nowCIns, (rtd) => {
-        res.redirect('/db/scene')
+        res.redirect('/db/scene'+nowCIns)
     });
 })
 
