@@ -363,12 +363,12 @@
                                 type: "small",
                                 speed: 60
                             }, (err4, res4) => {
-                                cins.create({ refIns: res2._id }, (err3, res3) => {
+                                cins.create({ refIns: res._id }, (err3, res3) => {
                                     cb(res3._id);
                                 });
                             })
                         } else {
-                            cins.create({ refIns: res2._id }, (err3, res3) => {
+                            cins.create({ refIns: res._id }, (err3, res3) => {
                                 cb(res3._id);
                             });
                         }
