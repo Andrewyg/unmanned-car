@@ -66,18 +66,24 @@ app.get('/operate/:id', (req, res) => {
     var useCIns = req.params.id;
     if (req.params.id == "current") {
         useCIns = nowCIns;
-        var qLeft = Number(req.query.left),
-            qStraight = Number(req.query.straight),
-            qRight = Number(req.query.right),
-            qCar = Number(req.query.car),
-            qLightHS = Number(req.query.lightHS),
-            qLightHL = Number(req.query.lightHL),
-            qLightVS = Number(req.query.lightVS),
-            qLightVL = Number(req.query.lightVL);
-        compiler.run(useCIns, qLeft, qStraight, qRight, qCar, qLightHS, qLightHL, qLightVS, qLightVL, (rtd, newCIns) => {
-            nowCIns = newCIns;
-            res.json(rtd);
-        }, (req.query.copy == "true"), true)
+        var query = req.query;
+        if(query.left && query.straight && query.right && query.car && query.lightHS && query.lightHL && query.lightVS && query.lightVL) {
+            var qLeft = Number(query.left),
+                qStraight = Number(query.straight),
+                qRight = Number(query.right),
+                qCar = Number(query.car),
+                qLightHS = Number(query.lightHS),
+                qLightHL = Number(query.lightHL),
+                qLightVS = Number(query.lightVS),
+                qLightVL = Number(query.lightVL);
+            compiler.run(useCIns, qLeft, qStraight, qRight, qCar, qLightHS, qLightHL, qLightVS, qLightVL, (rtd, newCIns) => {
+                nowCIns = newCIns;
+                res.json(rtd);
+            }, (req.query.copy == "true"), true)
+        } else {
+            res.writeHead(500);
+            res.end("Parameters missing");
+        }
     } else {
         db.result.get(useCIns, (rtd) => {
             res.json(rtd);
@@ -88,21 +94,27 @@ app.get('/operate/:id', (req, res) => {
 app.get('/compare/:id', (req, res) => {
     var useCompare = req.params.id;
     if (req.params.id == "current") {
-        var useCIns = nowCIns
-        var qLeft = Number(req.query.left),
-            qStraight = Number(req.query.straight),
-            qRight = Number(req.query.right),
-            qCar = Number(req.query.car),
-            qLightHS = Number(req.query.lightHS),
-            qLightHL = Number(req.query.lightHL),
-            qLightVS = Number(req.query.lightVS),
-            qLightVL = Number(req.query.lightVL);
-        compiler.run(useCIns, qLeft, qStraight, qRight, qCar, qLightHS, qLightHL, qLightVS, qLightVL, (rtd, newCIns) => {
-            nowCIns = newCIns;
-            db.compare.get(rtd.output.refCompare, (rtd2) => {
-                res.json(rtd2);
-            })
-        }, (req.query.copy == "true"), true)
+        var useCIns = nowCIns;
+        var query = req.query;
+        if(query.left && query.straight && query.right && query.car && query.lightHS && query.lightHL && query.lightVS && query.lightVL) {
+            var qLeft = Number(query.left),
+                qStraight = Number(query.straight),
+                qRight = Number(query.right),
+                qCar = Number(query.car),
+                qLightHS = Number(query.lightHS),
+                qLightHL = Number(query.lightHL),
+                qLightVS = Number(query.lightVS),
+                qLightVL = Number(query.lightVL);
+            compiler.run(useCIns, qLeft, qStraight, qRight, qCar, qLightHS, qLightHL, qLightVS, qLightVL, (rtd, newCIns) => {
+                nowCIns = newCIns;
+                db.compare.get(rtd.output.refCompare, (rtd2) => {
+                    res.json(rtd2);
+                })
+            }, (req.query.copy == "true"), true)
+        } else {
+            res.writeHead(500);
+            res.end("Parameters missing");
+        }
     } else {
         db.compare.getByOperateId(useCompare, (rtd) => {
             res.json(rtd)
