@@ -81,7 +81,7 @@ app.get('/operate/:id', (req, res) => {
     } else {
         db.result.get(useCIns, (rtd) => {
             res.json(rtd);
-        );
+        });
     }
 })
 
