@@ -337,14 +337,42 @@
                         waitZoneLength: 18,
                         lanes: 2
                     }, (err2, res2) => {
-                        cins.create({ refIns: res2._id }, (err3, res3) => {
-                            cb(res3._id);
-                        });
+                        car.findOne({}).lean().exec((err, res) => {
+                            if(res == null) {
+                                car.create({
+                                    license: "1225",
+                                    type: "small",
+                                    speed: 60
+                                }, (err4, res4) => {
+                                    cins.create({ refIns: res2._id }, (err3, res3) => {
+                                        cb(res3._id);
+                                    });
+                                })
+                            } else {
+                                cins.create({ refIns: res2._id }, (err3, res3) => {
+                                    cb(res3._id);
+                                });
+                            }
+                        })
                     });
                 } else {
-                    cins.create({ refIns: res._id }, (err3, res3) => {
-                        cb(res3._id);
-                    });
+                    car.findOne({}).lean().exec((err, res) => {
+                        if(res == null) {
+                            car.create({
+                                license: "1225",
+                                type: "small",
+                                speed: 60
+                            }, (err4, res4) => {
+                                cins.create({ refIns: res2._id }, (err3, res3) => {
+                                    cb(res3._id);
+                                });
+                            })
+                        } else {
+                            cins.create({ refIns: res2._id }, (err3, res3) => {
+                                cb(res3._id);
+                            });
+                        }
+                    })
                 }
             })
         },
@@ -357,6 +385,14 @@
                             compare.deleteMany({}, (err5, res5) => cb())
                         })
                     })
+                })
+            })
+        },
+        resetDynamic: (cb) => {
+            cb = cb || function (cbr) { };
+            cins.deleteMany({}, (err3, res3) => {
+                result.deleteMany({}, (err4, res4) => {
+                    compare.deleteMany({}, (err5, res5) => cb())
                 })
             })
         },
