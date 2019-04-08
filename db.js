@@ -1,6 +1,6 @@
 (function () {
     var mongoose = require('mongoose');
-    var mongodb = mongoose.createConnection('mongodb://uc:a@uc.ccsource.org:3001/unmanned-car', { useNewUrlParser: true });
+    var mongodb = mongoose.createConnection('mongodb://uc:a@ccins.andrew.at.tw:3001/unmanned-car', { useNewUrlParser: true });
     var Schema = mongoose.Schema;
 
     var carSchema = new Schema({
@@ -479,6 +479,13 @@
             remove: (id, cb) => {
                 cb = cb || function (cbr) { };
                 cins.deleteOne({ _id: id }, (err, res) => cb(res));
+            },
+            import: (id, nowCIns, cb) => {
+                cb = cb || function (cbr) { };
+                cins.findById(id).lean().exec((err, res) => {
+                    delete res._id
+                    cins.updateOne({_id:nowCIns}, res, (err2, res2) => cb(res2))
+                })
             }
         },
         result: {
