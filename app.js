@@ -59,7 +59,7 @@ function getQueryStr(url) {
 app.get('/normal/:id',(req, res) => {
     normalConversion.convert(req.body.compareId,(rtd) => {
         res.json(rtd)
-    }
+    })
 });
 
 app.get('/operate/:id', (req, res) => {
