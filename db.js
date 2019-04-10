@@ -338,7 +338,7 @@
                         lanes: 2
                     }, (err2, res2) => {
                         car.findOne({}).lean().exec((err, res) => {
-                            if(res == null) {
+                            if (res == null) {
                                 car.create({
                                     license: "1225",
                                     type: "small",
@@ -357,7 +357,7 @@
                     });
                 } else {
                     car.findOne({}).lean().exec((err, res) => {
-                        if(res == null) {
+                        if (res == null) {
                             car.create({
                                 license: "1225",
                                 type: "small",
@@ -520,7 +520,7 @@
                 cb = cb || function (cbr) { };
                 cins.findById(id).lean().exec((err, res) => {
                     delete res._id
-                    cins.updateOne({_id:nowCIns}, res, (err2, res2) => cb(res2))
+                    cins.updateOne({ _id: nowCIns }, res, (err2, res2) => cb(res2))
                 })
             }
         },
@@ -554,7 +554,7 @@
             },
             setResult: (id, resultId, cb) => {
                 cb = cb || function (cbr) { };
-                compare.updateOne({ _id: id }, { refResult: resultId }, (err, res) => cb());
+                compare.updateOne({ _id: id }, { refResult: resultId }, (err, res) => cb(res));
             },
             get: (id, cb) => {
                 cb = cb || function (cbr) { };
