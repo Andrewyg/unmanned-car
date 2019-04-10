@@ -23,6 +23,8 @@
                 var nowTime = 0;
                 var locData = {};
                 while (true) {
+                    if (nowTime >= compare.normalInsTakenTime) break;
+                    
                     locData = {
                         allow: [],
                         delay: 0
@@ -51,7 +53,7 @@
 
                     returnData.output.push(locData);
 
-                    if (nowTime == compare.normalInsTakenTime) break;
+                    if (nowTime >= compare.normalInsTakenTime) break;
 
                     locData = {
                         allow: [],
@@ -72,7 +74,7 @@
 
                     returnData.output.push(locData);
 
-                    if (nowTime == compare.normalInsTakenTime) break;
+                    if (nowTime >= compare.normalInsTakenTime) break;
 
                     locData = {
                         allow: [],
@@ -102,7 +104,7 @@
 
                     returnData.output.push(locData);
 
-                    if (nowTime == compare.normalInsTakenTime) break;
+                    if (nowTime >= compare.normalInsTakenTime) break;
 
                     locData = {
                         allow: [],
@@ -122,8 +124,6 @@
                     });
 
                     returnData.output.push(locData);
-
-                    if (nowTime == compare.normalInsTakenTime) break;
                 }
                 db.scene.get(compare.refCIns, (scene) => {
                     returnData.input = scene;
