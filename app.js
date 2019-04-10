@@ -108,8 +108,10 @@ app.get('/compare/:id', (req, res) => {
                 qLightVL = Number(query.lightVL);
             compiler.run(useCIns, qLeft, qStraight, qRight, qCar, qLightHS, qLightHL, qLightVS, qLightVL, (rtd, newCIns) => {
                 nowCIns = newCIns;
-                db.compare.get(rtd.output.refCompare, (rtd2) => {
-                    res.json(rtd2);
+                db.result.get(rtd, (rtdR) => {
+                    db.compare.get(rtdR.output.refCompare, (rtd2) => {
+                        res.json(rtd2);
+                    })
                 })
             }, (req.query.copy == "true"), true)
         } else {
