@@ -120,7 +120,7 @@
                             "straight": insLightTimeHS,
                             "right": insLightTimeHS
                         },
-                        "verticle": {
+                        "vertical": {
                             "left": insLightTimeVL,
                             "straight": insLightTimeVS,
                             "right": insLightTimeVS

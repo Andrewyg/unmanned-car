@@ -299,7 +299,7 @@
                         minimum: 1
                     }
                 },
-                verticle: {
+                vertical: {
                     left: {
                         type: Number,
                         required: true,
@@ -322,7 +322,7 @@
     var compare = mongodb.model("compareResult", compareResultSchema, "compareResults");
     compare.schema.pre('save', function (next) {
         if (!this.time.horizontal.right) this.time.horizontal.right = this.get('time.horizontal.straight');
-        if (!this.time.verticle.right) this.time.verticle.right = this.get('time.vertical.straight');
+        if (!this.time.vertical.right) this.time.vertical.right = this.get('time.vertical.straight');
         next();
     });
 
