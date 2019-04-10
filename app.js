@@ -18,8 +18,7 @@ app.use(bodyParser.json());
 
 var db = require('./db');
 var compiler = require('./compiler');
-var simulator = require('./simulator');
-var normalConversion = require('./normal-conversion');
+var conversion = require('./conversion');
 var nowCIns = "";
 var running = false;
 
@@ -56,8 +55,8 @@ function getQueryStr(url) {
     return query;
 }
 
-app.get('/normal/:id',(req, res) => {
-    normalConversion.convert(req.params.id,(rtd) => {
+app.get('/normal/:id', (req, res) => {
+    conversion.normal(req.params.id, (rtd) => {
         res.json(rtd)
     })
 });
@@ -67,7 +66,7 @@ app.get('/operate/:id', (req, res) => {
     if (req.params.id == "current") {
         useCIns = nowCIns;
         var query = req.query;
-        if(query.left && query.straight && query.right && query.car && query.lightHS && query.lightHL && query.lightVS && query.lightVL) {
+        if (query.left && query.straight && query.right && query.car && query.lightHS && query.lightHL && query.lightVS && query.lightVL) {
             var qLeft = Number(query.left),
                 qStraight = Number(query.straight),
                 qRight = Number(query.right),
@@ -78,7 +77,9 @@ app.get('/operate/:id', (req, res) => {
                 qLightVL = Number(query.lightVL);
             compiler.run(useCIns, qLeft, qStraight, qRight, qCar, qLightHS, qLightHL, qLightVS, qLightVL, (rtd, newCIns) => {
                 nowCIns = newCIns;
-                res.json(rtd);
+                conversion.ccins(rtd, (rtd2) => {
+                    res.json(rtd2);
+                })
             }, (req.query.copy == "true"), true)
         } else {
             res.writeHead(500);
@@ -96,7 +97,7 @@ app.get('/compare/:id', (req, res) => {
     if (req.params.id == "current") {
         var useCIns = nowCIns;
         var query = req.query;
-        if(query.left && query.straight && query.right && query.car && query.lightHS && query.lightHL && query.lightVS && query.lightVL) {
+        if (query.left && query.straight && query.right && query.car && query.lightHS && query.lightHL && query.lightVS && query.lightVL) {
             var qLeft = Number(query.left),
                 qStraight = Number(query.straight),
                 qRight = Number(query.right),
@@ -187,13 +188,13 @@ app.get('/export/compare/:id', (req, res) => {
 
 app.get('/import/:id', (req, res) => {
     db.scene.import(req.params.id, nowCIns, (rtd) => {
-        res.redirect('/db/scene/'+nowCIns);
+        res.redirect('/db/scene/' + nowCIns);
     })
 })
 
 app.get('/clear/scene', (req, res) => {
     db.scene.clear(nowCIns, (rtd) => {
-        res.redirect('/db/scene'+nowCIns)
+        res.redirect('/db/scene' + nowCIns)
     });
 })
 
