@@ -337,7 +337,7 @@
                         waitZoneLength: 18,
                         lanes: 2
                     }, (err2, res2) => {
-                        car.findOne({}).lean().exec((err, res) => {
+                        car.findOne({}).lean().exec((err6, res6) => {
                             if (res == null) {
                                 car.create({
                                     license: "1225",
@@ -356,7 +356,7 @@
                         })
                     });
                 } else {
-                    car.findOne({}).lean().exec((err, res) => {
+                    car.findOne({}).lean().exec((err6, res6) => {
                         if (res == null) {
                             car.create({
                                 license: "1225",
