@@ -30,7 +30,7 @@
 
                     //first top & bottom
                     //first straight+right
-                    locData.delay = compare.time.vertical.straight;
+                    locData.delay = compare.time.lights.vertical.straight;
                     nowTime += locData.delay;
                     locData.allow.push({
                         location: "bottom",
@@ -59,7 +59,7 @@
                     };
 
                     //then left
-                    locData.delay = compare.time.vertical.left;
+                    locData.delay = compare.time.lights.vertical.left;
                     nowTime += locData.delay;
                     locData.allow.push({
                         location: "bottom",
@@ -81,7 +81,7 @@
 
                     //then left & right
                     //first straight+right
-                    locData.delay = compare.time.horizontal.straight;
+                    locData.delay = compare.time.lights.horizontal.straight;
                     nowTime += locData.delay;
                     locData.allow.push({
                         location: "right",
@@ -110,7 +110,7 @@
                     };
 
                     //then left
-                    locData.delay = compare.time.horizontal.left;
+                    locData.delay = compare.time.lights.horizontal.left;
                     nowTime += locData.delay;
                     locData.allow.push({
                         location: "left",
