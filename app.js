@@ -75,7 +75,7 @@ app.get('/operate/:id', (req, res) => {
                 qLightHL = Number(query.lightHL),
                 qLightVS = Number(query.lightVS),
                 qLightVL = Number(query.lightVL);
-            compiler.run(useCIns, qLeft, qStraight, qRight, qCar, qLightHS, qLightHL, qLightVS, qLightVL, (rtd, newCIns) => {
+            compiler.run(useCIns, qLeft, qStraight, qRight, qCar, qLightHS, qLightHL, qLightVS, qLightVL, (rtd, compareId, newCIns) => {
                 nowCIns = newCIns;
                 conversion.ccins(rtd, (rtd2) => {
                     res.json(rtd2);
@@ -106,12 +106,10 @@ app.get('/compare/:id', (req, res) => {
                 qLightHL = Number(query.lightHL),
                 qLightVS = Number(query.lightVS),
                 qLightVL = Number(query.lightVL);
-            compiler.run(useCIns, qLeft, qStraight, qRight, qCar, qLightHS, qLightHL, qLightVS, qLightVL, (rtd, newCIns) => {
+            compiler.run(useCIns, qLeft, qStraight, qRight, qCar, qLightHS, qLightHL, qLightVS, qLightVL, (rtd, compareId, newCIns) => {
                 nowCIns = newCIns;
-                db.result.get(rtd, (rtdR) => {
-                    db.compare.get(rtdR.output.refCompare, (rtd2) => {
-                        res.json(rtd2);
-                    })
+                db.compare.get(compareId, (rtd2) => {
+                    res.json(rtd2);
                 })
             }, (req.query.copy == "true"), true)
         } else {
