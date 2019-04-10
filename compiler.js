@@ -177,7 +177,7 @@
                         db.result.save(CIns, rtd992._id, movingIns, (rtd991) => {
                             db.compare.setResult(rtd992._id, rtd991._id, (rtd993) => {
                                 db.scene.archive(CIns, copyData, (rtd999) => {
-                                    cb(rtd993._id, rtd999._id)
+                                    cb(rtd992._id, rtd999._id)
                                 })
                             })
                         })

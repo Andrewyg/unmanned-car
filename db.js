@@ -554,7 +554,7 @@
             },
             setResult: (id, resultId, cb) => {
                 cb = cb || function (cbr) { };
-                compare.updateOne({ _id: id }, { refResult: resultId }, (err, res) => cb(res));
+                compare.updateOne({ _id: id }, { refResult: resultId }, (err, res) => cb());
             },
             get: (id, cb) => {
                 cb = cb || function (cbr) { };
