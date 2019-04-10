@@ -86,9 +86,9 @@ app.get('/operate/:id', (req, res) => {
             res.end("Parameters missing");
         }
     } else {
-        db.result.get(useCIns, (rtd) => {
+        conversion.ccins(useCIns, (rtd) => {
             res.json(rtd);
-        });
+        })
     }
 })
 
