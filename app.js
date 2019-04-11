@@ -132,7 +132,7 @@ app.post('/add', (req, res) => {
             })
         })
     } else {
-        req.writeHead(400);
+        res.writeHead(400);
         res.end("Parameter error");
     }
 })
