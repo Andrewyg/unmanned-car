@@ -6,33 +6,56 @@
 
 using namespace std;
 
-vector<string> split(string str, char delimiter) {
-  vector<string> internal;
-  stringstream ss(str); // Turn the string into a stream.
-  string tok;
- 
-  while(getline(ss, tok, delimiter)) {
-    internal.push_back(tok);
-  }
- 
-  return internal;
+vector<string> split(const string& str, const string& delim)
+{
+    vector<string> tokens;
+    size_t prev = 0, pos = 0;
+    do
+    {
+        pos = str.find(delim, prev);
+        if (pos == string::npos) pos = str.length();
+        string token = str.substr(prev, pos-prev);
+        if (!token.empty()) tokens.push_back(token);
+        prev = pos + delim.length();
+    }
+    while (pos < str.length() && prev < str.length());
+    return tokens;
 }
 
-int main() {
-  if(argv[0] == "cli") {
+int main(int argc, char *argv[]) {
+  if(strcmp(argv[0], "cli") == 0) {
     string input;
     while(getline(cin,input)) {
       vector<string> inputArr = split(input, " ");
-      system(string("curl --data \"position=")+string(inputArr[0])+string("&direction=")+string(inputArr[1])+string("\" http://localhost/add"));
+      string cmd("");
+      cmd+="curl --data \"place=";
+      cmd+=inputArr[0];
+      cmd+="&direction=";
+      cmd+=inputArr[1];
+      cmd+="\" https://ccins.andrew.at.tw/add";
+      system(cmd.c_str());
     }
   } else {
-    ifstream inputFile(argv[1]);
+    ifstream input(argv[1]);
     string line;
-    while (getline(infile, line)) {
-      vector<string> inputArr = split(line,"\"");
-      system(string("curl --data \"position=")+string(inputArr[1])+string("&direction=")+string(inputArr[3])+string("\" http://localhost/add"));
+    while (getline(input, line)) {
+      vector<string> inputArr = split(line,",");
+      string cmd("");
+      cmd+="curl -d \"place=";
+      cout << cmd << endl;
+      cmd+=inputArr[0];
+      cout << cmd << endl;
+      cmd+="&direction=";
+      cout << cmd << endl;
+      cmd+=inputArr[1];
+      cout << cmd << endl;
+      cmd+="hahaha";
+      cout << cmd << endl;
+      cmd+="\" -X POST https://ccins.andrew.at.tw/add";
+      cout << cmd << endl;
+      // system(cmd.c_str());
     }
   }
-  system("start firefox http://localhost/operate");
+  // system("firefox http://localhost/operate");
   return 0;
 }
