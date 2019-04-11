@@ -27,7 +27,7 @@ var directions = ["left", "straight", "right"];
 
 var fs = require('fs');
 fs.readFile('/nowCIns', "utf8", (err, data) => {
-    if (err || data == "reset" || data == "\n") { //dunno but empty file has \n
+    if (err || data == "reset\n" || data == "\n") { //all file are ending with \n
         db.resetDynamic((rtd2) => {
             db.init((rtd) => {
                 nowCIns = rtd;
@@ -35,7 +35,7 @@ fs.readFile('/nowCIns', "utf8", (err, data) => {
                 running = true;
             })
         })
-    } else if (data == "hard reset") {
+    } else if (data == "hard reset\n") {
         db.reset((rtd2) => {
             db.init((rtd) => {
                 nowCIns = rtd;
