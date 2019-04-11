@@ -35,6 +35,14 @@ fs.readFile('/nowCIns', "utf8", (err, data) => {
                 running = true;
             })
         })
+    } else if (data == "hard reset") {
+        db.reset((rtd2) => {
+            db.init((rtd) => {
+                nowCIns = rtd;
+                fs.writeFileSync('/nowCIns', nowCIns);
+                running = true;
+            })
+        })
     } else {
         nowCIns = data;
         running = true;
