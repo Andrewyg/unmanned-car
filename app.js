@@ -49,12 +49,6 @@ app.get('/status', (req, res) => {
     }
 })
 
-function getQueryStr(url) {
-    var urlIndex = url.indexOf('?');
-    var query = url.substr(i + 1);
-    return query;
-}
-
 app.get('/normal/:id', (req, res) => {
     conversion.normal(req.params.id, (rtd) => {
         res.json(rtd)
