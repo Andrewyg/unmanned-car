@@ -119,7 +119,7 @@ app.get('/compare/:id', (req, res) => {
 
 var license = 0;
 app.post('/add', (req, res) => {
-    if (req.body.position && req.body.direction) {
+    if (keys.includes(req.body.position) && dirs.includes(req.body.direction)) {
         license++
         db.car.create({
             license: license,
@@ -132,7 +132,7 @@ app.post('/add', (req, res) => {
             })
         })
     } else {
-        req.writeHead(500);
+        req.writeHead(400);
         res.end("Parameter error");
     }
 })
@@ -193,7 +193,7 @@ app.get('/import/:id', (req, res) => {
 
 app.get('/clear/scene', (req, res) => {
     db.scene.clear(nowCIns, (rtd) => {
-        res.redirect('/db/scene' + nowCIns)
+        res.redirect('/db/scene/' + nowCIns)
     });
 })
 
