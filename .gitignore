@@ -66,3 +66,6 @@ revision.sh
 
 .vscode
 .vscode/*
+
+# c++ output
+*.out
