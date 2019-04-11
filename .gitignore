@@ -69,3 +69,6 @@ revision.sh
 
 # c++ output
 *.out
+
+# ignore client demo file
+client/*.csv
