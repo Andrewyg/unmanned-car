@@ -3,8 +3,8 @@
     var db = require('./db');
     var compiler = require('./compiler');
 
-    var keys = ["bottom", "right", "top", "left"];
-    var dirs = ["left", "straight", "right"];
+    var positions = ["bottom", "right", "top", "left"];
+    var directions = ["left", "straight", "right"];
 
     function calcTime(moveTime, oneCarTime, carNum) {
         return moveTime + oneCarTime * carNum;
@@ -31,7 +31,7 @@
             clearedIns = 0;
             for (i = 0; i < 4; i++) {
                 for (j = 0; j < 3; j++) {
-                    if (insData[keys[i]][dirs[j]].amount == 0) clearedIns++;
+                    if (insData[positions[i]][directions[j]].amount == 0) clearedIns++;
                 }
             }
             if (clearedIns == 12) break;
@@ -48,7 +48,7 @@
             clearedIns = 0;
             for (i = 0; i < 4; i++) {
                 for (j = 0; j < 3; j++) {
-                    if (insData[keys[i]][dirs[j]].amount == 0) clearedIns++;
+                    if (insData[positions[i]][directions[j]].amount == 0) clearedIns++;
                 }
             }
             if (clearedIns == 12) break;
@@ -62,7 +62,7 @@
             clearedIns = 0;
             for (i = 0; i < 4; i++) {
                 for (j = 0; j < 3; j++) {
-                    if (insData[keys[i]][dirs[j]].amount == 0) clearedIns++;
+                    if (insData[positions[i]][directions[j]].amount == 0) clearedIns++;
                 }
             }
             if (clearedIns == 12) break;
@@ -79,7 +79,7 @@
             clearedIns = 0;
             for (i = 0; i < 4; i++) {
                 for (j = 0; j < 3; j++) {
-                    if (insData[keys[i]][dirs[j]].amount == 0) clearedIns++;
+                    if (insData[positions[i]][directions[j]].amount == 0) clearedIns++;
                 }
             }
             if (clearedIns == 12) break;

@@ -29,8 +29,8 @@
         return x;
     }
 
-    var keys = ["bottom", "right", "top", "left"];
-    var dirs = ["left", "straight", "right"];
+    var positions = ["bottom", "right", "top", "left"];
+    var directions = ["left", "straight", "right"];
 
     function joinColumns(cins, key, dir1, dir2) {
         var tempArr = [];
@@ -70,12 +70,12 @@
                     };
 
                     if (rtd2.lanes == 2) {
-                        dirs.remove("right");
+                        directions.remove("right");
                         oriA = ["0,0", "0,1", "1,0", "1,1", "2,0", "2,1", "3,0", "3,1"];
                         for (abcd = 0; abcd < 4; abcd++) {
-                            cins[keys[abcd]]["straight"].amount += cins[keys[abcd]]["right"].amount;
-                            cins[keys[abcd]]["right"].amount = 0;
-                            cins[keys[abcd]]["straight"].queue = joinColumns(cins, keys[abcd], "straight", "right");
+                            cins[positions[abcd]]["straight"].amount += cins[positions[abcd]]["right"].amount;
+                            cins[positions[abcd]]["right"].amount = 0;
+                            cins[positions[abcd]]["straight"].queue = joinColumns(cins, positions[abcd], "straight", "right");
                         }
                     }
 
@@ -91,10 +91,10 @@
                         available = oriA.slice();
                         mostVal = 0
 
-                        for (i = 0; i < keys.length; i++) {
-                            for (j = 0; j < dirs.length; j++) {
-                                if (cins[keys[i]][dirs[j]].amount >= mostVal) {
-                                    mostVal = cins[keys[i]][dirs[j]].amount;
+                        for (i = 0; i < positions.length; i++) {
+                            for (j = 0; j < directions.length; j++) {
+                                if (cins[positions[i]][directions[j]].amount >= mostVal) {
+                                    mostVal = cins[positions[i]][directions[j]].amount;
                                     mostName = [i, j];
                                 }
                             }
@@ -107,10 +107,10 @@
                         while (available.length > 0) {
                             mostVal = 0;
 
-                            for (i = 0; i < keys.length; i++) { //get a focused by the value of each intersection
-                                for (j = 0; j < dirs.length; j++) {
-                                    if (cins[keys[i]][dirs[j]].amount > mostVal && available.includes((i + "," + j))) {
-                                        mostVal = cins[keys[i]][dirs[j]].amount;
+                            for (i = 0; i < positions.length; i++) { //get a focused by the value of each intersection
+                                for (j = 0; j < directions.length; j++) {
+                                    if (cins[positions[i]][directions[j]].amount > mostVal && available.includes((i + "," + j))) {
+                                        mostVal = cins[positions[i]][directions[j]].amount;
                                         mostName = [i, j];
                                     }
                                 }
@@ -140,8 +140,8 @@
 
                         //convert and consume
                         for (asd2 = 0; asd2 < locMovingIns.length; asd2++) {
-                            locMovingIns[asd2][0] = keys[locMovingIns[asd2][0]];
-                            locMovingIns[asd2][1] = dirs[locMovingIns[asd2][1]];
+                            locMovingIns[asd2][0] = positions[locMovingIns[asd2][0]];
+                            locMovingIns[asd2][1] = directions[locMovingIns[asd2][1]];
                         }
                         var minCar = {
                             key: locMovingIns[locMovingIns.length - 1][0],

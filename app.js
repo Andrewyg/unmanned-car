@@ -22,8 +22,8 @@ var conversion = require('./conversion');
 var nowCIns = "";
 var running = false;
 
-var keys = ["bottom", "right", "top", "left"];
-var dirs = ["left", "straight", "right"];
+var positions = ["bottom", "right", "top", "left"];
+var directions = ["left", "straight", "right"];
 
 var fs = require('fs');
 fs.readFile('/nowCIns', "utf8", (err, data) => {
@@ -119,7 +119,7 @@ app.get('/compare/:id', (req, res) => {
 
 var license = 0;
 app.post('/add', (req, res) => {
-    if (keys.includes(req.body.position) && dirs.includes(req.body.direction)) {
+    if (positions.includes(req.body.position) && directions.includes(req.body.direction)) {
         license++
         db.car.create({
             license: license,
@@ -154,8 +154,8 @@ app.get('/export/compare/all', (req, res) => {
             csv += '"' + compare[i].refCIns + '","' + compare[i].refCIns + '","' + compare[i]._id + '"\n';
             csv += '"","left","straight","right"\n';
             db.scene.get(compare[i].refCIns, (scene) => {
-                for (j = 0; j < keys.length; j++) {
-                    csv += '"' + keys[j] + '","' + scene[keys[j]].left.amount + '","' + scene[keys[j]].straight.amount + '","' + scene[keys[j]].right.amount + '"\n';
+                for (j = 0; j < positions.length; j++) {
+                    csv += '"' + positions[j] + '","' + scene[positions[j]].left.amount + '","' + scene[positions[j]].straight.amount + '","' + scene[positions[j]].right.amount + '"\n';
                 }
                 csv += '"normal","' + compare[i].normalInsTakenTime + '",""\n';
                 csv += '"computer controled","' + compare[i].computerControledInsTakenTime + '",""\n';
@@ -175,8 +175,8 @@ app.get('/export/compare/:id', (req, res) => {
         csv += '"' + compare.refCIns + '","' + compare.refCIns + '","' + compare._id + '"\n';
         csv += '"","left","straight","right"\n';
         db.scene.get(compare.refCIns, (scene) => {
-            for (j = 0; j < keys.length; j++) {
-                csv += '"' + keys[j] + '","' + scene[keys[j]].left.amount + '","' + scene[keys[j]].straight.amount + '","' + scene[keys[j]].right.amount + '"\n';
+            for (j = 0; j < positions.length; j++) {
+                csv += '"' + positions[j] + '","' + scene[positions[j]].left.amount + '","' + scene[positions[j]].straight.amount + '","' + scene[positions[j]].right.amount + '"\n';
             }
             csv += '"normal","' + compare.normalInsTakenTime + '",""\n';
             csv += '"computer controled","' + compare.computerControledInsTakenTime + '",""\n';
