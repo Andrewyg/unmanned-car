@@ -82,7 +82,7 @@ app.get('/operate/:id', (req, res) => {
                 })
             }, (req.query.copy == "true"), true)
         } else {
-            res.writeHead(500);
+            res.writeHead(400);
             res.end("Parameters missing");
         }
     } else {
@@ -113,7 +113,7 @@ app.get('/compare/:id', (req, res) => {
                 })
             }, (req.query.copy == "true"), true)
         } else {
-            res.writeHead(500);
+            res.writeHead(400);
             res.end("Parameters missing");
         }
     } else {
@@ -125,17 +125,22 @@ app.get('/compare/:id', (req, res) => {
 
 var license = 0;
 app.post('/add', (req, res) => {
-    license++
-    db.car.create({
-        license: license,
-        type: "small",
-        speed: 60
-    }, (rtd) => {
-        var id = rtd._id;
-        db.scene.add(nowCIns, req.body.position, req.body.direction, id, (rtd2) => {
-            res.json(rtd2);
+    if (req.body.position && req.body.direction) {
+        license++
+        db.car.create({
+            license: license,
+            type: "small",
+            speed: 60
+        }, (rtd) => {
+            var id = rtd._id;
+            db.scene.add(nowCIns, req.body.position, req.body.direction, id, (rtd2) => {
+                res.json(rtd2);
+            })
         })
-    })
+    } else {
+        req.writeHead(500);
+        res.end("Parameter error");
+    }
 })
 
 app.get('/db/:type/:id', (req, res) => {
