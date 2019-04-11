@@ -27,7 +27,7 @@ var directions = ["left", "straight", "right"];
 
 var fs = require('fs');
 fs.readFile('/nowCIns', "utf8", (err, data) => {
-    if (err || data == "reset" || data == "\n") { //dunno but empty file has a length of 1
+    if (err || data == "reset" || data == "\n") { //dunno but empty file has \n
         db.resetDynamic((rtd2) => {
             db.init((rtd) => {
                 nowCIns = rtd;
