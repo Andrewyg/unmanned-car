@@ -443,13 +443,13 @@
             reset: () => {
                 cins.deleteMany({}, (err, res) => { });
             },
-            add: (id, place, direction, carId, cb) => {
+            add: (id, position, direction, carId, cb) => {
                 cb = cb || function (cbr) { };
                 var data;
                 cins.findOne({ _id: id }).lean().exec((err, res) => {
                     data = res;
-                    data[place][direction].amount++;
-                    data[place][direction].queue.push({ refCar: carId, arriveTime: (new Date()).toISOString() })
+                    data[position][direction].amount++;
+                    data[position][direction].queue.push({ refCar: carId, arriveTime: (new Date()).toISOString() })
                     cins.updateOne({ _id: id }, data, (err2, res2) => cb(res2));
                 })
             },

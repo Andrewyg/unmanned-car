@@ -132,7 +132,7 @@ app.post('/add', (req, res) => {
         speed: 60
     }, (rtd) => {
         var id = rtd._id;
-        db.scene.add(nowCIns, req.body.place, req.body.direction, id, (rtd2) => {
+        db.scene.add(nowCIns, req.body.position, req.body.direction, id, (rtd2) => {
             res.json(rtd2);
         })
     })
