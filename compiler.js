@@ -195,10 +195,12 @@
                     }
                     
                     //temp fix for always on right light
-                    var largestLeftRight;
+                    var largestLeftRightA = 0,
+                        largestLeftRight;
                     for(iiiii=0; i<positions.length; i++) {
-                        if(cins[position[i]].right >= largestLeftRight) {
-                            largestLeftRight = cins[position[i]].right
+                        if(cins[position[i]].right.amount >= largestLeftRightA) {
+                            largestLeftRightA = cins[position[i]].right.amount;
+                            largestLeftRight = cins[position[i]].right;
                         }
                     }
                     simulator.ccins.delay(largestLeftRight, leftTurnTime, straightGoTime, rightTurnTime, oneCarTime, (rtd99) => {
