@@ -198,7 +198,7 @@
                     var largestLeftRight = 0;
                     for(iiiii=0; i<positions.length; i++) {
                         if(cins[position[i]].right >= largestLeftRight) {
-                            largestLeftRight = cins[position[i]].right.amount
+                            largestLeftRight = cins[position[i]].right
                         }
                     }
                     simulator.ccins.delay(largestLeftRight, leftTurnTime, straightGoTime, rightTurnTime, oneCarTime, (rtd99) => {
