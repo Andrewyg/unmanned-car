@@ -25,18 +25,18 @@ vector<string> split(const string &str, const string &delim)
 
 int main(int argc, char *argv[])
 {
-  if (strcmp(argv[0], "cli") == 0)
+  if (string(argv[1]) == "cli")
   {
     string input;
     while (getline(cin, input))
     {
       vector<string> inputArr = split(input, " ");
       string cmd("");
-      cmd += "curl --data \"place=";
+      cmd += "curl -d \"position=";
       cmd += inputArr[0];
       cmd += "&direction=";
       cmd += inputArr[1];
-      cmd += "\" https://ccins.andrew.at.tw/add";
+      cmd += "\" -s https://ccins.andrew.at.tw/add > /dev/null";
       system(cmd.c_str());
     }
   }
@@ -52,11 +52,10 @@ int main(int argc, char *argv[])
       cmd += inputArr[0];
       cmd += "&direction=";
       cmd += inputArr[1];
-      cmd += "\" -X POST https://ccins.andrew.at.tw/add";
-      cout << cmd << endl;
+      cmd += "\" -X POST -s https://ccins.andrew.at.tw/add > /dev/null &";
       system(cmd.c_str());
     }
   }
-  // system("python2.7");
+  system("python2.7 simulation.py &");
   return 0;
 }
