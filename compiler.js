@@ -195,7 +195,7 @@
                     }
                     
                     //temp fix for always on right light
-                    var largestLeftRight = 0;
+                    var largestLeftRight;
                     for(iiiii=0; i<positions.length; i++) {
                         if(cins[position[i]].right >= largestLeftRight) {
                             largestLeftRight = cins[position[i]].right
