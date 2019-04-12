@@ -170,8 +170,60 @@
                             allow: locMovingIns,
                             delay: calcedDelay
                         };
+                        
+                        movingIns[minskey].allow.push({
+                            position: "bottom",
+                            direction: "right"
+                        });
+                        
+                        movingIns[minskey].allow.push({
+                            position: "right",
+                            direction: "right"
+                        });
+                        
+                        movingIns[minskey].allow.push({
+                            position: "top",
+                            direction: "right"
+                        });
+                        
+                        movingIns[minskey].allow.push({
+                            position: "left",
+                            direction: "right"
+                        });
+                        
                         minskey++;
                     }
+                    
+                    //temp fix for always on right light
+                    var largestLeftRight = 0;
+                    for(iiiii=0; i<positions.length; i++) {
+                        if(cins[position[i]].right >= largestLeftRight) {
+                            largestLeftRight = cins[position[i]].right.amount
+                        }
+                    }
+                    simulator.ccins.delay(largestLeftRight, leftTurnTime, straightGoTime, rightTurnTime, oneCarTime, (rtd99) => {
+                        movingIns.push({
+                            allow: [
+                                {
+                                    position: "bottom",
+                                    direction: "right"
+                                },
+                                {
+                                    position: "right",
+                                    direction: "right"
+                                },
+                                {
+                                    position: "top",
+                                    direction: "right"
+                                },
+                                {
+                                    position: "left",
+                                    direction: "right"
+                                }
+                            ],
+                            delay: rtd99
+                        });
+                    })
 
                     simulator.run(leftTurnTime, straightGoTime, rightTurnTime, oneCarTime, insLightTimeHS, insLightTimeHL, insLightTimeVS, insLightTimeVL, (rtd992) => {
                         db.result.save(CIns, rtd992._id, movingIns, (rtd991) => {
