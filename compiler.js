@@ -201,8 +201,8 @@
                                     cb(rtd991._id, rtd992._id, rtd999._id)
                                 })
                             })
-                        }, cinsP, movingIns);
-                    })
+                        });
+                    }, cinsP, movingIns)
                 })
             })
         }
