@@ -170,9 +170,29 @@
                             allow: locMovingIns,
                             delay: calcedDelay
                         };
+                        
+                        movingIns[minskey].allow.push({
+                            position: "bottom",
+                            direction: "right"
+                        });
+                        
+                        movingIns[minskey].allow.push({
+                            position: "right",
+                            direction: "right"
+                        });
+                        
+                        movingIns[minskey].allow.push({
+                            position: "top",
+                            direction: "right"
+                        });
+                        
+                        movingIns[minskey].allow.push({
+                            position: "left",
+                            direction: "right"
+                        });
+                        
                         minskey++;
                     }
-<<<<<<< HEAD
                     
                     //temp fix for always on right light
                     var largestLeftRightA = 0,
@@ -211,14 +231,6 @@
                                     db.scene.archive(CIns, copyData, (rtd999) => {
                                         cb(rtd991._id, rtd992._id, rtd999._id)
                                     })
-=======
-
-                    simulator.run(leftTurnTime, straightGoTime, rightTurnTime, oneCarTime, insLightTimeHS, insLightTimeHL, insLightTimeVS, insLightTimeVL, (rtd992) => {
-                        db.result.save(CIns, rtd992._id, movingIns, (rtd991) => {
-                            db.compare.setResult(rtd992._id, rtd991._id, (rtd993) => {
-                                db.scene.archive(CIns, copyData, (rtd999) => {
-                                    cb(rtd991._id, rtd992._id, rtd999._id)
->>>>>>> parent of f49a34d... temp fix for always on right light
                                 })
                             })
                         }, cinsP, movingIns);
