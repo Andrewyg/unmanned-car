@@ -170,6 +170,27 @@
                             allow: locMovingIns,
                             delay: calcedDelay
                         };
+                        
+                        movingIns[minskey].allow.push({
+                            position: "bottom",
+                            direction: "right"
+                        });
+
+                        movingIns[minskey].allow.push({
+                            position: "right",
+                            direction: "right"
+                        });
+
+                        movingIns[minskey].allow.push({
+                            position: "top",
+                            direction: "right"
+                        });
+
+                        movingIns[minskey].allow.push({
+                            position: "left",
+                            direction: "right"
+                        });
+                        
                         minskey++;
                     }
 
