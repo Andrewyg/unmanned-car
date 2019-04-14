@@ -20,6 +20,13 @@
         return num;
     }
 
+    function largest(arr) {
+        var returnLargest = 0;
+        for (i = 0; i < arr.length; i++) {
+            if (arr[i] >= returnLargest) returnLargest = arr[i];
+        }
+    }
+
     function normalIns(insData, leftTurnTime, straightGoTime, oneCarTime, insLightTimeHS, insLightTimeHL, insLightTimeVS, insLightTimeVL) {
         var totalPassCarHL = calcTimeR(leftTurnTime, insLightTimeHL, oneCarTime);
         var totalPassCarHS = calcTimeR(straightGoTime, insLightTimeHS, oneCarTime);
@@ -27,6 +34,7 @@
         var totalPassCarVS = calcTimeR(straightGoTime, insLightTimeVS, oneCarTime);
         var takenTime = 0;
         var clearedIns = 0;
+        var previousAdded = 0;
         while (true) {
             clearedIns = 0;
             for (i = 0; i < 4; i++) {
@@ -34,7 +42,10 @@
                     if (insData[positions[i]][directions[j]].amount == 0) clearedIns++;
                 }
             }
-            if (clearedIns == 12) break;
+            if (clearedIns == 12) {
+                takenTime = takenTime - insLightTimeHL + calcTime(leftTurnTime, oneCarTime, largest([insData.right.left.amount, insData.left.left.amount]));
+                break;
+            }
 
             //first top & bottom
             //first straight+right
@@ -51,7 +62,10 @@
                     if (insData[positions[i]][directions[j]].amount == 0) clearedIns++;
                 }
             }
-            if (clearedIns == 12) break;
+            if (clearedIns == 12) {
+                takenTime = takenTime - insLightTimeVS + calcTime(straightGoTime, oneCarTime, largest([insData.bottom.straight.amount, insData.bottom.right.amount, insData.top.straight.amount, insData.top.right.amount]));
+                break;
+            }
 
             //then left
             insData.bottom.left.amount = minusCar(insData.bottom.left.amount, totalPassCarVL);
@@ -65,7 +79,10 @@
                     if (insData[positions[i]][directions[j]].amount == 0) clearedIns++;
                 }
             }
-            if (clearedIns == 12) break;
+            if (clearedIns == 12) {
+                takenTime = takenTime - insLightTimeVL + calcTime(leftTurnTime, oneCarTime, largest([insData.bottom.left.amount, insData.top.left.amount]));
+                break;
+            }
 
             //then left & right
             //first straight+right
@@ -82,7 +99,10 @@
                     if (insData[positions[i]][directions[j]].amount == 0) clearedIns++;
                 }
             }
-            if (clearedIns == 12) break;
+            if (clearedIns == 12) {
+                takenTime = takenTime - insLightTimeHS + calcTime(straightGoTime, oneCarTime, largest([insData.right.straight.amount, insData.right.right.amount, insData.left.straight.amount, insData.left.right.amount]));
+                break;
+            }
 
             //then left
             insData.right.left.amount = minusCar(insData.right.left.amount, totalPassCarHL);
