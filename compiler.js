@@ -170,67 +170,14 @@
                             allow: locMovingIns,
                             delay: calcedDelay
                         };
-                        
-                        movingIns[minskey].allow.push({
-                            position: "bottom",
-                            direction: "right"
-                        });
-                        
-                        movingIns[minskey].allow.push({
-                            position: "right",
-                            direction: "right"
-                        });
-                        
-                        movingIns[minskey].allow.push({
-                            position: "top",
-                            direction: "right"
-                        });
-                        
-                        movingIns[minskey].allow.push({
-                            position: "left",
-                            direction: "right"
-                        });
-                        
                         minskey++;
                     }
-                    
-                    //temp fix for always on right light
-                    var largestLeftRightA = 0,
-                        largestLeftRight;
-                    for(iiiii=0; i<positions.length; i++) {
-                        if(cins[position[i]].right.amount >= largestLeftRightA) {
-                            largestLeftRightA = cins[position[i]].right.amount;
-                            largestLeftRight = cins[position[i]].right;
-                        }
-                    }
-                    simulator.ccins.delay(largestLeftRight, leftTurnTime, straightGoTime, rightTurnTime, oneCarTime, (rtd99) => {
-                        movingIns.push({
-                            allow: [
-                                {
-                                    position: "bottom",
-                                    direction: "right"
-                                },
-                                {
-                                    position: "right",
-                                    direction: "right"
-                                },
-                                {
-                                    position: "top",
-                                    direction: "right"
-                                },
-                                {
-                                    position: "left",
-                                    direction: "right"
-                                }
-                            ],
-                            delay: rtd99
-                        });
-                        simulator.run(leftTurnTime, straightGoTime, rightTurnTime, oneCarTime, insLightTimeHS, insLightTimeHL, insLightTimeVS, insLightTimeVL, (rtd992) => {
-                            db.result.save(CIns, rtd992._id, movingIns, (rtd991) => {
-                                db.compare.setResult(rtd992._id, rtd991._id, (rtd993) => {
-                                    db.scene.archive(CIns, copyData, (rtd999) => {
-                                        cb(rtd991._id, rtd992._id, rtd999._id)
-                                    })
+
+                    simulator.run(leftTurnTime, straightGoTime, rightTurnTime, oneCarTime, insLightTimeHS, insLightTimeHL, insLightTimeVS, insLightTimeVL, (rtd992) => {
+                        db.result.save(CIns, rtd992._id, movingIns, (rtd991) => {
+                            db.compare.setResult(rtd992._id, rtd991._id, (rtd993) => {
+                                db.scene.archive(CIns, copyData, (rtd999) => {
+                                    cb(rtd991._id, rtd992._id, rtd999._id)
                                 })
                             })
                         }, cinsP, movingIns);
