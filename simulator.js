@@ -25,6 +25,7 @@
         for (i = 0; i < arr.length; i++) {
             if (arr[i] >= returnLargest) returnLargest = arr[i];
         }
+        return returnLargest;
     }
 
     function normalIns(insData, leftTurnTime, straightGoTime, oneCarTime, insLightTimeHS, insLightTimeHL, insLightTimeVS, insLightTimeVL) {
